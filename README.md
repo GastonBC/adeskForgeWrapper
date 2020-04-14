@@ -12,13 +12,15 @@ Example usage:
 import adeskForgeWrapper as afw
 import os
 
+# Your Forge App information
 forgeCliId = os.getenv('FORGE_CLIENT_ID')
 forgeCliSec = os.getenv('FORGE_CLIENT_SECRET')
 
+# Your BIM 360 account name and id
 AccId = os.getenv('BIM360_ACC_ID')
 AccName = os.getenv('BIM360_ACC_NAME')
 
-
+# The client and token will be used in most methods so keep them at hand
 cli = afw.client.Client(forgeCliId, forgeCliSec, AccId, AccName)
 token = afw.client.Token("account:read", cli)
 
