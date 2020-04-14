@@ -18,7 +18,7 @@ AccId = os.getenv('BIM360_ACC_ID')
 AccName = os.getenv('BIM360_ACC_NAME')
 
 
-cli = afw.client.Client(forgeCliId, forgeCliSec, fairyB360AccId,fairyB360AccName)
+cli = afw.client.Client(forgeCliId, forgeCliSec, AccId, AccName)
 token = afw.client.Token("account:read", cli)
 
 projs = afw.b360.Project.getProjects(cli, token)
