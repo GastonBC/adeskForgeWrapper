@@ -1,7 +1,7 @@
 # adeskForgeWrapper - afw
 
 afw is a simple Python wrapper for Autodesk's Forge API
-
+##
 ### Setting up credentials and getting a 2 legged token
 Notice we will use *cli* and *token* in most methods
 ```Python
@@ -43,9 +43,9 @@ users = afw.b360.Project.getUsersFromProject(token)
 comps = afw.b360.Companies.getCompanies(cli, token)
 # Again, you can print their properties
 for company in comps:
-	print(company.name)
-	print(company.id)
-	print(company.country)
+    print(company.name)
+    print(company.id)
+    print(company.country)
 ```
 
 ### Now something more complex, updating a project
