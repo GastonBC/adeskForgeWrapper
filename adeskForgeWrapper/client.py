@@ -1,5 +1,5 @@
 import requests
-import fpwExceptions
+from . import fpwExceptions
 
 class Client(object):
     '''A class containing information from the user's end

@@ -4,11 +4,11 @@
 # ----------
 
 import requests
-import fpwExceptions
-from client import Client
-from client import token
-from client import checkResponse
-from client import checkScopes
+from . import fpwExceptions
+from .client import Client
+from .client import Token
+from .client import checkResponse
+from .client import checkScopes
 
 class Hub(object):
     __apiType = "hubs"
@@ -137,7 +137,7 @@ class Folder(object):
         return self.__hidden
 
     @classmethod
-    def folderById(cls, token: token, project: Project, folderId):
+    def folderById(cls, token: Token, project: Project, folderId):
         '''Returns a specific folder by id
         Scope data:read
         p_id: the project id in which the folder is contained

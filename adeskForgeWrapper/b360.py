@@ -4,9 +4,9 @@
 # ----------
 
 import requests
-from client import checkScopes
-from client import checkResponse
-import client
+from .client import checkScopes
+from .client import checkResponse
+from . import client
 
 
 
