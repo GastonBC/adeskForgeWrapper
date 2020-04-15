@@ -1,0 +1,3974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.0" />
+<title>adeskForgeWrapper.b360 API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>adeskForgeWrapper.b360</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># ----------
+# Wrapper for BIM360 API
+# https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
+# ----------
+
+import requests
+from .client import checkScopes
+from .client import checkResponse
+from . import client
+
+
+
+class Project(object):
+    &#39;&#39;&#39;Class for B360 API projects&#39;&#39;&#39;
+#hiddenRegion
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__accId = rawDict.get(&#34;account_id&#34;) or None
+        self.__status = rawDict.get(&#34;status&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__service_types = rawDict.get(&#34;service_types&#34;) or None
+        self.__start_date = rawDict.get(&#34;start_date&#34;) or None
+        self.__end_date = rawDict.get(&#34;end_date&#34;) or None
+        self.__project_type = rawDict.get(&#34;project_type&#34;) or None
+        self.__value = rawDict.get(&#34;value&#34;) or None
+        self.__currency = rawDict.get(&#34;currency&#34;) or None
+        self.__job_number = rawDict.get(&#34;job_number&#34;) or None
+        self.__address_line_1 = rawDict.get(&#34;address_line_1&#34;) or None
+        self.__address_line_2 = rawDict.get(&#34;address_line_2&#34;) or None
+        self.__city = rawDict.get(&#34;city&#34;) or None
+        self.__state_or_province = rawDict.get(&#34;state_or_province&#34;) or None
+        self.__postal_code = rawDict.get(&#34;postal_code&#34;) or None
+        self.__country = rawDict.get(&#34;country&#34;) or None
+        self.__business_unit_id = rawDict.get(&#34;business_unit_id&#34;) or None
+        self.__timezone = rawDict.get(&#34;timezone&#34;) or None
+        self.__language = rawDict.get(&#34;language&#34;) or None
+        self.__construction_type = rawDict.get(&#34;construction_type&#34;) or None
+        self.__contract_type = rawDict.get(&#34;contract_type&#34;) or None
+        self.__template_project_id = rawDict.get(&#34;template_project_id&#34;) or None
+        self.__include_companies = rawDict.get(&#34;include_companies&#34;) or None
+        self.__include_locations = rawDict.get(&#34;include_locations&#34;) or None
+
+    @property
+    def raw(self):
+        &#39;&#39;&#39;The raw dictionary response&#39;&#39;&#39;
+        return self.__raw
+    @property
+    def name(self):
+        &#39;&#39;&#39;Name of the project&#39;&#39;&#39;
+        return self.__name
+    @property
+    def id(self):
+        &#39;&#39;&#39;Project ID&#39;&#39;&#39;
+        return self.__id
+    @property
+    def accId(self):
+        &#39;&#39;&#39;Account ID&#39;&#39;&#39;
+        return self.__accId
+    @property
+    def status(self):
+        &#39;&#39;&#39;
+        The status of project.
+
+        Possible values:
+        active: project is active with at least one project admin added
+        pending: project has been created but pending becuase no project admin added
+        inactive: project is suspended
+        archived: project is archived and displayed only in the archived list&#39;&#39;&#39;
+        return self.__status
+    @property
+    def service_types(self):
+        return self.__service_types
+    @property
+    def start_date(self):
+        return self.__start_date
+    @property
+    def end_date(self):
+        return self.__end_date
+    @property
+    def project_type(self):
+        &#39;&#39;&#39;
+        The type of project; accepts preconfigured and customized project types
+
+        Max length: 255
+
+        Refer to the preconfigured project_type list in
+        the Parameters guide.&#39;&#39;&#39;
+        return self.__project_type
+    @property
+    def value(self):
+        &#39;&#39;&#39;Monetary value of the project&#39;&#39;&#39;
+        return self.__value
+    @property
+    def currency(self):
+        &#39;&#39;&#39;
+        Currency for project value
+        Refer to the currency list in the Parameters guide.&#39;&#39;&#39;
+        return self.__currency
+    @property
+    def job_number(self):
+        return self.__job_number
+    @property
+    def address_line_1(self):
+        return self.__address_line_1
+    @property
+    def address_line_2(self):
+        return self.__address_line_2
+    @property
+    def city(self):
+        return self.__city
+    @property
+    def state_or_province(self):
+        return self.__state_or_province
+    @property
+    def postal_code(self):
+        return self.__postal_code
+    @property
+    def country(self):
+        return self.__country
+    @property
+    def business_unit_id(self):
+        return self.__business_unit_id
+    @property
+    def timezone(self):
+        return self.__timezone
+    @property
+    def language(self):
+        return self.__language
+    @property
+    def construction_type(self):
+        return self.__construction_type
+    @property
+    def contract_type(self):
+        return self.__contract_type
+    @property
+    def template_project_id(self):
+        return self.__template_project_id
+    @property
+    def include_companies(self):
+        return self.__include_companies
+    @property
+    def include_locations(self):
+        return self.__include_locations
+#endRegion
+
+    @classmethod
+    def getProjects(cls, client: client.Client, token: client.Token):
+        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.
+        Scope account:read
+        Returns a list of project objects.&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(p) for p in r]
+
+
+    @classmethod
+    def getProjectById(cls, client: client.Client, token: client.Token, p_id):
+        &#39;&#39;&#39;Query the details of a specific BIM 360 project.
+        Scope: account:read&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=client.bimAccId, pId=p_id),headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+
+    @classmethod
+    def createProject(cls, client: client.Client, token: client.Token, Data: dict):
+        &#39;&#39;&#39;Create a new BIM 360 project in a specific BIM 360 account.
+        Scope account:write
+        Data Template. NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are
+        required values.
+
+        data = {
+            &#34;name&#34;: &#34;&#34;,
+            &#34;service_types&#34;: &#34;&#34;,
+            &#34;start_date&#34;: &#34;&#34;,
+            &#34;end_date&#34;: &#34;&#34;,
+            &#34;project_type&#34;: &#34;&#34;,
+            &#34;value&#34;: &#34;&#34;,
+            &#34;currency&#34;: &#34;&#34;,
+            &#34;job_number&#34;: &#34;&#34;,
+            &#34;address_line_1&#34;: &#34;&#34;,
+            &#34;address_line_2&#34;: &#34;&#34;,
+            &#34;city&#34;: &#34;&#34;,
+            &#34;state_or_province&#34;: &#34;&#34;,
+            &#34;postal_code&#34;: &#34;&#34;,
+            &#34;country&#34;: &#34;&#34;,
+            &#34;business_unit_id&#34;: &#34;&#34;,
+            &#34;timezone&#34;: &#34;&#34;,
+            &#34;language&#34;: &#34;&#34;,
+            &#34;construction_type&#34;: &#34;&#34;,
+            &#34;contract_type&#34;: &#34;&#34;,
+            &#34;template_project_id&#34;: &#34;&#34;,
+            &#34;include_companies&#34;: &#34;&#34;,
+            &#34;include_locations&#34;: &#34;&#34;
+        }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        return cls(r)
+
+    def updateProject(self, token: client.Token, Data):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific BIM 360 project.
+            Scope: account:write account:read
+
+            Template dictionary. This is the content of the data parameter.
+            Include the ones you need to update only.
+            
+            data = {
+            &#34;name&#34; = &#34;&#34;,
+            &#34;service_types&#34; = &#34;&#34;,
+            &#34;status&#34; = &#34;&#34;,
+            &#34;start_date&#34; = &#34;&#34;,
+            &#34;end_date&#34; = &#34;&#34;,
+            &#34;project_type&#34; = &#34;&#34;,
+            &#34;value&#34; = &#34;&#34;,
+            &#34;currency&#34; = &#34;&#34;,
+            &#34;job_number&#34; = &#34;&#34;,
+            &#34;address_line_1&#34; = &#34;&#34;,
+            &#34;address_line_2&#34; = &#34;&#34;,
+            &#34;city&#34; = &#34;&#34;,
+            &#34;state_or_province&#34; = &#34;&#34;,
+            &#34;postal_code&#34; = &#34;&#34;,
+            &#34;country&#34; = &#34;&#34;,
+            &#34;business_unit_id&#34; = &#34;&#34;,
+            &#34;timezone&#34; = &#34;&#34;,
+            &#34;language&#34; = &#34;&#34;,
+            &#34;construction_type&#34; = &#34;&#34;,
+            &#34;contract_type&#34; = &#34;&#34;
+            }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=self.accId, pId=self.id),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        return Project(r)
+    
+    def getUsersFromProject(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves information about all the users in a project.
+        To get information about all the users in an account, see GET accounts/users.
+        
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users&#34;.format(pId=self.id),headers=token.getHeader).json()
+        checkResponse(r)
+        return [User(u) for u in r[&#34;results&#34;]]
+
+    def getUserFromProjectAndId(self, token: client.Token, userId):
+        &#39;&#39;&#39;Retrieves detailed information about a single user in a project.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users/{uId}&#34;.format(pId=self.id, uId=userId),headers=token.getHeader).json()
+        checkResponse(r)
+        return User(r)
+
+    def addUsersToProject(self, client: client.Client, token: client.Token, Data: list):
+        # TODO TO REVIEW. ITEMS FAIL
+        # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+        &#39;&#39;&#39;Adds users (project admin and project user) to a project. You can add up to 50 users per call.
+
+            To add users to an account (account user), see POST users.
+
+            You can specify the following details about the user:
+
+            The user’s access level for the project (admin or user).
+            The company the user is assigned to for the project.
+            The industry roles assigned to the user for the project.
+            The user’s email address.
+            Scope account:write
+            d=[
+            {
+            &#34;email&#34;: &#34;john.doe@autodesk.com&#34;,
+            &#34;services&#34;: {
+                &#34;document_management&#34;: {
+                &#34;access_level&#34;: &#34;user&#34;
+                }
+            },
+            &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+            &#34;industry_roles&#34;: [
+                &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;
+            ]
+            },
+            {
+            &#34;user_id&#34;: &#34;3a2bs9ba-ba44-12ed-132d-fab8822bac22&#34;,
+            &#34;services&#34;: {
+                &#34;project_administration&#34;: {
+                &#34;access_level&#34;: &#34;admin&#34;
+                },
+                &#34;document_management&#34;: {
+                &#34;access_level&#34;: &#34;admin&#34;
+                }
+            },
+            &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+            &#34;industry_roles&#34;: [
+                &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;
+            ]}]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/import&#34;.format(aId=self.accId ,pId=self.id),headers=token.contentXUser, data=str(Data)).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failed:&#34;, r[&#34;failure&#34;])
+        return [User.getUserById(client, token, u[&#34;user_id&#34;]) for u in r[&#34;success_items&#34;]]
+
+    def updateUser(self, token: client.Token, userId: str, Data: dict):
+        &#39;&#39;&#39;Updates a user’s profile for a project, including:
+
+        The company the user is assigned to for the project.
+        The industry roles assigned to the user for the project.
+        Scope account:write
+        data = {
+        &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+        &#34;industry_roles&#34;: [&#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;]
+        }
+
+        Returns a User object
+        TODO: Thinking about changing user id with user object, updating the user object with the response&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}&#34;.format(aId=self.accId ,pId=self.id, uId=userId),headers=token.contentXUser, data=str(Data)).json()
+        checkResponse(r)
+        return User(r)
+    def getIndustryRoles(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves the industry roles for the project. For example, contractor and architect.
+        Scope account:read&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/industry_roles&#34;.format(aId=self.accId ,pId=self.id),headers=token.patchHeader).json()
+        checkResponse(r)
+        return [IndustryRoles(i) for i in r]
+
+    def exportPDF(self, token: client.Token, versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+        &#39;&#39;&#39;Exports a single page from an uploaded PDF file into a new PDF file.
+            You can also export the page’s markups (annotations) and hyperlinks.
+            Scope data:read
+            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. You can identify exportable PDF files, by searching for files with the following combmination of properties:
+
+            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)
+            attributes.extension.data.sourceFileName: &lt;filename&gt;.pdf (identifies all PDF files)
+            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the BIM 360 endpoints, see the File Upload tutorial.
+
+            Note that this endpoint is asynchronous and initiates a job that runs in the background, rather than halting execution of your program.
+            The response returns an export ID that you can use to call getPDFExport() to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.
+
+            Note that the user must have permission to view files. For information about permissions, see the Help documentation.
+
+            For more details about exporting PDF files, see the PDF Export tutorial.
+
+            For more information about Document Management endpoints, see the Data Management API
+            &#39;&#39;&#39;
+        Data={&#34;includeMarkups&#34;: includeMarkups,
+              &#34;includeHyperlinks&#34;: includeHyperlinks}
+
+        checkScopes(token, &#34;data:read&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports&#34;.format(pId=self.id, vId=versionId),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        print(&#34;Id: {id}\nStatus: {status}&#34;.format(id=r[&#34;id&#34;], status=r[&#34;status&#34;]))
+        return r
+
+    def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
+        &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
+
+            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
+
+            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
+
+            For more information about Document Management endpoints, see the Data Management API
+            &#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}&#34;.format(pId=self.id, vId=versionId, eId=exportId),headers=token.contentXUser).json()
+        checkResponse(r)
+        print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+                 #TODO: Range header
+        return r
+
+class Company(object):
+    &#39;&#39;&#39;Base class for B360 API companies&#39;&#39;&#39;
+#hiddenRegion
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__accId = rawDict.get(&#34;account_id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__trade = rawDict.get(&#34;trade&#34;) or None
+        self.__address_line_1 = rawDict.get(&#34;address_line_1&#34;) or None
+        self.__address_line_2 = rawDict.get(&#34;address_line_2&#34;) or None
+        self.__city = rawDict.get(&#34;city&#34;) or None
+        self.__postal_code = rawDict.get(&#34;postal_code&#34;) or None
+        self.__state_or_province = rawDict.get(&#34;state_or_province&#34;) or None
+        self.__country = rawDict.get(&#34;country&#34;) or None
+        self.__phone = rawDict.get(&#34;phone&#34;) or None
+        self.__website_url = rawDict.get(&#34;website_url&#34;) or None
+        self.__description = rawDict.get(&#34;description&#34;) or None
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
+        self.__erp_id = rawDict.get(&#34;erp_id&#34;) or None
+        self.__tax_id = rawDict.get(&#34;tax_id&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def accId(self):
+        return self.__accId
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def trade(self):
+        return self.__trade
+    @property
+    def address_line_1(self):
+        return self.__address_line_1
+    @property
+    def address_line_2(self):
+        return self.__address_line_2
+    @property
+    def city(self):
+        return self.__city
+    @property
+    def postal_code(self):
+        return self.__postal_code
+    @property
+    def state_or_province(self):
+        return self.__state_or_province
+    @property
+    def country(self):
+        return self.__country
+    @property
+    def phone(self):
+        return self.__phone
+    @property
+    def website_url(self):
+        return self.__website_url
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
+    @property
+    def erp_id(self):
+        return self.__erp_id
+    @property
+    def tax_id(self):
+        return self.__tax_id
+#endRegion
+
+    @classmethod
+    def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
+        &#39;&#39;&#39;Query the details of a specific partner company.
+        Scope: account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def getCompanies(cls, client: client.Client, token: client.Token):
+        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(c) for c in r]
+
+    @classmethod
+    def getCompanyByName(cls, client: client.Client, token: client.Token, params):
+        &#39;&#39;&#39;Search partner companies in a specific BIM 360 account by name.
+        Scope account:read
+        
+        params = (
+                    (&#39;name&#39;, &#39;Autodesk&#39;),
+                    (&#39;trade&#39;, &#39;Example&#39;),
+                    (&#39;operator&#39;, &#39;OR/AND&#39;),
+                    (&#39;partial&#39;, true),
+                    (&#39;limit&#39;, &#39;10&#39;),
+                    (&#39;offset&#39;, &#39;0&#39;),
+                    (&#39;sort&#39;, &#39;Autodesk&#39;),
+                    (&#39;field&#39;, &#39;id&#39;)
+                 )
+        &#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/search&#34;.format(aId=client.bimAccId),headers=token.getHeader, params=params).json()
+        checkResponse(r)
+        return [cls(c) for c in r]
+
+    @classmethod
+    def importCompanies(cls, client: client.Client, token: client.Token, Data: list):
+        &#39;&#39;&#39;TODO: ---NOT WORKING??  TRY---
+        Bulk import partner companies to the company directory in a specific BIM 360 account.
+        (50 companies maximum can be included in each call.)
+        Scope account:write
+        
+        Data template, must be a string.
+        data = [{
+                &#34;name&#34;:&#34;&#34;,
+                &#34;trade&#34;: &#34;&#34;,
+                &#34;website_url&#34;: &#34;&#34;,
+                &#34;city&#34;: &#34;&#34;,
+                &#34;country&#34;: &#34;&#34;,
+                &#34;address_line_1&#34;: &#34;&#34;,
+                &#34;address_line_2&#34;: &#34;&#34;,
+                &#34;postal_code&#34;: &#34;&#34;,
+                &#34;erp_id&#34;:&#34;&#34;,
+                &#34;tax_id&#34;:&#34;&#34;,
+                &#34;phone&#34;: &#34;&#34;,
+                &#34;description&#34;: &#34;&#34;
+                }]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/import&#34;.format(aId=client.bimAccId),headers=token.patchHeader,data=str(Data)).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failure:&#34;, r[&#34;failure&#34;])
+        return [cls(c) for c in r[&#34;success_items&#34;]]
+
+
+    def updateCompany(self, token: client.Token, data):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific partner company.
+        Scope account:write
+        
+        data = {
+                &#34;name&#34;:&#34;&#34;,
+                &#34;trade&#34;: &#34;&#34;,
+                &#34;address_line_1&#34;: &#34;&#34;,
+                &#34;address_line_2&#34;: &#34;&#34;,
+                &#34;city&#34;: &#34;&#34;,
+                &#34;state_or_province&#34;: &#34;&#34;,
+                &#34;country&#34;: &#34;&#34;,
+                &#34;phone&#34;: &#34;&#34;,
+                &#34;website_url&#34;:&#34;&#34;,
+                &#34;description&#34;:&#34;&#34;,
+                &#34;erp_id&#34;: &#34;&#34;,
+                &#34;tax_id&#34;: &#34;&#34;
+                }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=self.accId, cId=self.id),headers=token.patchHeader,data=data).json()
+        checkResponse(r)
+        return Company(r)
+
+class User(object):
+#hiddenRegion
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__account_id = rawDict.get(&#34;account_id&#34;) or None
+        self.__status = rawDict.get(&#34;status&#34;) or None
+        self.__role = rawDict.get(&#34;role&#34;) or None
+        self.__company_id = rawDict.get(&#34;company_id&#34;) or None
+        self.__company_name = rawDict.get(&#34;company_name&#34;) or None
+        self.__last_sign_in = rawDict.get(&#34;last_sign_in&#34;) or None
+        self.__email = rawDict.get(&#34;email&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__nickname = rawDict.get(&#34;nickname&#34;) or None
+        self.__first_name = rawDict.get(&#34;first_name&#34;) or None
+        self.__last_name = rawDict.get(&#34;last_name&#34;) or None
+        self.__uid = rawDict.get(&#34;uid&#34;) or None
+        self.__image_url = rawDict.get(&#34;image_url&#34;) or None
+        self.__address_line_1 = rawDict.get(&#34;address_line_1&#34;) or None
+        self.__address_line_2 = rawDict.get(&#34;address_line_2&#34;) or None
+        self.__city = rawDict.get(&#34;city&#34;) or None
+        self.__postal_code = rawDict.get(&#34;postal_code&#34;) or None
+        self.__state_or_province = rawDict.get(&#34;state_or_province&#34;) or None
+        self.__country = rawDict.get(&#34;country&#34;) or None
+        self.__phone = rawDict.get(&#34;phone&#34;) or None
+        self.__company = rawDict.get(&#34;company&#34;) or None
+        self.__job_title = rawDict.get(&#34;job_title&#34;) or rawDict.get(&#34;jobTitle&#34;) or None
+        self.__industry = rawDict.get(&#34;industry&#34;) or None
+        self.__about_me = rawDict.get(&#34;about_me&#34;) or None
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def account_id(self):
+        return self.__account_id
+    @property
+    def status(self):
+        return self.__status
+    @property
+    def role(self):
+        return self.__role
+    @property
+    def company_id(self):
+        return self.__company_id
+    @property
+    def company_name(self):
+        return self.__company_name
+    @property
+    def last_sign_in(self):
+        return self.__last_sign_in
+    @property
+    def email(self):
+        return self.__email
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def nickname(self):
+        return self.__nickname
+    @property
+    def first_name(self):
+        return self.__first_name
+    @property
+    def last_name(self):
+        return self.__last_name
+    @property
+    def uid(self):
+        return self.__uid
+    @property
+    def image_url(self):
+        return self.__image_url
+    @property
+    def address_line_1(self):
+        return self.__address_line_1
+    @property
+    def address_line_2(self):
+        return self.__address_line_2
+    @property
+    def city(self):
+        return self.__city
+    @property
+    def postal_code(self):
+        return self.__postal_code
+    @property
+    def state_or_province(self):
+        return self.__state_or_province
+    @property
+    def country(self):
+        return self.__country
+    @property
+    def phone(self):
+        return self.__phone
+    @property
+    def company(self):
+        return self.__company
+    @property
+    def job_title(self):
+        return self.__job_title
+    @property
+    def industry(self):
+        return self.__industry
+    @property
+    def about_me(self):
+        return self.__about_me
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
+#endregion
+
+    @classmethod
+    def getUsersFromAccount(cls, client: client.Client, token: client.Token):
+        &#39;&#39;&#39;Query all the users in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(u) for u in r]
+
+    @classmethod
+    def getUserById(cls, client: client.Client, token: client.Token, userId):
+        &#39;&#39;&#39;Query the details of a specific user.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=userId),headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def updateUserById(cls, client: client.Client, token: client.Token, userId, Data):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below
+        Scope account:write
+        data = {
+                &#34;status&#34;: &#34;&#34;,
+                &#34;company_id&#34;: &#34;&#34;
+                }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=userId),headers=token.patchHeader, data=Data).json()
+        checkResponse(r)
+        return cls(r)
+
+    def updateUser(self, client: client.Client, token: client.Token, Data: dict):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below
+        Scope account:write
+        data = {
+                &#34;status&#34;: &#34;&#34;,
+                &#34;company_id&#34;: &#34;&#34;
+                }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=self.id),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        return User(r)
+
+class IndustryRoles(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__project_id = rawDict.get(&#34;project_id&#34;) or None
+        self.__projectAdminAccess = rawDict.get(&#34;services&#34;).get(&#34;project_administration&#34;).get(&#34;access_level&#34;) or None
+        self.__insightAccess = rawDict.get(&#34;services&#34;).get(&#34;insight&#34;).get(&#34;access_level&#34;) or None
+        self.__docManagementAccess = rawDict.get(&#34;services&#34;).get(&#34;document_management&#34;).get(&#34;access_level&#34;) or None
+        self.__member_group_id = rawDict.get(&#34;member_group_id&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def project_id(self):
+        return self.__project_id
+    @property
+    def projectAdminAccess(self):
+        return self.__projectAdminAccess
+    @property
+    def insightAccess(self):
+        return self.__insightAccess
+    @property
+    def docManagementAccess(self):
+        return self.__docManagementAccess
+    @property
+    def member_group_id(self):
+        return self.__member_group_id
+
+class BusinessUnits(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__account_id = rawDict.get(&#34;account_id&#34;) or None
+        self.__parent_id = rawDict.get(&#34;parent_id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__description = rawDict.get(&#34;description&#34;) or None
+        self.__path = rawDict.get(&#34;path&#34;) or None
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
+
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def account_id(self):
+        return self.__account_id
+    @property
+    def parent_id(self):
+        return self.__parent_id
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def path(self):
+        return self.__path
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
+
+    @classmethod
+    def getBusinessUnits(cls, client, token):
+        &#39;&#39;&#39;Query all the business units in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        # TODO RETURNS EMPTY DICT IF EMPTY. RAISE ERROR OR SOMETHING
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(u) for u in r[&#34;business_units&#34;]]
+
+    @classmethod
+    def createBusinessUnits(cls, client: client.Client, token: client.Token, Data: list):
+        &#39;&#39;&#39;Creates or redefines the business units of a specific BIM 360 account.
+        Scope account:write
+        Data: A list of dictionaries with the following structure. Name is mandatory
+        &#39;Data = [
+                    {
+                        &#34;id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;parent_id&#34;: null,
+                        &#34;name&#34;: &#34;North America&#34;,
+                        &#34;description&#34;: &#34;USA, Canada&#34;
+                    },
+                    {
+                        &#34;id&#34;: &#34;fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31&#34;,
+                        &#34;parent_id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;name&#34;: &#34;USA Western Region&#34;,
+                        &#34;description&#34;: &#34;California, Nevada, Washington&#34;
+                    }
+                ]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        bness = {&#34;business_units&#34;: Data}
+        r = requests.put(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=client.bimAccId),headers=token.patchHeader, data=str(bness)).json()
+        checkResponse(r)
+        return [cls(u) for u in r[&#34;business_units&#34;]]
+
+class Jobs(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__account_id = rawDict.get(&#34;account_id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__status = rawDict.get(&#34;status&#34;) or None
+        self.__details = rawDict.get(&#34;details&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def account_id(self):
+        return self.__account_id
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def status(self):
+        return self.__status
+    @property
+    def details(self):
+        return self.__details
+
+#TODO Try string dictionaries with import companies. critical
+
+# Account Admin
+# Projects
+# PATCH projects/:project_id/image
+
+# Companies
+# POST companies/import NOT WORKING?
+
+# PATCH companies/:company_id/image
+
+# Account Users
+# POST users
+# POST users/import
+# GET users/search</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="adeskForgeWrapper.b360.BusinessUnits"><code class="flex name class">
+<span>class <span class="ident">BusinessUnits</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BusinessUnits(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__account_id = rawDict.get(&#34;account_id&#34;) or None
+        self.__parent_id = rawDict.get(&#34;parent_id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__description = rawDict.get(&#34;description&#34;) or None
+        self.__path = rawDict.get(&#34;path&#34;) or None
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
+
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def account_id(self):
+        return self.__account_id
+    @property
+    def parent_id(self):
+        return self.__parent_id
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def path(self):
+        return self.__path
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
+
+    @classmethod
+    def getBusinessUnits(cls, client, token):
+        &#39;&#39;&#39;Query all the business units in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        # TODO RETURNS EMPTY DICT IF EMPTY. RAISE ERROR OR SOMETHING
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(u) for u in r[&#34;business_units&#34;]]
+
+    @classmethod
+    def createBusinessUnits(cls, client: client.Client, token: client.Token, Data: list):
+        &#39;&#39;&#39;Creates or redefines the business units of a specific BIM 360 account.
+        Scope account:write
+        Data: A list of dictionaries with the following structure. Name is mandatory
+        &#39;Data = [
+                    {
+                        &#34;id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;parent_id&#34;: null,
+                        &#34;name&#34;: &#34;North America&#34;,
+                        &#34;description&#34;: &#34;USA, Canada&#34;
+                    },
+                    {
+                        &#34;id&#34;: &#34;fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31&#34;,
+                        &#34;parent_id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;name&#34;: &#34;USA Western Region&#34;,
+                        &#34;description&#34;: &#34;California, Nevada, Washington&#34;
+                    }
+                ]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        bness = {&#34;business_units&#34;: Data}
+        r = requests.put(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=client.bimAccId),headers=token.patchHeader, data=str(bness)).json()
+        checkResponse(r)
+        return [cls(u) for u in r[&#34;business_units&#34;]]</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.createBusinessUnits"><code class="name flex">
+<span>def <span class="ident">createBusinessUnits</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates or redefines the business units of a specific BIM 360 account.
+Scope account:write
+Data: A list of dictionaries with the following structure. Name is mandatory
+'Data = [
+{
+"id": "933df8fd-abb2-4e4e-8f79-95ba2afebc6c",
+"parent_id": null,
+"name": "North America",
+"description": "USA, Canada"
+},
+{
+"id": "fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31",
+"parent_id": "933df8fd-abb2-4e4e-8f79-95ba2afebc6c",
+"name": "USA Western Region",
+"description": "California, Nevada, Washington"
+}
+]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def createBusinessUnits(cls, client: client.Client, token: client.Token, Data: list):
+    &#39;&#39;&#39;Creates or redefines the business units of a specific BIM 360 account.
+    Scope account:write
+    Data: A list of dictionaries with the following structure. Name is mandatory
+    &#39;Data = [
+                {
+                    &#34;id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                    &#34;parent_id&#34;: null,
+                    &#34;name&#34;: &#34;North America&#34;,
+                    &#34;description&#34;: &#34;USA, Canada&#34;
+                },
+                {
+                    &#34;id&#34;: &#34;fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31&#34;,
+                    &#34;parent_id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                    &#34;name&#34;: &#34;USA Western Region&#34;,
+                    &#34;description&#34;: &#34;California, Nevada, Washington&#34;
+                }
+            ]&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    bness = {&#34;business_units&#34;: Data}
+    r = requests.put(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=client.bimAccId),headers=token.patchHeader, data=str(bness)).json()
+    checkResponse(r)
+    return [cls(u) for u in r[&#34;business_units&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.getBusinessUnits"><code class="name flex">
+<span>def <span class="ident">getBusinessUnits</span></span>(<span>client, token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the business units in a specific BIM 360 account.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getBusinessUnits(cls, client, token):
+    &#39;&#39;&#39;Query all the business units in a specific BIM 360 account.
+    Scope account:read&#39;&#39;&#39;
+    # TODO RETURNS EMPTY DICT IF EMPTY. RAISE ERROR OR SOMETHING
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(u) for u in r[&#34;business_units&#34;]]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def account_id(self):
+    return self.__account_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.created_at"><code class="name">var <span class="ident">created_at</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def created_at(self):
+    return self.__created_at</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.description"><code class="name">var <span class="ident">description</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def description(self):
+    return self.__description</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.parent_id"><code class="name">var <span class="ident">parent_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def parent_id(self):
+    return self.__parent_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.path"><code class="name">var <span class="ident">path</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def path(self):
+    return self.__path</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.updated_at"><code class="name">var <span class="ident">updated_at</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def updated_at(self):
+    return self.__updated_at</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company"><code class="flex name class">
+<span>class <span class="ident">Company</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for B360 API companies</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Company(object):
+    &#39;&#39;&#39;Base class for B360 API companies&#39;&#39;&#39;
+#hiddenRegion
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__accId = rawDict.get(&#34;account_id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__trade = rawDict.get(&#34;trade&#34;) or None
+        self.__address_line_1 = rawDict.get(&#34;address_line_1&#34;) or None
+        self.__address_line_2 = rawDict.get(&#34;address_line_2&#34;) or None
+        self.__city = rawDict.get(&#34;city&#34;) or None
+        self.__postal_code = rawDict.get(&#34;postal_code&#34;) or None
+        self.__state_or_province = rawDict.get(&#34;state_or_province&#34;) or None
+        self.__country = rawDict.get(&#34;country&#34;) or None
+        self.__phone = rawDict.get(&#34;phone&#34;) or None
+        self.__website_url = rawDict.get(&#34;website_url&#34;) or None
+        self.__description = rawDict.get(&#34;description&#34;) or None
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
+        self.__erp_id = rawDict.get(&#34;erp_id&#34;) or None
+        self.__tax_id = rawDict.get(&#34;tax_id&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def accId(self):
+        return self.__accId
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def trade(self):
+        return self.__trade
+    @property
+    def address_line_1(self):
+        return self.__address_line_1
+    @property
+    def address_line_2(self):
+        return self.__address_line_2
+    @property
+    def city(self):
+        return self.__city
+    @property
+    def postal_code(self):
+        return self.__postal_code
+    @property
+    def state_or_province(self):
+        return self.__state_or_province
+    @property
+    def country(self):
+        return self.__country
+    @property
+    def phone(self):
+        return self.__phone
+    @property
+    def website_url(self):
+        return self.__website_url
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
+    @property
+    def erp_id(self):
+        return self.__erp_id
+    @property
+    def tax_id(self):
+        return self.__tax_id
+#endRegion
+
+    @classmethod
+    def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
+        &#39;&#39;&#39;Query the details of a specific partner company.
+        Scope: account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def getCompanies(cls, client: client.Client, token: client.Token):
+        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(c) for c in r]
+
+    @classmethod
+    def getCompanyByName(cls, client: client.Client, token: client.Token, params):
+        &#39;&#39;&#39;Search partner companies in a specific BIM 360 account by name.
+        Scope account:read
+        
+        params = (
+                    (&#39;name&#39;, &#39;Autodesk&#39;),
+                    (&#39;trade&#39;, &#39;Example&#39;),
+                    (&#39;operator&#39;, &#39;OR/AND&#39;),
+                    (&#39;partial&#39;, true),
+                    (&#39;limit&#39;, &#39;10&#39;),
+                    (&#39;offset&#39;, &#39;0&#39;),
+                    (&#39;sort&#39;, &#39;Autodesk&#39;),
+                    (&#39;field&#39;, &#39;id&#39;)
+                 )
+        &#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/search&#34;.format(aId=client.bimAccId),headers=token.getHeader, params=params).json()
+        checkResponse(r)
+        return [cls(c) for c in r]
+
+    @classmethod
+    def importCompanies(cls, client: client.Client, token: client.Token, Data: list):
+        &#39;&#39;&#39;TODO: ---NOT WORKING??  TRY---
+        Bulk import partner companies to the company directory in a specific BIM 360 account.
+        (50 companies maximum can be included in each call.)
+        Scope account:write
+        
+        Data template, must be a string.
+        data = [{
+                &#34;name&#34;:&#34;&#34;,
+                &#34;trade&#34;: &#34;&#34;,
+                &#34;website_url&#34;: &#34;&#34;,
+                &#34;city&#34;: &#34;&#34;,
+                &#34;country&#34;: &#34;&#34;,
+                &#34;address_line_1&#34;: &#34;&#34;,
+                &#34;address_line_2&#34;: &#34;&#34;,
+                &#34;postal_code&#34;: &#34;&#34;,
+                &#34;erp_id&#34;:&#34;&#34;,
+                &#34;tax_id&#34;:&#34;&#34;,
+                &#34;phone&#34;: &#34;&#34;,
+                &#34;description&#34;: &#34;&#34;
+                }]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/import&#34;.format(aId=client.bimAccId),headers=token.patchHeader,data=str(Data)).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failure:&#34;, r[&#34;failure&#34;])
+        return [cls(c) for c in r[&#34;success_items&#34;]]
+
+
+    def updateCompany(self, token: client.Token, data):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific partner company.
+        Scope account:write
+        
+        data = {
+                &#34;name&#34;:&#34;&#34;,
+                &#34;trade&#34;: &#34;&#34;,
+                &#34;address_line_1&#34;: &#34;&#34;,
+                &#34;address_line_2&#34;: &#34;&#34;,
+                &#34;city&#34;: &#34;&#34;,
+                &#34;state_or_province&#34;: &#34;&#34;,
+                &#34;country&#34;: &#34;&#34;,
+                &#34;phone&#34;: &#34;&#34;,
+                &#34;website_url&#34;:&#34;&#34;,
+                &#34;description&#34;:&#34;&#34;,
+                &#34;erp_id&#34;: &#34;&#34;,
+                &#34;tax_id&#34;: &#34;&#34;
+                }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=self.accId, cId=self.id),headers=token.patchHeader,data=data).json()
+        checkResponse(r)
+        return Company(r)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Company.getCompanies"><code class="name flex">
+<span>def <span class="ident">getCompanies</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the partner companies in a specific BIM 360 account.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getCompanies(cls, client: client.Client, token: client.Token):
+    &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(c) for c in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.getCompanyById"><code class="name flex">
+<span>def <span class="ident">getCompanyById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, c_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query the details of a specific partner company.
+Scope: account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
+    &#39;&#39;&#39;Query the details of a specific partner company.
+    Scope: account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.getCompanyByName"><code class="name flex">
+<span>def <span class="ident">getCompanyByName</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, params)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Search partner companies in a specific BIM 360 account by name.
+Scope account:read</p>
+<p>params = (
+('name', 'Autodesk'),
+('trade', 'Example'),
+('operator', 'OR/AND'),
+('partial', true),
+('limit', '10'),
+('offset', '0'),
+('sort', 'Autodesk'),
+('field', 'id')
+)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getCompanyByName(cls, client: client.Client, token: client.Token, params):
+    &#39;&#39;&#39;Search partner companies in a specific BIM 360 account by name.
+    Scope account:read
+    
+    params = (
+                (&#39;name&#39;, &#39;Autodesk&#39;),
+                (&#39;trade&#39;, &#39;Example&#39;),
+                (&#39;operator&#39;, &#39;OR/AND&#39;),
+                (&#39;partial&#39;, true),
+                (&#39;limit&#39;, &#39;10&#39;),
+                (&#39;offset&#39;, &#39;0&#39;),
+                (&#39;sort&#39;, &#39;Autodesk&#39;),
+                (&#39;field&#39;, &#39;id&#39;)
+             )
+    &#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/search&#34;.format(aId=client.bimAccId),headers=token.getHeader, params=params).json()
+    checkResponse(r)
+    return [cls(c) for c in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.importCompanies"><code class="name flex">
+<span>def <span class="ident">importCompanies</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TODO: &mdash;NOT WORKING??
+TRY&mdash;
+Bulk import partner companies to the company directory in a specific BIM 360 account.
+(50 companies maximum can be included in each call.)
+Scope account:write</p>
+<p>Data template, must be a string.
+data = [{
+"name":"",
+"trade": "",
+"website_url": "",
+"city": "",
+"country": "",
+"address_line_1": "",
+"address_line_2": "",
+"postal_code": "",
+"erp_id":"",
+"tax_id":"",
+"phone": "",
+"description": ""
+}]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def importCompanies(cls, client: client.Client, token: client.Token, Data: list):
+    &#39;&#39;&#39;TODO: ---NOT WORKING??  TRY---
+    Bulk import partner companies to the company directory in a specific BIM 360 account.
+    (50 companies maximum can be included in each call.)
+    Scope account:write
+    
+    Data template, must be a string.
+    data = [{
+            &#34;name&#34;:&#34;&#34;,
+            &#34;trade&#34;: &#34;&#34;,
+            &#34;website_url&#34;: &#34;&#34;,
+            &#34;city&#34;: &#34;&#34;,
+            &#34;country&#34;: &#34;&#34;,
+            &#34;address_line_1&#34;: &#34;&#34;,
+            &#34;address_line_2&#34;: &#34;&#34;,
+            &#34;postal_code&#34;: &#34;&#34;,
+            &#34;erp_id&#34;:&#34;&#34;,
+            &#34;tax_id&#34;:&#34;&#34;,
+            &#34;phone&#34;: &#34;&#34;,
+            &#34;description&#34;: &#34;&#34;
+            }]&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.post(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/import&#34;.format(aId=client.bimAccId),headers=token.patchHeader,data=str(Data)).json()
+    checkResponse(r)
+    print(&#34;Success:&#34;, r[&#34;success&#34;])
+    print(&#34;Failure:&#34;, r[&#34;failure&#34;])
+    return [cls(c) for c in r[&#34;success_items&#34;]]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Company.accId"><code class="name">var <span class="ident">accId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def accId(self):
+    return self.__accId</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.address_line_1"><code class="name">var <span class="ident">address_line_1</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def address_line_1(self):
+    return self.__address_line_1</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.address_line_2"><code class="name">var <span class="ident">address_line_2</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def address_line_2(self):
+    return self.__address_line_2</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.city"><code class="name">var <span class="ident">city</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def city(self):
+    return self.__city</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.country"><code class="name">var <span class="ident">country</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def country(self):
+    return self.__country</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.created_at"><code class="name">var <span class="ident">created_at</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def created_at(self):
+    return self.__created_at</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.description"><code class="name">var <span class="ident">description</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def description(self):
+    return self.__description</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.erp_id"><code class="name">var <span class="ident">erp_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def erp_id(self):
+    return self.__erp_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.phone"><code class="name">var <span class="ident">phone</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def phone(self):
+    return self.__phone</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.postal_code"><code class="name">var <span class="ident">postal_code</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def postal_code(self):
+    return self.__postal_code</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.state_or_province"><code class="name">var <span class="ident">state_or_province</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def state_or_province(self):
+    return self.__state_or_province</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.tax_id"><code class="name">var <span class="ident">tax_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def tax_id(self):
+    return self.__tax_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.trade"><code class="name">var <span class="ident">trade</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def trade(self):
+    return self.__trade</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.updated_at"><code class="name">var <span class="ident">updated_at</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def updated_at(self):
+    return self.__updated_at</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.website_url"><code class="name">var <span class="ident">website_url</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def website_url(self):
+    return self.__website_url</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Company.updateCompany"><code class="name flex">
+<span>def <span class="ident">updateCompany</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the properties of only the specified attributes of a specific partner company.
+Scope account:write</p>
+<p>data = {
+"name":"",
+"trade": "",
+"address_line_1": "",
+"address_line_2": "",
+"city": "",
+"state_or_province": "",
+"country": "",
+"phone": "",
+"website_url":"",
+"description":"",
+"erp_id": "",
+"tax_id": ""
+}</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateCompany(self, token: client.Token, data):
+    &#39;&#39;&#39;Update the properties of only the specified attributes of a specific partner company.
+    Scope account:write
+    
+    data = {
+            &#34;name&#34;:&#34;&#34;,
+            &#34;trade&#34;: &#34;&#34;,
+            &#34;address_line_1&#34;: &#34;&#34;,
+            &#34;address_line_2&#34;: &#34;&#34;,
+            &#34;city&#34;: &#34;&#34;,
+            &#34;state_or_province&#34;: &#34;&#34;,
+            &#34;country&#34;: &#34;&#34;,
+            &#34;phone&#34;: &#34;&#34;,
+            &#34;website_url&#34;:&#34;&#34;,
+            &#34;description&#34;:&#34;&#34;,
+            &#34;erp_id&#34;: &#34;&#34;,
+            &#34;tax_id&#34;: &#34;&#34;
+            }&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=self.accId, cId=self.id),headers=token.patchHeader,data=data).json()
+    checkResponse(r)
+    return Company(r)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles"><code class="flex name class">
+<span>class <span class="ident">IndustryRoles</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IndustryRoles(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__project_id = rawDict.get(&#34;project_id&#34;) or None
+        self.__projectAdminAccess = rawDict.get(&#34;services&#34;).get(&#34;project_administration&#34;).get(&#34;access_level&#34;) or None
+        self.__insightAccess = rawDict.get(&#34;services&#34;).get(&#34;insight&#34;).get(&#34;access_level&#34;) or None
+        self.__docManagementAccess = rawDict.get(&#34;services&#34;).get(&#34;document_management&#34;).get(&#34;access_level&#34;) or None
+        self.__member_group_id = rawDict.get(&#34;member_group_id&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def project_id(self):
+        return self.__project_id
+    @property
+    def projectAdminAccess(self):
+        return self.__projectAdminAccess
+    @property
+    def insightAccess(self):
+        return self.__insightAccess
+    @property
+    def docManagementAccess(self):
+        return self.__docManagementAccess
+    @property
+    def member_group_id(self):
+        return self.__member_group_id</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.docManagementAccess"><code class="name">var <span class="ident">docManagementAccess</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def docManagementAccess(self):
+    return self.__docManagementAccess</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.insightAccess"><code class="name">var <span class="ident">insightAccess</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def insightAccess(self):
+    return self.__insightAccess</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.member_group_id"><code class="name">var <span class="ident">member_group_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def member_group_id(self):
+    return self.__member_group_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.projectAdminAccess"><code class="name">var <span class="ident">projectAdminAccess</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def projectAdminAccess(self):
+    return self.__projectAdminAccess</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.project_id"><code class="name">var <span class="ident">project_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def project_id(self):
+    return self.__project_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs"><code class="flex name class">
+<span>class <span class="ident">Jobs</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Jobs(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__account_id = rawDict.get(&#34;account_id&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__status = rawDict.get(&#34;status&#34;) or None
+        self.__details = rawDict.get(&#34;details&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def account_id(self):
+        return self.__account_id
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def status(self):
+        return self.__status
+    @property
+    def details(self):
+        return self.__details</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Jobs.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def account_id(self):
+    return self.__account_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs.details"><code class="name">var <span class="ident">details</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def details(self):
+    return self.__details</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs.status"><code class="name">var <span class="ident">status</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def status(self):
+    return self.__status</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project"><code class="flex name class">
+<span>class <span class="ident">Project</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for B360 API projects</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Project(object):
+    &#39;&#39;&#39;Class for B360 API projects&#39;&#39;&#39;
+#hiddenRegion
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__accId = rawDict.get(&#34;account_id&#34;) or None
+        self.__status = rawDict.get(&#34;status&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__service_types = rawDict.get(&#34;service_types&#34;) or None
+        self.__start_date = rawDict.get(&#34;start_date&#34;) or None
+        self.__end_date = rawDict.get(&#34;end_date&#34;) or None
+        self.__project_type = rawDict.get(&#34;project_type&#34;) or None
+        self.__value = rawDict.get(&#34;value&#34;) or None
+        self.__currency = rawDict.get(&#34;currency&#34;) or None
+        self.__job_number = rawDict.get(&#34;job_number&#34;) or None
+        self.__address_line_1 = rawDict.get(&#34;address_line_1&#34;) or None
+        self.__address_line_2 = rawDict.get(&#34;address_line_2&#34;) or None
+        self.__city = rawDict.get(&#34;city&#34;) or None
+        self.__state_or_province = rawDict.get(&#34;state_or_province&#34;) or None
+        self.__postal_code = rawDict.get(&#34;postal_code&#34;) or None
+        self.__country = rawDict.get(&#34;country&#34;) or None
+        self.__business_unit_id = rawDict.get(&#34;business_unit_id&#34;) or None
+        self.__timezone = rawDict.get(&#34;timezone&#34;) or None
+        self.__language = rawDict.get(&#34;language&#34;) or None
+        self.__construction_type = rawDict.get(&#34;construction_type&#34;) or None
+        self.__contract_type = rawDict.get(&#34;contract_type&#34;) or None
+        self.__template_project_id = rawDict.get(&#34;template_project_id&#34;) or None
+        self.__include_companies = rawDict.get(&#34;include_companies&#34;) or None
+        self.__include_locations = rawDict.get(&#34;include_locations&#34;) or None
+
+    @property
+    def raw(self):
+        &#39;&#39;&#39;The raw dictionary response&#39;&#39;&#39;
+        return self.__raw
+    @property
+    def name(self):
+        &#39;&#39;&#39;Name of the project&#39;&#39;&#39;
+        return self.__name
+    @property
+    def id(self):
+        &#39;&#39;&#39;Project ID&#39;&#39;&#39;
+        return self.__id
+    @property
+    def accId(self):
+        &#39;&#39;&#39;Account ID&#39;&#39;&#39;
+        return self.__accId
+    @property
+    def status(self):
+        &#39;&#39;&#39;
+        The status of project.
+
+        Possible values:
+        active: project is active with at least one project admin added
+        pending: project has been created but pending becuase no project admin added
+        inactive: project is suspended
+        archived: project is archived and displayed only in the archived list&#39;&#39;&#39;
+        return self.__status
+    @property
+    def service_types(self):
+        return self.__service_types
+    @property
+    def start_date(self):
+        return self.__start_date
+    @property
+    def end_date(self):
+        return self.__end_date
+    @property
+    def project_type(self):
+        &#39;&#39;&#39;
+        The type of project; accepts preconfigured and customized project types
+
+        Max length: 255
+
+        Refer to the preconfigured project_type list in
+        the Parameters guide.&#39;&#39;&#39;
+        return self.__project_type
+    @property
+    def value(self):
+        &#39;&#39;&#39;Monetary value of the project&#39;&#39;&#39;
+        return self.__value
+    @property
+    def currency(self):
+        &#39;&#39;&#39;
+        Currency for project value
+        Refer to the currency list in the Parameters guide.&#39;&#39;&#39;
+        return self.__currency
+    @property
+    def job_number(self):
+        return self.__job_number
+    @property
+    def address_line_1(self):
+        return self.__address_line_1
+    @property
+    def address_line_2(self):
+        return self.__address_line_2
+    @property
+    def city(self):
+        return self.__city
+    @property
+    def state_or_province(self):
+        return self.__state_or_province
+    @property
+    def postal_code(self):
+        return self.__postal_code
+    @property
+    def country(self):
+        return self.__country
+    @property
+    def business_unit_id(self):
+        return self.__business_unit_id
+    @property
+    def timezone(self):
+        return self.__timezone
+    @property
+    def language(self):
+        return self.__language
+    @property
+    def construction_type(self):
+        return self.__construction_type
+    @property
+    def contract_type(self):
+        return self.__contract_type
+    @property
+    def template_project_id(self):
+        return self.__template_project_id
+    @property
+    def include_companies(self):
+        return self.__include_companies
+    @property
+    def include_locations(self):
+        return self.__include_locations
+#endRegion
+
+    @classmethod
+    def getProjects(cls, client: client.Client, token: client.Token):
+        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.
+        Scope account:read
+        Returns a list of project objects.&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(p) for p in r]
+
+
+    @classmethod
+    def getProjectById(cls, client: client.Client, token: client.Token, p_id):
+        &#39;&#39;&#39;Query the details of a specific BIM 360 project.
+        Scope: account:read&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=client.bimAccId, pId=p_id),headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+
+    @classmethod
+    def createProject(cls, client: client.Client, token: client.Token, Data: dict):
+        &#39;&#39;&#39;Create a new BIM 360 project in a specific BIM 360 account.
+        Scope account:write
+        Data Template. NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are
+        required values.
+
+        data = {
+            &#34;name&#34;: &#34;&#34;,
+            &#34;service_types&#34;: &#34;&#34;,
+            &#34;start_date&#34;: &#34;&#34;,
+            &#34;end_date&#34;: &#34;&#34;,
+            &#34;project_type&#34;: &#34;&#34;,
+            &#34;value&#34;: &#34;&#34;,
+            &#34;currency&#34;: &#34;&#34;,
+            &#34;job_number&#34;: &#34;&#34;,
+            &#34;address_line_1&#34;: &#34;&#34;,
+            &#34;address_line_2&#34;: &#34;&#34;,
+            &#34;city&#34;: &#34;&#34;,
+            &#34;state_or_province&#34;: &#34;&#34;,
+            &#34;postal_code&#34;: &#34;&#34;,
+            &#34;country&#34;: &#34;&#34;,
+            &#34;business_unit_id&#34;: &#34;&#34;,
+            &#34;timezone&#34;: &#34;&#34;,
+            &#34;language&#34;: &#34;&#34;,
+            &#34;construction_type&#34;: &#34;&#34;,
+            &#34;contract_type&#34;: &#34;&#34;,
+            &#34;template_project_id&#34;: &#34;&#34;,
+            &#34;include_companies&#34;: &#34;&#34;,
+            &#34;include_locations&#34;: &#34;&#34;
+        }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        return cls(r)
+
+    def updateProject(self, token: client.Token, Data):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific BIM 360 project.
+            Scope: account:write account:read
+
+            Template dictionary. This is the content of the data parameter.
+            Include the ones you need to update only.
+            
+            data = {
+            &#34;name&#34; = &#34;&#34;,
+            &#34;service_types&#34; = &#34;&#34;,
+            &#34;status&#34; = &#34;&#34;,
+            &#34;start_date&#34; = &#34;&#34;,
+            &#34;end_date&#34; = &#34;&#34;,
+            &#34;project_type&#34; = &#34;&#34;,
+            &#34;value&#34; = &#34;&#34;,
+            &#34;currency&#34; = &#34;&#34;,
+            &#34;job_number&#34; = &#34;&#34;,
+            &#34;address_line_1&#34; = &#34;&#34;,
+            &#34;address_line_2&#34; = &#34;&#34;,
+            &#34;city&#34; = &#34;&#34;,
+            &#34;state_or_province&#34; = &#34;&#34;,
+            &#34;postal_code&#34; = &#34;&#34;,
+            &#34;country&#34; = &#34;&#34;,
+            &#34;business_unit_id&#34; = &#34;&#34;,
+            &#34;timezone&#34; = &#34;&#34;,
+            &#34;language&#34; = &#34;&#34;,
+            &#34;construction_type&#34; = &#34;&#34;,
+            &#34;contract_type&#34; = &#34;&#34;
+            }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=self.accId, pId=self.id),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        return Project(r)
+    
+    def getUsersFromProject(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves information about all the users in a project.
+        To get information about all the users in an account, see GET accounts/users.
+        
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users&#34;.format(pId=self.id),headers=token.getHeader).json()
+        checkResponse(r)
+        return [User(u) for u in r[&#34;results&#34;]]
+
+    def getUserFromProjectAndId(self, token: client.Token, userId):
+        &#39;&#39;&#39;Retrieves detailed information about a single user in a project.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users/{uId}&#34;.format(pId=self.id, uId=userId),headers=token.getHeader).json()
+        checkResponse(r)
+        return User(r)
+
+    def addUsersToProject(self, client: client.Client, token: client.Token, Data: list):
+        # TODO TO REVIEW. ITEMS FAIL
+        # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+        &#39;&#39;&#39;Adds users (project admin and project user) to a project. You can add up to 50 users per call.
+
+            To add users to an account (account user), see POST users.
+
+            You can specify the following details about the user:
+
+            The user’s access level for the project (admin or user).
+            The company the user is assigned to for the project.
+            The industry roles assigned to the user for the project.
+            The user’s email address.
+            Scope account:write
+            d=[
+            {
+            &#34;email&#34;: &#34;john.doe@autodesk.com&#34;,
+            &#34;services&#34;: {
+                &#34;document_management&#34;: {
+                &#34;access_level&#34;: &#34;user&#34;
+                }
+            },
+            &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+            &#34;industry_roles&#34;: [
+                &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;
+            ]
+            },
+            {
+            &#34;user_id&#34;: &#34;3a2bs9ba-ba44-12ed-132d-fab8822bac22&#34;,
+            &#34;services&#34;: {
+                &#34;project_administration&#34;: {
+                &#34;access_level&#34;: &#34;admin&#34;
+                },
+                &#34;document_management&#34;: {
+                &#34;access_level&#34;: &#34;admin&#34;
+                }
+            },
+            &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+            &#34;industry_roles&#34;: [
+                &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;
+            ]}]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/import&#34;.format(aId=self.accId ,pId=self.id),headers=token.contentXUser, data=str(Data)).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failed:&#34;, r[&#34;failure&#34;])
+        return [User.getUserById(client, token, u[&#34;user_id&#34;]) for u in r[&#34;success_items&#34;]]
+
+    def updateUser(self, token: client.Token, userId: str, Data: dict):
+        &#39;&#39;&#39;Updates a user’s profile for a project, including:
+
+        The company the user is assigned to for the project.
+        The industry roles assigned to the user for the project.
+        Scope account:write
+        data = {
+        &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+        &#34;industry_roles&#34;: [&#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;]
+        }
+
+        Returns a User object
+        TODO: Thinking about changing user id with user object, updating the user object with the response&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}&#34;.format(aId=self.accId ,pId=self.id, uId=userId),headers=token.contentXUser, data=str(Data)).json()
+        checkResponse(r)
+        return User(r)
+    def getIndustryRoles(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves the industry roles for the project. For example, contractor and architect.
+        Scope account:read&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/industry_roles&#34;.format(aId=self.accId ,pId=self.id),headers=token.patchHeader).json()
+        checkResponse(r)
+        return [IndustryRoles(i) for i in r]
+
+    def exportPDF(self, token: client.Token, versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+        &#39;&#39;&#39;Exports a single page from an uploaded PDF file into a new PDF file.
+            You can also export the page’s markups (annotations) and hyperlinks.
+            Scope data:read
+            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. You can identify exportable PDF files, by searching for files with the following combmination of properties:
+
+            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)
+            attributes.extension.data.sourceFileName: &lt;filename&gt;.pdf (identifies all PDF files)
+            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the BIM 360 endpoints, see the File Upload tutorial.
+
+            Note that this endpoint is asynchronous and initiates a job that runs in the background, rather than halting execution of your program.
+            The response returns an export ID that you can use to call getPDFExport() to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.
+
+            Note that the user must have permission to view files. For information about permissions, see the Help documentation.
+
+            For more details about exporting PDF files, see the PDF Export tutorial.
+
+            For more information about Document Management endpoints, see the Data Management API
+            &#39;&#39;&#39;
+        Data={&#34;includeMarkups&#34;: includeMarkups,
+              &#34;includeHyperlinks&#34;: includeHyperlinks}
+
+        checkScopes(token, &#34;data:read&#34;)
+        r = requests.post(&#34;https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports&#34;.format(pId=self.id, vId=versionId),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        print(&#34;Id: {id}\nStatus: {status}&#34;.format(id=r[&#34;id&#34;], status=r[&#34;status&#34;]))
+        return r
+
+    def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
+        &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
+
+            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
+
+            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
+
+            For more information about Document Management endpoints, see the Data Management API
+            &#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}&#34;.format(pId=self.id, vId=versionId, eId=exportId),headers=token.contentXUser).json()
+        checkResponse(r)
+        print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+                 #TODO: Range header
+        return r</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Project.createProject"><code class="name flex">
+<span>def <span class="ident">createProject</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new BIM 360 project in a specific BIM 360 account.
+Scope account:write
+Data Template. NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are
+required values.</p>
+<p>data = {
+"name": "",
+"service_types": "",
+"start_date": "",
+"end_date": "",
+"project_type": "",
+"value": "",
+"currency": "",
+"job_number": "",
+"address_line_1": "",
+"address_line_2": "",
+"city": "",
+"state_or_province": "",
+"postal_code": "",
+"country": "",
+"business_unit_id": "",
+"timezone": "",
+"language": "",
+"construction_type": "",
+"contract_type": "",
+"template_project_id": "",
+"include_companies": "",
+"include_locations": ""
+}</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def createProject(cls, client: client.Client, token: client.Token, Data: dict):
+    &#39;&#39;&#39;Create a new BIM 360 project in a specific BIM 360 account.
+    Scope account:write
+    Data Template. NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are
+    required values.
+
+    data = {
+        &#34;name&#34;: &#34;&#34;,
+        &#34;service_types&#34;: &#34;&#34;,
+        &#34;start_date&#34;: &#34;&#34;,
+        &#34;end_date&#34;: &#34;&#34;,
+        &#34;project_type&#34;: &#34;&#34;,
+        &#34;value&#34;: &#34;&#34;,
+        &#34;currency&#34;: &#34;&#34;,
+        &#34;job_number&#34;: &#34;&#34;,
+        &#34;address_line_1&#34;: &#34;&#34;,
+        &#34;address_line_2&#34;: &#34;&#34;,
+        &#34;city&#34;: &#34;&#34;,
+        &#34;state_or_province&#34;: &#34;&#34;,
+        &#34;postal_code&#34;: &#34;&#34;,
+        &#34;country&#34;: &#34;&#34;,
+        &#34;business_unit_id&#34;: &#34;&#34;,
+        &#34;timezone&#34;: &#34;&#34;,
+        &#34;language&#34;: &#34;&#34;,
+        &#34;construction_type&#34;: &#34;&#34;,
+        &#34;contract_type&#34;: &#34;&#34;,
+        &#34;template_project_id&#34;: &#34;&#34;,
+        &#34;include_companies&#34;: &#34;&#34;,
+        &#34;include_locations&#34;: &#34;&#34;
+    }&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.post(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.patchHeader, data=str(Data)).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.getProjectById"><code class="name flex">
+<span>def <span class="ident">getProjectById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, p_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query the details of a specific BIM 360 project.
+Scope: account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getProjectById(cls, client: client.Client, token: client.Token, p_id):
+    &#39;&#39;&#39;Query the details of a specific BIM 360 project.
+    Scope: account:read&#39;&#39;&#39;
+
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=client.bimAccId, pId=p_id),headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.getProjects"><code class="name flex">
+<span>def <span class="ident">getProjects</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the projects in a specific BIM 360 account.
+Scope account:read
+Returns a list of project objects.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getProjects(cls, client: client.Client, token: client.Token):
+    &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.
+    Scope account:read
+    Returns a list of project objects.&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(p) for p in r]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Project.accId"><code class="name">var <span class="ident">accId</span></code></dt>
+<dd>
+<div class="desc"><p>Account ID</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def accId(self):
+    &#39;&#39;&#39;Account ID&#39;&#39;&#39;
+    return self.__accId</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.address_line_1"><code class="name">var <span class="ident">address_line_1</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def address_line_1(self):
+    return self.__address_line_1</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.address_line_2"><code class="name">var <span class="ident">address_line_2</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def address_line_2(self):
+    return self.__address_line_2</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.business_unit_id"><code class="name">var <span class="ident">business_unit_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def business_unit_id(self):
+    return self.__business_unit_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.city"><code class="name">var <span class="ident">city</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def city(self):
+    return self.__city</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.construction_type"><code class="name">var <span class="ident">construction_type</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def construction_type(self):
+    return self.__construction_type</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.contract_type"><code class="name">var <span class="ident">contract_type</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def contract_type(self):
+    return self.__contract_type</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.country"><code class="name">var <span class="ident">country</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def country(self):
+    return self.__country</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.currency"><code class="name">var <span class="ident">currency</span></code></dt>
+<dd>
+<div class="desc"><p>Currency for project value
+Refer to the currency list in the Parameters guide.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def currency(self):
+    &#39;&#39;&#39;
+    Currency for project value
+    Refer to the currency list in the Parameters guide.&#39;&#39;&#39;
+    return self.__currency</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.end_date"><code class="name">var <span class="ident">end_date</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def end_date(self):
+    return self.__end_date</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"><p>Project ID</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    &#39;&#39;&#39;Project ID&#39;&#39;&#39;
+    return self.__id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.include_companies"><code class="name">var <span class="ident">include_companies</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def include_companies(self):
+    return self.__include_companies</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.include_locations"><code class="name">var <span class="ident">include_locations</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def include_locations(self):
+    return self.__include_locations</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.job_number"><code class="name">var <span class="ident">job_number</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def job_number(self):
+    return self.__job_number</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.language"><code class="name">var <span class="ident">language</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def language(self):
+    return self.__language</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the project</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    &#39;&#39;&#39;Name of the project&#39;&#39;&#39;
+    return self.__name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.postal_code"><code class="name">var <span class="ident">postal_code</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def postal_code(self):
+    return self.__postal_code</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.project_type"><code class="name">var <span class="ident">project_type</span></code></dt>
+<dd>
+<div class="desc"><p>The type of project; accepts preconfigured and customized project types</p>
+<p>Max length: 255</p>
+<p>Refer to the preconfigured project_type list in
+the Parameters guide.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def project_type(self):
+    &#39;&#39;&#39;
+    The type of project; accepts preconfigured and customized project types
+
+    Max length: 255
+
+    Refer to the preconfigured project_type list in
+    the Parameters guide.&#39;&#39;&#39;
+    return self.__project_type</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"><p>The raw dictionary response</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    &#39;&#39;&#39;The raw dictionary response&#39;&#39;&#39;
+    return self.__raw</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.service_types"><code class="name">var <span class="ident">service_types</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def service_types(self):
+    return self.__service_types</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.start_date"><code class="name">var <span class="ident">start_date</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def start_date(self):
+    return self.__start_date</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.state_or_province"><code class="name">var <span class="ident">state_or_province</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def state_or_province(self):
+    return self.__state_or_province</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.status"><code class="name">var <span class="ident">status</span></code></dt>
+<dd>
+<div class="desc"><p>The status of project.</p>
+<p>Possible values:
+active: project is active with at least one project admin added
+pending: project has been created but pending becuase no project admin added
+inactive: project is suspended
+archived: project is archived and displayed only in the archived list</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def status(self):
+    &#39;&#39;&#39;
+    The status of project.
+
+    Possible values:
+    active: project is active with at least one project admin added
+    pending: project has been created but pending becuase no project admin added
+    inactive: project is suspended
+    archived: project is archived and displayed only in the archived list&#39;&#39;&#39;
+    return self.__status</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.template_project_id"><code class="name">var <span class="ident">template_project_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def template_project_id(self):
+    return self.__template_project_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.timezone"><code class="name">var <span class="ident">timezone</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def timezone(self):
+    return self.__timezone</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<div class="desc"><p>Monetary value of the project</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def value(self):
+    &#39;&#39;&#39;Monetary value of the project&#39;&#39;&#39;
+    return self.__value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Project.addUsersToProject"><code class="name flex">
+<span>def <span class="ident">addUsersToProject</span></span>(<span>self, client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds users (project admin and project user) to a project. You can add up to 50 users per call.</p>
+<p>To add users to an account (account user), see POST users.</p>
+<p>You can specify the following details about the user:</p>
+<p>The user’s access level for the project (admin or user).
+The company the user is assigned to for the project.
+The industry roles assigned to the user for the project.
+The user’s email address.
+Scope account:write
+d=[
+{
+"email": "john.doe@autodesk.com",
+"services": {
+"document_management": {
+"access_level": "user"
+}
+},
+"company_id": "dc9e8af9-2978-4f6a-90b6-b294ae11c701",
+"industry_roles": [
+"dc9e8af9-2978-4f6a-90b6-b294ae11c701"
+]
+},
+{
+"user_id": "3a2bs9ba-ba44-12ed-132d-fab8822bac22",
+"services": {
+"project_administration": {
+"access_level": "admin"
+},
+"document_management": {
+"access_level": "admin"
+}
+},
+"company_id": "dc9e8af9-2978-4f6a-90b6-b294ae11c701",
+"industry_roles": [
+"dc9e8af9-2978-4f6a-90b6-b294ae11c701"
+]}]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def addUsersToProject(self, client: client.Client, token: client.Token, Data: list):
+    # TODO TO REVIEW. ITEMS FAIL
+    # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+    &#39;&#39;&#39;Adds users (project admin and project user) to a project. You can add up to 50 users per call.
+
+        To add users to an account (account user), see POST users.
+
+        You can specify the following details about the user:
+
+        The user’s access level for the project (admin or user).
+        The company the user is assigned to for the project.
+        The industry roles assigned to the user for the project.
+        The user’s email address.
+        Scope account:write
+        d=[
+        {
+        &#34;email&#34;: &#34;john.doe@autodesk.com&#34;,
+        &#34;services&#34;: {
+            &#34;document_management&#34;: {
+            &#34;access_level&#34;: &#34;user&#34;
+            }
+        },
+        &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+        &#34;industry_roles&#34;: [
+            &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;
+        ]
+        },
+        {
+        &#34;user_id&#34;: &#34;3a2bs9ba-ba44-12ed-132d-fab8822bac22&#34;,
+        &#34;services&#34;: {
+            &#34;project_administration&#34;: {
+            &#34;access_level&#34;: &#34;admin&#34;
+            },
+            &#34;document_management&#34;: {
+            &#34;access_level&#34;: &#34;admin&#34;
+            }
+        },
+        &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+        &#34;industry_roles&#34;: [
+            &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;
+        ]}]&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.post(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/import&#34;.format(aId=self.accId ,pId=self.id),headers=token.contentXUser, data=str(Data)).json()
+    checkResponse(r)
+    print(&#34;Success:&#34;, r[&#34;success&#34;])
+    print(&#34;Failed:&#34;, r[&#34;failure&#34;])
+    return [User.getUserById(client, token, u[&#34;user_id&#34;]) for u in r[&#34;success_items&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.exportPDF"><code class="name flex">
+<span>def <span class="ident">exportPDF</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exports a single page from an uploaded PDF file into a new PDF file.
+You can also export the page’s markups (annotations) and hyperlinks.
+Scope data:read
+Note that you can only export a page from a PDF file that was uploaded to the Plans folder or to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. You can identify exportable PDF files, by searching for files with the following combmination of properties:</p>
+<p>attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)
+attributes.extension.data.sourceFileName: <filename>.pdf (identifies all PDF files)
+You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the BIM 360 endpoints, see the File Upload tutorial.</p>
+<p>Note that this endpoint is asynchronous and initiates a job that runs in the background, rather than halting execution of your program.
+The response returns an export ID that you can use to call getPDFExport() to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.</p>
+<p>Note that the user must have permission to view files. For information about permissions, see the Help documentation.</p>
+<p>For more details about exporting PDF files, see the PDF Export tutorial.</p>
+<p>For more information about Document Management endpoints, see the Data Management API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exportPDF(self, token: client.Token, versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+    &#39;&#39;&#39;Exports a single page from an uploaded PDF file into a new PDF file.
+        You can also export the page’s markups (annotations) and hyperlinks.
+        Scope data:read
+        Note that you can only export a page from a PDF file that was uploaded to the Plans folder or to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. You can identify exportable PDF files, by searching for files with the following combmination of properties:
+
+        attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)
+        attributes.extension.data.sourceFileName: &lt;filename&gt;.pdf (identifies all PDF files)
+        You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the BIM 360 endpoints, see the File Upload tutorial.
+
+        Note that this endpoint is asynchronous and initiates a job that runs in the background, rather than halting execution of your program.
+        The response returns an export ID that you can use to call getPDFExport() to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.
+
+        Note that the user must have permission to view files. For information about permissions, see the Help documentation.
+
+        For more details about exporting PDF files, see the PDF Export tutorial.
+
+        For more information about Document Management endpoints, see the Data Management API
+        &#39;&#39;&#39;
+    Data={&#34;includeMarkups&#34;: includeMarkups,
+          &#34;includeHyperlinks&#34;: includeHyperlinks}
+
+    checkScopes(token, &#34;data:read&#34;)
+    r = requests.post(&#34;https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports&#34;.format(pId=self.id, vId=versionId),headers=token.patchHeader, data=str(Data)).json()
+    checkResponse(r)
+    print(&#34;Id: {id}\nStatus: {status}&#34;.format(id=r[&#34;id&#34;], status=r[&#34;status&#34;]))
+    return r</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.getIndustryRoles"><code class="name flex">
+<span>def <span class="ident">getIndustryRoles</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves the industry roles for the project. For example, contractor and architect.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getIndustryRoles(self, token: client.Token):
+    &#39;&#39;&#39;Retrieves the industry roles for the project. For example, contractor and architect.
+    Scope account:read&#39;&#39;&#39;
+
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/industry_roles&#34;.format(aId=self.accId ,pId=self.id),headers=token.patchHeader).json()
+    checkResponse(r)
+    return [IndustryRoles(i) for i in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.getPDFExport"><code class="name flex">
+<span>def <span class="ident">getPDFExport</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, versionId: str, exportId: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.</p>
+<p>The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.</p>
+<p>To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here</p>
+<p>For more information about Document Management endpoints, see the Data Management API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
+    &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
+
+        The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
+
+        To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
+
+        For more information about Document Management endpoints, see the Data Management API
+        &#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}&#34;.format(pId=self.id, vId=versionId, eId=exportId),headers=token.contentXUser).json()
+    checkResponse(r)
+    print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+             #TODO: Range header
+    return r</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.getUserFromProjectAndId"><code class="name flex">
+<span>def <span class="ident">getUserFromProjectAndId</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves detailed information about a single user in a project.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getUserFromProjectAndId(self, token: client.Token, userId):
+    &#39;&#39;&#39;Retrieves detailed information about a single user in a project.
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users/{uId}&#34;.format(pId=self.id, uId=userId),headers=token.getHeader).json()
+    checkResponse(r)
+    return User(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.getUsersFromProject"><code class="name flex">
+<span>def <span class="ident">getUsersFromProject</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves information about all the users in a project.
+To get information about all the users in an account, see GET accounts/users.</p>
+<p>Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getUsersFromProject(self, token: client.Token):
+    &#39;&#39;&#39;Retrieves information about all the users in a project.
+    To get information about all the users in an account, see GET accounts/users.
+    
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users&#34;.format(pId=self.id),headers=token.getHeader).json()
+    checkResponse(r)
+    return [User(u) for u in r[&#34;results&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.updateProject"><code class="name flex">
+<span>def <span class="ident">updateProject</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the properties of only the specified attributes of a specific BIM 360 project.
+Scope: account:write account:read</p>
+<p>Template dictionary. This is the content of the data parameter.
+Include the ones you need to update only.</p>
+<p>data = {
+"name" = "",
+"service_types" = "",
+"status" = "",
+"start_date" = "",
+"end_date" = "",
+"project_type" = "",
+"value" = "",
+"currency" = "",
+"job_number" = "",
+"address_line_1" = "",
+"address_line_2" = "",
+"city" = "",
+"state_or_province" = "",
+"postal_code" = "",
+"country" = "",
+"business_unit_id" = "",
+"timezone" = "",
+"language" = "",
+"construction_type" = "",
+"contract_type" = ""
+}</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateProject(self, token: client.Token, Data):
+    &#39;&#39;&#39;Update the properties of only the specified attributes of a specific BIM 360 project.
+        Scope: account:write account:read
+
+        Template dictionary. This is the content of the data parameter.
+        Include the ones you need to update only.
+        
+        data = {
+        &#34;name&#34; = &#34;&#34;,
+        &#34;service_types&#34; = &#34;&#34;,
+        &#34;status&#34; = &#34;&#34;,
+        &#34;start_date&#34; = &#34;&#34;,
+        &#34;end_date&#34; = &#34;&#34;,
+        &#34;project_type&#34; = &#34;&#34;,
+        &#34;value&#34; = &#34;&#34;,
+        &#34;currency&#34; = &#34;&#34;,
+        &#34;job_number&#34; = &#34;&#34;,
+        &#34;address_line_1&#34; = &#34;&#34;,
+        &#34;address_line_2&#34; = &#34;&#34;,
+        &#34;city&#34; = &#34;&#34;,
+        &#34;state_or_province&#34; = &#34;&#34;,
+        &#34;postal_code&#34; = &#34;&#34;,
+        &#34;country&#34; = &#34;&#34;,
+        &#34;business_unit_id&#34; = &#34;&#34;,
+        &#34;timezone&#34; = &#34;&#34;,
+        &#34;language&#34; = &#34;&#34;,
+        &#34;construction_type&#34; = &#34;&#34;,
+        &#34;contract_type&#34; = &#34;&#34;
+        }&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read account:write&#34;)
+    r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=self.accId, pId=self.id),headers=token.patchHeader, data=str(Data)).json()
+    checkResponse(r)
+    return Project(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.updateUser"><code class="name flex">
+<span>def <span class="ident">updateUser</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId: str, Data: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates a user’s profile for a project, including:</p>
+<p>The company the user is assigned to for the project.
+The industry roles assigned to the user for the project.
+Scope account:write
+data = {
+"company_id": "dc9e8af9-2978-4f6a-90b6-b294ae11c701",
+"industry_roles": ["dc9e8af9-2978-4f6a-90b6-b294ae11c701"]
+}</p>
+<p>Returns a User object
+TODO: Thinking about changing user id with user object, updating the user object with the response</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateUser(self, token: client.Token, userId: str, Data: dict):
+    &#39;&#39;&#39;Updates a user’s profile for a project, including:
+
+    The company the user is assigned to for the project.
+    The industry roles assigned to the user for the project.
+    Scope account:write
+    data = {
+    &#34;company_id&#34;: &#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;,
+    &#34;industry_roles&#34;: [&#34;dc9e8af9-2978-4f6a-90b6-b294ae11c701&#34;]
+    }
+
+    Returns a User object
+    TODO: Thinking about changing user id with user object, updating the user object with the response&#39;&#39;&#39;
+
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}&#34;.format(aId=self.accId ,pId=self.id, uId=userId),headers=token.contentXUser, data=str(Data)).json()
+    checkResponse(r)
+    return User(r)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.User"><code class="flex name class">
+<span>class <span class="ident">User</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class User(object):
+#hiddenRegion
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+        self.__id = rawDict.get(&#34;id&#34;) or None
+        self.__account_id = rawDict.get(&#34;account_id&#34;) or None
+        self.__status = rawDict.get(&#34;status&#34;) or None
+        self.__role = rawDict.get(&#34;role&#34;) or None
+        self.__company_id = rawDict.get(&#34;company_id&#34;) or None
+        self.__company_name = rawDict.get(&#34;company_name&#34;) or None
+        self.__last_sign_in = rawDict.get(&#34;last_sign_in&#34;) or None
+        self.__email = rawDict.get(&#34;email&#34;) or None
+        self.__name = rawDict.get(&#34;name&#34;) or None
+        self.__nickname = rawDict.get(&#34;nickname&#34;) or None
+        self.__first_name = rawDict.get(&#34;first_name&#34;) or None
+        self.__last_name = rawDict.get(&#34;last_name&#34;) or None
+        self.__uid = rawDict.get(&#34;uid&#34;) or None
+        self.__image_url = rawDict.get(&#34;image_url&#34;) or None
+        self.__address_line_1 = rawDict.get(&#34;address_line_1&#34;) or None
+        self.__address_line_2 = rawDict.get(&#34;address_line_2&#34;) or None
+        self.__city = rawDict.get(&#34;city&#34;) or None
+        self.__postal_code = rawDict.get(&#34;postal_code&#34;) or None
+        self.__state_or_province = rawDict.get(&#34;state_or_province&#34;) or None
+        self.__country = rawDict.get(&#34;country&#34;) or None
+        self.__phone = rawDict.get(&#34;phone&#34;) or None
+        self.__company = rawDict.get(&#34;company&#34;) or None
+        self.__job_title = rawDict.get(&#34;job_title&#34;) or rawDict.get(&#34;jobTitle&#34;) or None
+        self.__industry = rawDict.get(&#34;industry&#34;) or None
+        self.__about_me = rawDict.get(&#34;about_me&#34;) or None
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def account_id(self):
+        return self.__account_id
+    @property
+    def status(self):
+        return self.__status
+    @property
+    def role(self):
+        return self.__role
+    @property
+    def company_id(self):
+        return self.__company_id
+    @property
+    def company_name(self):
+        return self.__company_name
+    @property
+    def last_sign_in(self):
+        return self.__last_sign_in
+    @property
+    def email(self):
+        return self.__email
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def nickname(self):
+        return self.__nickname
+    @property
+    def first_name(self):
+        return self.__first_name
+    @property
+    def last_name(self):
+        return self.__last_name
+    @property
+    def uid(self):
+        return self.__uid
+    @property
+    def image_url(self):
+        return self.__image_url
+    @property
+    def address_line_1(self):
+        return self.__address_line_1
+    @property
+    def address_line_2(self):
+        return self.__address_line_2
+    @property
+    def city(self):
+        return self.__city
+    @property
+    def postal_code(self):
+        return self.__postal_code
+    @property
+    def state_or_province(self):
+        return self.__state_or_province
+    @property
+    def country(self):
+        return self.__country
+    @property
+    def phone(self):
+        return self.__phone
+    @property
+    def company(self):
+        return self.__company
+    @property
+    def job_title(self):
+        return self.__job_title
+    @property
+    def industry(self):
+        return self.__industry
+    @property
+    def about_me(self):
+        return self.__about_me
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
+#endregion
+
+    @classmethod
+    def getUsersFromAccount(cls, client: client.Client, token: client.Token):
+        &#39;&#39;&#39;Query all the users in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(u) for u in r]
+
+    @classmethod
+    def getUserById(cls, client: client.Client, token: client.Token, userId):
+        &#39;&#39;&#39;Query the details of a specific user.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=userId),headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def updateUserById(cls, client: client.Client, token: client.Token, userId, Data):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below
+        Scope account:write
+        data = {
+                &#34;status&#34;: &#34;&#34;,
+                &#34;company_id&#34;: &#34;&#34;
+                }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=userId),headers=token.patchHeader, data=Data).json()
+        checkResponse(r)
+        return cls(r)
+
+    def updateUser(self, client: client.Client, token: client.Token, Data: dict):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below
+        Scope account:write
+        data = {
+                &#34;status&#34;: &#34;&#34;,
+                &#34;company_id&#34;: &#34;&#34;
+                }&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=self.id),headers=token.patchHeader, data=str(Data)).json()
+        checkResponse(r)
+        return User(r)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.User.getUserById"><code class="name flex">
+<span>def <span class="ident">getUserById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query the details of a specific user.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getUserById(cls, client: client.Client, token: client.Token, userId):
+    &#39;&#39;&#39;Query the details of a specific user.
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=userId),headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.getUsersFromAccount"><code class="name flex">
+<span>def <span class="ident">getUsersFromAccount</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the users in a specific BIM 360 account.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def getUsersFromAccount(cls, client: client.Client, token: client.Token):
+    &#39;&#39;&#39;Query all the users in a specific BIM 360 account.
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(u) for u in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.updateUserById"><code class="name flex">
+<span>def <span class="ident">updateUserById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId, Data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update a specific user’s status or default company. Data template below
+Scope account:write
+data = {
+"status": "",
+"company_id": ""
+}</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def updateUserById(cls, client: client.Client, token: client.Token, userId, Data):
+    &#39;&#39;&#39;Update a specific user’s status or default company. Data template below
+    Scope account:write
+    data = {
+            &#34;status&#34;: &#34;&#34;,
+            &#34;company_id&#34;: &#34;&#34;
+            }&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=userId),headers=token.patchHeader, data=Data).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.User.about_me"><code class="name">var <span class="ident">about_me</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def about_me(self):
+    return self.__about_me</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def account_id(self):
+    return self.__account_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.address_line_1"><code class="name">var <span class="ident">address_line_1</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def address_line_1(self):
+    return self.__address_line_1</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.address_line_2"><code class="name">var <span class="ident">address_line_2</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def address_line_2(self):
+    return self.__address_line_2</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.city"><code class="name">var <span class="ident">city</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def city(self):
+    return self.__city</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.company"><code class="name">var <span class="ident">company</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def company(self):
+    return self.__company</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.company_id"><code class="name">var <span class="ident">company_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def company_id(self):
+    return self.__company_id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.company_name"><code class="name">var <span class="ident">company_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def company_name(self):
+    return self.__company_name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.country"><code class="name">var <span class="ident">country</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def country(self):
+    return self.__country</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.created_at"><code class="name">var <span class="ident">created_at</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def created_at(self):
+    return self.__created_at</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.email"><code class="name">var <span class="ident">email</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def email(self):
+    return self.__email</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.first_name"><code class="name">var <span class="ident">first_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def first_name(self):
+    return self.__first_name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__id</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.image_url"><code class="name">var <span class="ident">image_url</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def image_url(self):
+    return self.__image_url</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.industry"><code class="name">var <span class="ident">industry</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def industry(self):
+    return self.__industry</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.job_title"><code class="name">var <span class="ident">job_title</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def job_title(self):
+    return self.__job_title</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.last_name"><code class="name">var <span class="ident">last_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def last_name(self):
+    return self.__last_name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.last_sign_in"><code class="name">var <span class="ident">last_sign_in</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def last_sign_in(self):
+    return self.__last_sign_in</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__name</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.nickname"><code class="name">var <span class="ident">nickname</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def nickname(self):
+    return self.__nickname</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.phone"><code class="name">var <span class="ident">phone</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def phone(self):
+    return self.__phone</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.postal_code"><code class="name">var <span class="ident">postal_code</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def postal_code(self):
+    return self.__postal_code</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.role"><code class="name">var <span class="ident">role</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def role(self):
+    return self.__role</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.state_or_province"><code class="name">var <span class="ident">state_or_province</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def state_or_province(self):
+    return self.__state_or_province</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.status"><code class="name">var <span class="ident">status</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def status(self):
+    return self.__status</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.uid"><code class="name">var <span class="ident">uid</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def uid(self):
+    return self.__uid</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.updated_at"><code class="name">var <span class="ident">updated_at</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def updated_at(self):
+    return self.__updated_at</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.User.updateUser"><code class="name flex">
+<span>def <span class="ident">updateUser</span></span>(<span>self, client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update a specific user’s status or default company. Data template below
+Scope account:write
+data = {
+"status": "",
+"company_id": ""
+}</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateUser(self, client: client.Client, token: client.Token, Data: dict):
+    &#39;&#39;&#39;Update a specific user’s status or default company. Data template below
+    Scope account:write
+    data = {
+            &#34;status&#34;: &#34;&#34;,
+            &#34;company_id&#34;: &#34;&#34;
+            }&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    r = requests.patch(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=client.bimAccId, uId=self.id),headers=token.patchHeader, data=str(Data)).json()
+    checkResponse(r)
+    return User(r)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="adeskForgeWrapper" href="index.html">adeskForgeWrapper</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.BusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits">BusinessUnits</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.account_id" href="#adeskForgeWrapper.b360.BusinessUnits.account_id">account_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.createBusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits.createBusinessUnits">createBusinessUnits</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.created_at" href="#adeskForgeWrapper.b360.BusinessUnits.created_at">created_at</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.description" href="#adeskForgeWrapper.b360.BusinessUnits.description">description</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.getBusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits.getBusinessUnits">getBusinessUnits</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.id" href="#adeskForgeWrapper.b360.BusinessUnits.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.name" href="#adeskForgeWrapper.b360.BusinessUnits.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.parent_id" href="#adeskForgeWrapper.b360.BusinessUnits.parent_id">parent_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.path" href="#adeskForgeWrapper.b360.BusinessUnits.path">path</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.updated_at" href="#adeskForgeWrapper.b360.BusinessUnits.updated_at">updated_at</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Company" href="#adeskForgeWrapper.b360.Company">Company</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.b360.Company.accId" href="#adeskForgeWrapper.b360.Company.accId">accId</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.address_line_1" href="#adeskForgeWrapper.b360.Company.address_line_1">address_line_1</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.address_line_2" href="#adeskForgeWrapper.b360.Company.address_line_2">address_line_2</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.city" href="#adeskForgeWrapper.b360.Company.city">city</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.country" href="#adeskForgeWrapper.b360.Company.country">country</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.created_at" href="#adeskForgeWrapper.b360.Company.created_at">created_at</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.description" href="#adeskForgeWrapper.b360.Company.description">description</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.erp_id" href="#adeskForgeWrapper.b360.Company.erp_id">erp_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.getCompanies" href="#adeskForgeWrapper.b360.Company.getCompanies">getCompanies</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.getCompanyById" href="#adeskForgeWrapper.b360.Company.getCompanyById">getCompanyById</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.getCompanyByName" href="#adeskForgeWrapper.b360.Company.getCompanyByName">getCompanyByName</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.id" href="#adeskForgeWrapper.b360.Company.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.importCompanies" href="#adeskForgeWrapper.b360.Company.importCompanies">importCompanies</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.name" href="#adeskForgeWrapper.b360.Company.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.phone" href="#adeskForgeWrapper.b360.Company.phone">phone</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.postal_code" href="#adeskForgeWrapper.b360.Company.postal_code">postal_code</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.raw" href="#adeskForgeWrapper.b360.Company.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.state_or_province" href="#adeskForgeWrapper.b360.Company.state_or_province">state_or_province</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.tax_id" href="#adeskForgeWrapper.b360.Company.tax_id">tax_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.trade" href="#adeskForgeWrapper.b360.Company.trade">trade</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.updateCompany" href="#adeskForgeWrapper.b360.Company.updateCompany">updateCompany</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.updated_at" href="#adeskForgeWrapper.b360.Company.updated_at">updated_at</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.website_url" href="#adeskForgeWrapper.b360.Company.website_url">website_url</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.IndustryRoles" href="#adeskForgeWrapper.b360.IndustryRoles">IndustryRoles</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.docManagementAccess" href="#adeskForgeWrapper.b360.IndustryRoles.docManagementAccess">docManagementAccess</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.id" href="#adeskForgeWrapper.b360.IndustryRoles.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.insightAccess" href="#adeskForgeWrapper.b360.IndustryRoles.insightAccess">insightAccess</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.member_group_id" href="#adeskForgeWrapper.b360.IndustryRoles.member_group_id">member_group_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.name" href="#adeskForgeWrapper.b360.IndustryRoles.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.projectAdminAccess" href="#adeskForgeWrapper.b360.IndustryRoles.projectAdminAccess">projectAdminAccess</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.project_id" href="#adeskForgeWrapper.b360.IndustryRoles.project_id">project_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.raw" href="#adeskForgeWrapper.b360.IndustryRoles.raw">raw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Jobs" href="#adeskForgeWrapper.b360.Jobs">Jobs</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.b360.Jobs.account_id" href="#adeskForgeWrapper.b360.Jobs.account_id">account_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Jobs.details" href="#adeskForgeWrapper.b360.Jobs.details">details</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Jobs.id" href="#adeskForgeWrapper.b360.Jobs.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Jobs.name" href="#adeskForgeWrapper.b360.Jobs.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Jobs.raw" href="#adeskForgeWrapper.b360.Jobs.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Jobs.status" href="#adeskForgeWrapper.b360.Jobs.status">status</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Project" href="#adeskForgeWrapper.b360.Project">Project</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.b360.Project.accId" href="#adeskForgeWrapper.b360.Project.accId">accId</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.addUsersToProject" href="#adeskForgeWrapper.b360.Project.addUsersToProject">addUsersToProject</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.address_line_1" href="#adeskForgeWrapper.b360.Project.address_line_1">address_line_1</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.address_line_2" href="#adeskForgeWrapper.b360.Project.address_line_2">address_line_2</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.business_unit_id" href="#adeskForgeWrapper.b360.Project.business_unit_id">business_unit_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.city" href="#adeskForgeWrapper.b360.Project.city">city</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.construction_type" href="#adeskForgeWrapper.b360.Project.construction_type">construction_type</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.contract_type" href="#adeskForgeWrapper.b360.Project.contract_type">contract_type</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.country" href="#adeskForgeWrapper.b360.Project.country">country</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.createProject" href="#adeskForgeWrapper.b360.Project.createProject">createProject</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.currency" href="#adeskForgeWrapper.b360.Project.currency">currency</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.end_date" href="#adeskForgeWrapper.b360.Project.end_date">end_date</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.exportPDF" href="#adeskForgeWrapper.b360.Project.exportPDF">exportPDF</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.getIndustryRoles" href="#adeskForgeWrapper.b360.Project.getIndustryRoles">getIndustryRoles</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.getPDFExport" href="#adeskForgeWrapper.b360.Project.getPDFExport">getPDFExport</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.getProjectById" href="#adeskForgeWrapper.b360.Project.getProjectById">getProjectById</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.getProjects" href="#adeskForgeWrapper.b360.Project.getProjects">getProjects</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.getUserFromProjectAndId" href="#adeskForgeWrapper.b360.Project.getUserFromProjectAndId">getUserFromProjectAndId</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.getUsersFromProject" href="#adeskForgeWrapper.b360.Project.getUsersFromProject">getUsersFromProject</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.id" href="#adeskForgeWrapper.b360.Project.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.include_companies" href="#adeskForgeWrapper.b360.Project.include_companies">include_companies</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.include_locations" href="#adeskForgeWrapper.b360.Project.include_locations">include_locations</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.job_number" href="#adeskForgeWrapper.b360.Project.job_number">job_number</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.language" href="#adeskForgeWrapper.b360.Project.language">language</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.name" href="#adeskForgeWrapper.b360.Project.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.postal_code" href="#adeskForgeWrapper.b360.Project.postal_code">postal_code</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.project_type" href="#adeskForgeWrapper.b360.Project.project_type">project_type</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.raw" href="#adeskForgeWrapper.b360.Project.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.service_types" href="#adeskForgeWrapper.b360.Project.service_types">service_types</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.start_date" href="#adeskForgeWrapper.b360.Project.start_date">start_date</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.state_or_province" href="#adeskForgeWrapper.b360.Project.state_or_province">state_or_province</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.status" href="#adeskForgeWrapper.b360.Project.status">status</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.template_project_id" href="#adeskForgeWrapper.b360.Project.template_project_id">template_project_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.timezone" href="#adeskForgeWrapper.b360.Project.timezone">timezone</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.updateProject" href="#adeskForgeWrapper.b360.Project.updateProject">updateProject</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.updateUser" href="#adeskForgeWrapper.b360.Project.updateUser">updateUser</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.value" href="#adeskForgeWrapper.b360.Project.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.User" href="#adeskForgeWrapper.b360.User">User</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.b360.User.about_me" href="#adeskForgeWrapper.b360.User.about_me">about_me</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.account_id" href="#adeskForgeWrapper.b360.User.account_id">account_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.address_line_1" href="#adeskForgeWrapper.b360.User.address_line_1">address_line_1</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.address_line_2" href="#adeskForgeWrapper.b360.User.address_line_2">address_line_2</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.city" href="#adeskForgeWrapper.b360.User.city">city</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.company" href="#adeskForgeWrapper.b360.User.company">company</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.company_id" href="#adeskForgeWrapper.b360.User.company_id">company_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.company_name" href="#adeskForgeWrapper.b360.User.company_name">company_name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.country" href="#adeskForgeWrapper.b360.User.country">country</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.created_at" href="#adeskForgeWrapper.b360.User.created_at">created_at</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.email" href="#adeskForgeWrapper.b360.User.email">email</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.first_name" href="#adeskForgeWrapper.b360.User.first_name">first_name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.getUserById" href="#adeskForgeWrapper.b360.User.getUserById">getUserById</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.getUsersFromAccount" href="#adeskForgeWrapper.b360.User.getUsersFromAccount">getUsersFromAccount</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.id" href="#adeskForgeWrapper.b360.User.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.image_url" href="#adeskForgeWrapper.b360.User.image_url">image_url</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.industry" href="#adeskForgeWrapper.b360.User.industry">industry</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.job_title" href="#adeskForgeWrapper.b360.User.job_title">job_title</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.last_name" href="#adeskForgeWrapper.b360.User.last_name">last_name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.last_sign_in" href="#adeskForgeWrapper.b360.User.last_sign_in">last_sign_in</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.name" href="#adeskForgeWrapper.b360.User.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.nickname" href="#adeskForgeWrapper.b360.User.nickname">nickname</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.phone" href="#adeskForgeWrapper.b360.User.phone">phone</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.postal_code" href="#adeskForgeWrapper.b360.User.postal_code">postal_code</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.raw" href="#adeskForgeWrapper.b360.User.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.role" href="#adeskForgeWrapper.b360.User.role">role</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.state_or_province" href="#adeskForgeWrapper.b360.User.state_or_province">state_or_province</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.status" href="#adeskForgeWrapper.b360.User.status">status</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.uid" href="#adeskForgeWrapper.b360.User.uid">uid</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.updateUser" href="#adeskForgeWrapper.b360.User.updateUser">updateUser</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.updateUserById" href="#adeskForgeWrapper.b360.User.updateUserById">updateUserById</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.updated_at" href="#adeskForgeWrapper.b360.User.updated_at">updated_at</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.0</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
