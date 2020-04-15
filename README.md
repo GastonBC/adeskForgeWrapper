@@ -60,9 +60,9 @@ proj = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
 # you want to update the template is in the docstring
 
 Data = {
-		"name" = "afwExample",
-		"status" = "active",
-	   }
+	"name" = "afwExample",
+	"status" = "active",
+       }
 
 updatedProject = proj.updateProject(token, Data)
 
