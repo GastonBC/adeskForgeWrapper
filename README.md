@@ -21,7 +21,7 @@ cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
 token = afw.client.Token("account:read", cli)
 ```
 
-#### Retrieve all projects in the your Hub
+### Retrieve all projects in the your Hub
 ```Python
 projs = afw.b360.Project.getProjects(cli, token)
 
