@@ -8,13 +8,13 @@ Notice we will use *cli* and *token* in most methods
 import adeskForgeWrapper as afw
 import os
 
-#Your Forge app credentials
-forgeCliId = os.getenv('FORGE_CLIENT_ID')
-forgeCliSec = os.getenv('FORGE_CLIENT_SECRET')
+#Your Forge app credentials, strings in every field
+forgeCliId = 'FORGE_CLIENT_ID'
+forgeCliSec = 'FORGE_CLIENT_SECRET'
 
 # Your B360 hub ID and name
-B360AccId = os.getenv('BIM360_ACC_ID')
-B360AccName = os.getenv('BIM360_ACC_NAME')
+B360AccId = 'BIM360_ACC_ID'
+B360AccName = 'BIM360_ACC_NAME'
 
 # We are going to need both of these in most methods
 cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
