@@ -1,11 +1,9 @@
 # adeskForgeWrapper - afw
 
-
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 afw is a simple Python wrapper for Autodesk's Forge API 
 
-Example usage:
+Example usage
+Getting all projects in a hub and print it's names and ids
 
 ```Python
 import adeskForgeWrapper as afw
