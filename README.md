@@ -1,10 +1,9 @@
 # adeskForgeWrapper - afw
 
+
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+
 afw is a simple Python wrapper for Autodesk's Forge API 
-
-Installation
-
-`pip install adeskForgeWrapper`
 
 Example usage:
 
@@ -12,16 +11,14 @@ Example usage:
 import adeskForgeWrapper as afw
 import os
 
-# Your Forge App information
 forgeCliId = os.getenv('FORGE_CLIENT_ID')
 forgeCliSec = os.getenv('FORGE_CLIENT_SECRET')
 
-# Your BIM 360 account name and id
 AccId = os.getenv('BIM360_ACC_ID')
 AccName = os.getenv('BIM360_ACC_NAME')
 
-# The client and token will be used in most methods so keep them at hand
-cli = afw.client.Client(forgeCliId, forgeCliSec, AccId, AccName)
+
+cli = afw.client.Client(forgeCliId, forgeCliSec, fairyB360AccId,fairyB360AccName)
 token = afw.client.Token("account:read", cli)
 
 projs = afw.b360.Project.getProjects(cli, token)
