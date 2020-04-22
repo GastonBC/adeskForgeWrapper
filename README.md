@@ -11,7 +11,6 @@ afw is a simple Python wrapper for Autodesk's Forge API
 Notice we will use *cli* and *token* in most methods
 ```Python
 import adeskForgeWrapper as afw
-import os
 
 #Your Forge app credentials, strings in every field
 forgeCliId = 'FORGE_CLIENT_ID'
