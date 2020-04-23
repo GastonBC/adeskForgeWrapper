@@ -22,7 +22,7 @@ B360AccName = 'BIM360_ACC_NAME'
 
 # We are going to need both of these in most methods
 cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
-token = afw.client.Token("account:read", cli)
+token = afw.client.Token.get2LeggedToken("account:read", cli)
 ```
 ### Getting a 3 legged token
 Some methods require an authentication process, for example those in the Token Flex module.
@@ -42,7 +42,7 @@ token = afw.client.Token.get3LeggedToken("data:read", cli, callbackUrl)
 
 ### Retrieve all projects in the your Hub
 ```Python
-projs = afw.b360.Project.getProjects(cli, token)
+projs = afw.B360.Project.getProjects(cli, token)
 
 # Print some properties
 for p in projs:
@@ -51,15 +51,15 @@ for p in projs:
 ```
 ### Get project by ID
 ```Python
-proj = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
+p = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
 ```
 ### Get all users in the project
 ```Python
-users = afw.b360.Project.getUsersFromProject(token)
+users = p.getUsersFromProject(token)
 ```
 ### Get companies in your hub
 ```Python
-comps = afw.b360.Companies.getCompanies(cli, token)
+comps = afw.B360.Company.getCompanies(cli, token)
 # Again, you can print their properties
 for company in comps:
     print(company.name)
@@ -73,7 +73,7 @@ for company in comps:
 # notice the scopes separated by a space
 token = afw.client.Token("account:read account:write", cli)
 
-proj = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
+proj = afw.B360.Project.getProjectById(cli, token, "PROJECT_ID")
 
 # Update it, Data is a dictionary with the properties 
 # you want to update the template is in the docstring
