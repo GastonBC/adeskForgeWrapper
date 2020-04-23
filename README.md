@@ -6,6 +6,7 @@ afw is a simple Python wrapper for Autodesk's Forge API
 
 **API Reference** [https://gastonbc.github.io/index.html](https://gastonbc.github.io/index.html)
 
+There are currently 3 modules implemented: [Bim360](https://gastonbc.github.io/B360.html), [Data Management](https://gastonbc.github.io/DM.html) and [Token Flex](https://gastonbc.github.io/TokenFlex.html)
 ##
 ### Setting up credentials and getting a 2 legged token
 Notice we will use *cli* and *token* in most methods
