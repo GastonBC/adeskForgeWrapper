@@ -84,7 +84,10 @@ class Token(object):
         callback_URL: The callback url the user will be taken to after authorization. This<br>
         url must be the same callback url you used to register your Forge App.<br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''
+        if urlClean[-1] == "/":
+            urlClean = urlClean[:-1]
         urlClean = callback_URL.replace("/", "%2F").replace(":", "%3A")
+        
 
         print(urlClean)
         r = requests.post("https://developer.api.autodesk.com/authentication/v1/authorize?response_type=token&client_id={cliId}&redirect_uri={redirect}&scope={scope}".format(cliId=client.cliId, redirect=urlClean, scope=scope))
