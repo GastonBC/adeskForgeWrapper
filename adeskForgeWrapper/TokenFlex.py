@@ -2,6 +2,7 @@ import requests
 from .client import checkScopes
 from .client import checkResponse
 from . import client
+from .urls import TOKENFLEX_API
 '''Tokens in this module must be 3 legged. Check client.get3LeggedToken()'''
 class Contract(object):
     '''Contract.raw<br>
@@ -55,7 +56,8 @@ Contract.isActive<br>'''
         The token must be obtained via 3-legged workflow. client.get3LeggedToken()<br>
         Scope data:read'''
         checkScopes(token, "data:read")
-        r = requests.get("https://developer.api.autodesk.com/tokenflex/v1/contract", headers=token.getHeader).json()
+        endpointUrl = TOKENFLEX_API+"/contract"
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(c) for c in r]
     
@@ -66,7 +68,8 @@ Contract.isActive<br>'''
         This gives more details such as multiyear tokens, and contract details by year.<br>
         Scope data:read<br>'''
         checkScopes(token, "data:read")
-        r = requests.get("https://developer.api.autodesk.com/tokenflex/v1/contract/{conId}".format(contractId), headers=token.getHeader).json()
+        endpointUrl = TOKENFLEX_API+"/contract/{conId}".format(contractId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
 
@@ -74,7 +77,8 @@ Contract.isActive<br>'''
         '''List all customer uploaded enrichment categories.<br>
         Returns a list with all enrichment categories of a contract.'''
         checkScopes(token, "data:read")
-        r = requests.get("https://developer.api.autodesk.com/tokenflex/v1/contract/{conId}/enrichment".format(self.contractNumber), headers=token.getHeader).json()
+        endpointUrl = TOKENFLEX_API+"/contract/{conId}/enrichment".format(self.contractNumber)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return r
 
@@ -82,7 +86,8 @@ Contract.isActive<br>'''
         '''Get all the unique values for an enrichment category.<br>
         Returns a list with all possible values for an enrichment category.'''
         checkScopes(token, "data:read")
-        r = requests.get("https://developer.api.autodesk.com/tokenflex/v1/contract/{conId}/enrichment/{enrCat}".format(conId = self.contractNumber, enrCat = category), headers=token.getHeader).json()
+        endpointUrl = TOKENFLEX_API+"/contract/{conId}/enrichment/{enrCat}".format(conId=self.contractNumber, enrCat=category)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return r
 
@@ -90,7 +95,8 @@ Contract.isActive<br>'''
         '''Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over an ad-hoc query because this API returns data faster.<br>
         Returns a list of attributes'''
         checkScopes(token, "data:read")
-        r = requests.get("https://developer.api.autodesk.com/tokenflex/v1/usage/{conId}/summary".format(conId = self.contractNumber), headers=token.getHeader).json()
+        endpointUrl = TOKENFLEX_API+"/usage/{conId}/summary".format(conId = self.contractNumber)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return r
 

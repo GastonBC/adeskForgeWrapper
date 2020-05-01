@@ -2,6 +2,7 @@ import requests
 from time import sleep
 import webbrowser
 from urllib.parse import urlparse, parse_qs
+from .urls import AUTH_API
 
 from . import fpwExceptions
 
@@ -28,15 +29,34 @@ class Token(object):
     patchHeader<br>
     contentXUser<br>'''
     def __init__(self, client, r, scope):
-        self.__raw = r
-        self.__scope = scope
-        self.__token_type = r["token_type"]
-        self.__expires_in = r["expires_in"]
-        self.__access_token = r["access_token"]
+        if type(r) == dict:
+            self.__raw = r
+            self.__scope = scope
+            self.__token_type = r["token_type"] or None
+            self.__expires_in = r["expires_in"] or None
+            self.__access_token = r["access_token"]
 
-        self.__getHeader = {"Authorization":"Bearer {}".format(r["access_token"])}
-        self.__patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"])}
-        self.__contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
+            self.__getHeader = {"Authorization":"Bearer {}".format(r["access_token"])}
+            self.__urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r["access_token"])}
+
+            self.__formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r["access_token"])}
+
+            self.__patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"])}
+            self.__contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
+        elif type(r) == str:
+            self.__raw = r
+            self.__scope = scope
+            self.__token_type = None
+            self.__expires_in = None
+            self.__access_token = r
+
+            self.__getHeader = {"Authorization":"Bearer {}".format(r)}
+            self.__urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r)}
+
+            self.__formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r)}
+
+            self.__patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r)}
+            self.__contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
 
     @property
     def raw(self):
@@ -62,6 +82,12 @@ class Token(object):
     @property
     def contentXUser(self):
         return self.__contentXUser
+    @property
+    def urlEncoded(self):
+        return self.__urlEncoded
+    @property
+    def formData(self):
+        return self.__formData
 
     @classmethod
     def get2LeggedToken(cls, scope: type(str), client: Client):
@@ -73,37 +99,42 @@ class Token(object):
                 "client_secret":client.cliSecret,
                 "grant_type":"client_credentials",
                 "scope":"{}".format(scope)}
-        r = requests.post("https://developer.api.autodesk.com/authentication/v1/authenticate", data, header).json()
+        endpointUrl = AUTH_API+"/authenticate"
+        r = requests.post(endpointUrl, data, header).json()
         checkResponse(r)
         return cls(client, r, scope)
 
     @classmethod
-    def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str)):
+    def get3LeggedToken(cls, scope: type(str), client: Client, tokenType, callback_URL: type(str)):
         '''Get a 3 legged token according to the scope.<br>
         Scope: The scope you aim for. <br>
         callback_URL: The callback url the user will be taken to after authorization. This<br>
         url must be the same callback url you used to register your Forge App.<br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''
-        if urlClean[-1] == "/":
-            urlClean = urlClean[:-1]
-        urlClean = callback_URL.replace("/", "%2F").replace(":", "%3A")
-        
+        from urllib.parse import quote
 
-        print(urlClean)
-        r = requests.post("https://developer.api.autodesk.com/authentication/v1/authorize?response_type=token&client_id={cliId}&redirect_uri={redirect}&scope={scope}".format(cliId=client.cliId, redirect=urlClean, scope=scope))
-        
-        print("You will be prompted to login. Do so and copy the url you were redirected to")
-        sleep(5)
-        webbrowser.open(r.url, new = 0, autoraise=True)
-        responseUrl = input("Copy the url you were redirected to here, entirely: ")
+        urlClean = quote(callback_URL, safe='')
+        endpointUrl = AUTH_API+"/authorize?response_type={tokType}&client_id={cliId}&redirect_uri={redirect}&scope={scope}".format(
+                                                            tokType = tokenType, cliId=client.cliId, redirect=urlClean, scope=scope)
 
-        o = urlparse(responseUrl)
-        query = parse_qs(o.fragment)
-        r={"token_type":query["token_type"][0],
-           "expires_in":query["expires_in"][0],
-           "access_token":query["access_token"][0]}
+        r = requests.post(endpointUrl)
+        if tokenType == "token":
+            print("You will be prompted to login. Do so and copy the url you were redirected to")
+            webbrowser.open(r.url, new = 0, autoraise=True)
+            responseUrl = input("Copy the url you were redirected to here, entirely: ")
 
-        return cls(client, r, scope)
+            o = urlparse(responseUrl)
+            query = parse_qs(o.fragment)
+            r={"token_type":query["token_type"][0],
+            "expires_in":query["expires_in"][0],
+            "access_token":query["access_token"][0]}
+
+            return cls(client, r, scope)
+        elif tokenType == "code":
+            webbrowser.open(r.url, new = 0, autoraise=True)
+            
+        else:
+            raise fpwExceptions.forgeException("Token type must be 'code' or 'token'")
 
 def checkScopes(token: Token, endpointScope: str):
     '''Checks scopes before making the request.'''
@@ -120,6 +151,8 @@ def checkResponse(r):
     if "code" and "message" in r:
         raise fpwExceptions.forgeException(r)
     elif "developerMessage" and "errorCode" in r:
+        raise fpwExceptions.forgeException(r)
+    elif "code" and "msg" in r:
         raise fpwExceptions.forgeException(r)
 
 # pdocs stuff
