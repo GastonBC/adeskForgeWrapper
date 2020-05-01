@@ -25,20 +25,20 @@ B360AccName = 'BIM360_ACC_NAME'
 cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
 token = afw.client.Token.get2LeggedToken("account:read", cli)
 ```
-### Getting a 3 legged token
+### Getting a 3 legged token with implicit grant
 Some methods require an authentication process, for example those in the Token Flex module.
 ```Python
 # We will need to provide a callback URL, this one needs to be the same 
 # url you used to register your Forge app
 
-callbackUrl ="https://dashboard.archsourcing.com"
+callbackUrl = "http://localhost:8000/callbacks"
 
 cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
 
 # Provide the URL in the method and copy the full 
 # response URL you are taken to after logging
 
-token = afw.client.Token.get3LeggedToken("data:read", cli, callbackUrl)
+token = afw.client.Token.get3LeggedToken("data:read", cli, "token" callbackUrl)
 ```
 
 ### Retrieve all projects in the your Hub
