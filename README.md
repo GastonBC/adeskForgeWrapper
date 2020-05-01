@@ -38,7 +38,7 @@ cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
 # Provide the URL in the method and copy the full 
 # response URL you are taken to after logging
 
-token = afw.client.Token.get3LeggedToken("data:read", cli, "token" callbackUrl)
+token = afw.client.Token.get3LeggedToken("data:read", cli, callbackUrl)
 ```
 
 ### Retrieve all projects in the your Hub
