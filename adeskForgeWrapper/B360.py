@@ -1048,6 +1048,7 @@ __pdoc__['Jobs.details'] = False
 
 # TODO Try string dictionaries with import companies. critical
 # TODO use line breaks <br> for docstrings so documentation looks nice
+# TODO change dictionary templates with "options" class. Maybe "AfwOptions" or "ForgeOptions" or "CreationOptions"
 
 # Account Admin
 # Projects

@@ -2,7 +2,7 @@ import requests
 from time import sleep
 import webbrowser
 from urllib.parse import urlparse, parse_qs
-from .urls import AUTH_API
+from .urls import AUTH_API, INFO_AUTH
 
 from . import fpwExceptions
 
@@ -16,6 +16,13 @@ class Client(object):
         self.bimAccId = bimAccId
         self.bimAccName = bimAccName
         self.hubId = "b.{}".format(bimAccId)
+
+    def me(self, token):
+        '''Get the profile information of an authorizing end user in a three-legged context.'''
+        endpointUrl = INFO_AUTH+"/users/@me"
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        print(r)
 
 # TODO new defs: getExpirationTime, renew
 class Token(object):
@@ -105,7 +112,7 @@ class Token(object):
         return cls(client, r, scope)
 
     @classmethod
-    def get3LeggedToken(cls, scope: type(str), client: Client, tokenType, callback_URL: type(str)):
+    def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType="token"):
         '''Get a 3 legged token according to the scope.<br>
         Scope: The scope you aim for. <br>
         callback_URL: The callback url the user will be taken to after authorization. This<br>

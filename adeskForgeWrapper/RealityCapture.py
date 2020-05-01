@@ -8,6 +8,7 @@ import os
 import requests
 
 class PhotosceneCreationOptions(object):
+    '''Class used to organize request options for this module'''
     def __init__(self, scenename: str, callback = None, Format = "rcm", scenetype = "aerial", gpstype = None, hubprojectid = None,
                 hubfolderid = None, version = "2.0", metadata = None):
         if scenetype != "aerial":
@@ -20,8 +21,11 @@ class PhotosceneCreationOptions(object):
             elif metadata != None:
                 raise fpwExceptions.forgeException("Metadata fine tuning parameters are available only if scenetype is set to aerial")
 
+        if "http://" in callback or "https://" in callback:
+            self.callback = callback
+        else:
+            self.callback = "email://{}".format(callback)
         self.scenename = scenename
-        self.callback = "email://{}".format(callback) # TODO callback might be URL, take into consideration
         self.Format = Format
         self.scenetype = scenetype
         self.gpstype = gpstype
@@ -37,7 +41,9 @@ class PhotosceneCreationOptions(object):
 
 
 class Photoscene(object):
-    '''Photoscene.raw<br>
+    '''A “photoscene” entity provides a common representation of a photo-to-3D project. <br>
+    Certain fields will only be available after processing is complete.
+    Photoscene.raw<br>
     Photoscene.scenename<br>
     Photoscene.callback<br>
     Photoscene.format<br>
@@ -107,7 +113,7 @@ class Photoscene(object):
     def create(cls, token: client.Token, psOptions: PhotosceneCreationOptions):
         '''Creates and initializes a photoscene for reconstruction.<br>
         Scope data:write'''
-
+        checkScopes(token, "data:write")
         data = {
         "scenename" : psOptions.scenename,
         "callback" : psOptions.callback,
@@ -120,19 +126,18 @@ class Photoscene(object):
         "metadata" : psOptions.metadata
         }
         data = {k : v for k,v in data.items() if v is not None}
-        print(data)
-        checkScopes(token, "data:write")
         endpointUrl = RECAP_API+"/photoscene"
         r = requests.post(endpointUrl, headers=token.urlEncoded, data=data).json()
         checkResponse(r)
-        print(r)
+        print("Photoscene ID:", r.get("photosceneid"))
         return cls(r, data)
     
     def uploadFiles(self, token: client.Token):
         '''Adds one or more files to a photoscene.<br>
         Scope data:write<br><br>
         Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
-        Although uploading multiple files at the same time might be more efficient, you should limit the number of files per request depending on your available bandwidth to avoid timeouts.<br>
+        Although uploading multiple files at the same time might be more efficient, you should limit the number 
+        of files per request depending on your available bandwidth to avoid timeouts.<br>
         Note: Uploaded files will be deleted after 30 days.'''
         checkScopes(token, "data:write")
         import tkinter as tk
@@ -155,8 +160,6 @@ class Photoscene(object):
                 # files["file[{x}]".format(x=n)] = (a, open(a,"rb"))
             endpointUrl = RECAP_API+"/file"
             r = requests.post(endpointUrl, headers=token.formData, data=payload, files=files).json()
-            print(payload)
-            print(files)
             if "Error" in r:
                 checkResponse(r["Error"])
             else:
