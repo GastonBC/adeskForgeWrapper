@@ -5,6 +5,7 @@ from . import client
 from . import fpwExceptions
 import os
 
+from requests_toolbelt import MultipartEncoder
 import requests
 
 class PhotosceneCreationOptions(object):
@@ -132,38 +133,40 @@ class Photoscene(object):
         print("Photoscene ID:", r.get("photosceneid"))
         return cls(r, data)
     
-    def uploadFiles(self, token: client.Token):
+    def uploadFiles(self, token: client.Token, files: list):
         '''Adds one or more files to a photoscene.<br>
-        Scope data:write<br><br>
+        Scope - data:write<br>
+        files - A list containing the path to the images you want to upload<br><br>
+
         Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
         Although uploading multiple files at the same time might be more efficient, you should limit the number 
         of files per request depending on your available bandwidth to avoid timeouts.<br>
         Note: Uploaded files will be deleted after 30 days.'''
         checkScopes(token, "data:write")
-        import tkinter as tk
-        from tkinter import filedialog
-        application_window = tk.Tk()
-        application_window.withdraw()
-        answer = filedialog.askopenfilenames(parent=application_window,
-                                            initialdir=os.getcwd(),
-                                            title="Please select one or more files:",
-                                            filetypes=[("Image files", ".jpg .jpeg")])
-        if answer != "":
-            payload = {'photosceneid':self.Id, 'type': 'image'}
-            files = []
-            n=-1
-            for a in answer:
-                n = n+1
-                a = a.replace("/", "\\")
-                files.append(("file[{x}]".format(x=n), open(a,"rb")))
+        n=-1
+        fields = {'photosceneid':self.Id, 
+                    'type': 'image'}
 
-                # files["file[{x}]".format(x=n)] = (a, open(a,"rb"))
-            endpointUrl = RECAP_API+"/file"
-            r = requests.post(endpointUrl, headers=token.formData, data=payload, files=files).json()
-            if "Error" in r:
-                checkResponse(r["Error"])
-            else:
-                print(r)
+        for a in files:
+            n = n+1
+            a = a.replace("/", "\\")
+            fields["file[{x}]".format(x=n)] = (a, open(a,'rb'), 'image/jpg')
+
+        payload = MultipartEncoder(fields)
+
+        headers = {
+        'Content-Type': payload.content_type,
+        'Authorization': 'Bearer {}'.format(token.access_token)
+        }
+
+        endpointUrl = RECAP_API+"/file"
+        r = requests.post(endpointUrl, headers=headers, data=payload).json()
+        if "Error" in r:
+            checkResponse(r["Error"])
+        else:
+            print("Success")
+            print(r)
+            return [File(f, self.Id) for f in r["Files"]["file"]]
 
     def startProcessing(self, token: client.Token):
         checkScopes(token, "data:write")
@@ -230,8 +233,16 @@ class Photoscene(object):
         if "Error" in r:
             checkResponse(r["Error"])
         elif r["msg"] == "No error":
+            print(r)
             return True
 
+
+class File(object):
+    def __init__(self, rawDict, psId):
+        self.Id = rawDict.get("fileid")
+        self.Name = rawDict.get("filename")
+        self.Size = rawDict.get("filesize")
+        self.PhotosceneId = psId
 
 __pdoc__ = {}
 
