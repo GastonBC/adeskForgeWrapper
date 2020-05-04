@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'adeskForgeWrapper',
   packages = ['adeskForgeWrapper'],
-  version = 'v1.0',
+  version = 'v1.2.1',
   license='MIT',
   description = 'Python wrapper for Autodesks Forge API',
   author = 'Gaston Balparda',
   author_email = 'gastonbalparda@gmail.com',
   url = 'https://github.com/GastonBC/adeskForgeWrapper',
-  download_url = 'https://github.com/GastonBC/adeskForgeWrapper/archive/v1.0.tar.gz',
+  download_url = 'https://github.com/GastonBC/adeskForgeWrapper/archive/v1.2.1.tar.gz',
   keywords = ["python", "autodesk", "forge", "wrapper"],
   install_requires=[            # I get to this in a second
           'requests'
