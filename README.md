@@ -43,7 +43,7 @@ token = afw.client.Token.get3LeggedToken("data:read", cli, callbackUrl)
 
 ### Retrieve all projects in the your Hub
 ```Python
-projs = afw.B360.Project.getProjects(cli, token)
+projs = afw.B360.Project.getProjects(token)
 
 # Print some properties
 for p in projs:
@@ -52,7 +52,7 @@ for p in projs:
 ```
 ### Get project by ID
 ```Python
-p = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
+p = afw.b360.Project.getProjectById(token, "PROJECT_ID")
 ```
 ### Get all users in the project
 ```Python
@@ -60,7 +60,7 @@ users = p.getUsersFromProject(token)
 ```
 ### Get companies in your hub
 ```Python
-comps = afw.B360.Company.getCompanies(cli, token)
+comps = afw.B360.Company.getCompanies(token)
 # Again, you can print their properties
 for company in comps:
     print(company.name)
@@ -75,7 +75,7 @@ for company in comps:
 cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
 token = afw.client.Token.get2LeggedToken("account:read account:write", cli)
 
-proj = afw.B360.Project.getProjectById(cli, token, "YOUR_PROJECT_ID")
+proj = afw.B360.Project.getProjectById(token, "YOUR_PROJECT_ID")
 
 # The Options class in each module makes it easy to send the needed data/parameters
 # Ensures its format and fields
