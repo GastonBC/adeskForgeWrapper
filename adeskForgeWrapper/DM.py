@@ -4,12 +4,14 @@
 # ----------
 
 import requests
-from . import fpwExceptions
+
+from . import AFWExceptions
 from .client import Client
 from .client import Token
 from .client import checkResponse
 from .client import checkScopes
-from .urls import AUTODESK_BASE_URL as BASE_URL
+
+from .utils import AUTODESK_BASE_URL as BASE_URL
 
 class Hub(object):
     __apiType = "hubs"
@@ -56,9 +58,6 @@ class Hub(object):
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(h, h["attributes"]["name"], h["id"]) for h in r["data"]]
-        # except:
-        #     raise fpwExceptions.forgeException(r)
-        # TODO NON ACCESSIBLE HUBS RETURN ERROR, HANDLE THAT
 
     def getProjectsByHub(self, token):
         '''Returns a list of all projects in the hub

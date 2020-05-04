@@ -3,11 +3,96 @@
 # https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
 # ----------
 
+from . import AFWExceptions
 import requests
-from .client import checkScopes
-from .client import checkResponse
+from .utils import checkScopes
+from .utils import checkResponse
+from .utils import AUTODESK_BASE_URL as BASE_URL
 from . import client
 
+class Options(object):
+
+    @staticmethod
+    def createProjectOptions(name, start_date, end_date, project_type, value, currency, service_types=None,
+                            job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, 
+                            postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, 
+                            contract_type=None, template_project_id=None, include_companies=None, include_locations=None):
+        '''Data used to create a project.<br>
+        Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.
+        start_date - YYYY-MM-DD
+        end_date - YYYY-MM-DD, later than start date
+        project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)
+        currency - Refer to parameters
+        language - Refer to parameters'''
+
+        data = {
+            "name":name,
+            "service_types":service_types,
+            "start_date":start_date,
+            "end_date":end_date,
+            "project_type":project_type, 
+            "value":value,
+            "currency":currency,
+            "job_number":job_number,
+            "address_line_1":address_line_1,
+            "address_line_2":address_line_2,
+            "city":city,
+            "state_or_province":state_or_province,
+            "postal_code":postal_code,
+            "country":country,
+            "business_unit_id":business_unit_id,
+            "timezone":timezone,
+            "language":language,
+            "construction_type":construction_type,
+            "contract_type":contract_type,
+            "template_project_id":template_project_id,
+            "include_companies":include_companies,
+            "include_locations":include_locations,
+        }
+        data = {k : v for k,v in data.items() if v is not None}
+        return data
+
+    @staticmethod
+    def updateProjectOptions(name = None, service_types = None, status = None, start_date = None,
+                             end_date = None, project_type = None, value = None, currency = None, job_number = None,
+                             address_line_1 = None, address_line_2 = None, city = None, state_or_province = None,
+                             postal_code = None, country = None, business_unit_id = None, timezone = None, language = None,
+                             construction_type = None, contract_type = None):
+        '''Options to update a project.'''
+        
+        data = {
+            "name":name,
+            "service_types":service_types,
+            "status":status,
+            "start_date":start_date,
+            "end_date":end_date,
+            "project_type":project_type,
+            "value":value,
+            "currency":currency,
+            "job_number":job_number,
+            "address_line_1":address_line_1,
+            "address_line_2":address_line_2,
+            "city":city,
+            "state_or_province":state_or_province,
+            "postal_code":postal_code,
+            "country":country,
+            "business_unit_id":business_unit_id,
+            "timezone":timezone,
+            "language":language,
+            "construction_type":construction_type,
+            "contract_type":contract_type
+        }
+        data = {k : v for k,v in data.items() if v is not None} 
+        return data
+
+    @staticmethod
+    def exportPDFOptions(versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+        '''Export PDF options'''
+        if type(includeMarkups) != bool or type(includeMarkups) != bool:
+            raise TypeError("includeMarkups/includeHyperlinks expected bool")
+        data={"includeMarkups": includeMarkups,
+              "includeHyperlinks": includeHyperlinks}
+        return (versionId, data)
 
 class Project(object):
     '''Class for B360 API projects. Properties below
@@ -178,10 +263,11 @@ class Project(object):
     @classmethod
     def getProjects(cls, client: client.Client, token: client.Token):
         '''Query all the projects in a specific BIM 360 account.<br>
-        Scope account:read<br>
+        Scope - account:read<br>
         Returns a list of project objects.'''
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=client.bimAccId)
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects".format(aId=client.bimAccId),headers=token.getHeader).json()
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(p) for p in r]
 
@@ -190,115 +276,66 @@ class Project(object):
     def getProjectById(cls, client: client.Client, token: client.Token, p_id):
         '''Query the details of a specific BIM 360 project.<br>
         Scope: account:read'''
-
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=client.bimAccId, pId=p_id)
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}".format(aId=client.bimAccId, pId=p_id),headers=token.getHeader).json()
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
 
 
     @classmethod
-    def createProject(cls, client: client.Client, token: client.Token, Data: dict):
-        '''Create a new BIM 360 project in a specific BIM 360 account.
-        Scope account:write
-        Data Template. NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are
-        required values.
-
-        data = {
-            "name": "",
-            "service_types": "",
-            "start_date": "",
-            "end_date": "",
-            "project_type": "",
-            "value": "",
-            "currency": "",
-            "job_number": "",
-            "address_line_1": "",
-            "address_line_2": "",
-            "city": "",
-            "state_or_province": "",
-            "postal_code": "",
-            "country": "",
-            "business_unit_id": "",
-            "timezone": "",
-            "language": "",
-            "construction_type": "",
-            "contract_type": "",
-            "template_project_id": "",
-            "include_companies": "",
-            "include_locations": ""
-        }'''
+    def createProject(cls, client: client.Client, token: client.Token, creationOps):
+        '''Create a new BIM 360 project in a specific BIM 360 account.<br>
+        Scope - account:write<br>
+        creationOps: From Options Class, createProjectOptions()'''
         checkScopes(token, "account:write")
-        r = requests.post("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects".format(aId=client.bimAccId),headers=token.patchHeader, data=str(Data)).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=client.bimAccId)
+        r = requests.post(endpointUrl, headers=token.patchHeader, data=creationOps).json()
+        print(r)
         checkResponse(r)
         return cls(r)
 
-    def updateProject(self, token: client.Token, Data):
-        '''Update the properties of only the specified attributes of a specific BIM 360 project.
-            Scope: account:write account:read
-
-            Template dictionary. This is the content of the data parameter.
-            Include the ones you need to update only.
-            
-            data = { # TODO Fix dictionary
-            "name" = "",
-            "service_types" = "",
-            "status" = "",
-            "start_date" = "",
-            "end_date" = "",
-            "project_type" = "",
-            "value" = "",
-            "currency" = "",
-            "job_number" = "",
-            "address_line_1" = "",
-            "address_line_2" = "",
-            "city" = "",
-            "state_or_province" = "",
-            "postal_code" = "",
-            "country" = "",
-            "business_unit_id" = "",
-            "timezone" = "",
-            "language" = "",
-            "construction_type" = "",
-            "contract_type" = ""
-            }'''
+    def updateProject(self, token: client.Token, updateProjectOptions):
+        '''Update the properties of only the specified attributes of a specific BIM 360 project.<br>
+           Scope - account:write account:read'''
         checkScopes(token, "account:read account:write")
-        r = requests.patch("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects/{pId}".format(aId=self.accId, pId=self.id),headers=token.patchHeader, data=str(Data)).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=self.accId, pId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=str(updateProjectOptions)).json()
         checkResponse(r)
         return Project(r)
     
     def getUsersFromProject(self, token: client.Token):
-        '''Retrieves information about all the users in a project.
-        To get information about all the users in an account, see GET accounts/users.
-        
-        Scope account:read'''
+        '''Retrieves information about all the users in a project.<br>
+        To get information about all the users in an account, see GET accounts/users.<br>
+        Scope - account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users".format(pId=self.id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+"/bim360/admin/v1/projects/{pId}/users".format(pId=self.id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [User(u) for u in r["results"]]
 
     def getUserFromProjectAndId(self, token: client.Token, userId):
-        '''Retrieves detailed information about a single user in a project.
-        Scope account:read'''
+        '''Retrieves detailed information about a single user in a project.<br>
+        Scope - account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/bim360/admin/v1/projects/{pId}/users/{uId}".format(pId=self.id, uId=userId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+"/bim360/admin/v1/projects/{pId}/users/{uId}".format(pId=self.id, uId=userId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return User(r)
 
     def addUsersToProject(self, client: client.Client, token: client.Token, Data: list):
         # TODO TO REVIEW. ITEMS FAIL
         # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
-        '''Adds users (project admin and project user) to a project. You can add up to 50 users per call.
+        '''Adds users (project admin and project user) to a project. You can add up to 50 users per call.<br>
+            Scope - account:write<br><br>
 
-            To add users to an account (account user), see POST users.
-
-            You can specify the following details about the user:
-
-            The user’s access level for the project (admin or user).
-            The company the user is assigned to for the project.
-            The industry roles assigned to the user for the project.
-            The user’s email address.
-            Scope account:write
+            To add users to an account (account user), see POST users.<br>
+            You can specify the following details about the user:<br>
+            The user’s access level for the project (admin or user).<br>
+            The company the user is assigned to for the project.<br>
+            The industry roles assigned to the user for the project.<br>
+            The user’s email address.<br><br>
+            
             d=[
             {
             "email": "john.doe@autodesk.com",
@@ -327,7 +364,8 @@ class Project(object):
                 "dc9e8af9-2978-4f6a-90b6-b294ae11c701"
             ]}]'''
         checkScopes(token, "account:write")
-        r = requests.post("https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(aId=self.accId ,pId=self.id),headers=token.contentXUser, data=str(Data)).json()
+        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(aId=self.accId ,pId=self.id)
+        r = requests.post(endpointUrl, headers=token.contentXUser, data=str(Data)).json()
         checkResponse(r)
         print("Success:", r["success"])
         print("Failed:", r["failure"])
@@ -344,58 +382,70 @@ class Project(object):
         "industry_roles": ["dc9e8af9-2978-4f6a-90b6-b294ae11c701"]
         }
 
-        Returns a User object
-        TODO: Thinking about changing user id with user object, updating the user object with the response'''
+        Returns a User object'''
+        # TODO: Thinking about changing user id with user object, updating the user object with the response
 
         checkScopes(token, "account:write")
-        r = requests.patch("https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(aId=self.accId ,pId=self.id, uId=userId),headers=token.contentXUser, data=str(Data)).json()
+        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(aId=self.accId ,pId=self.id, uId=userId)
+        r = requests.patch(endpointUrl, headers=token.contentXUser, data=str(Data)).json()
         checkResponse(r)
         return User(r)
     def getIndustryRoles(self, token: client.Token):
-        '''Retrieves the industry roles for the project. For example, contractor and architect.
-        Scope account:read'''
+        '''Retrieves the industry roles for the project. For example, contractor and architect.<br>
+        Scope - account:read'''
 
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v2/accounts/{aId}/projects/{pId}/industry_roles".format(aId=self.accId ,pId=self.id),headers=token.patchHeader).json()
+        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/industry_roles".format(aId=self.accId ,pId=self.id)
+        r = requests.get(endpointUrl, headers=token.patchHeader).json()
         checkResponse(r)
         return [IndustryRoles(i) for i in r]
 
-    def exportPDF(self, token: client.Token, versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
-        '''Exports a single page from an uploaded PDF file into a new PDF file.
-            You can also export the page’s markups (annotations) and hyperlinks.
-            Scope data:read
-            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. You can identify exportable PDF files, by searching for files with the following combmination of properties:
+    def exportPDF(self, token: client.Token, exportOptions):
+        '''Exports a single page from an uploaded PDF file into a new PDF file.<br>
+            You can also export the page’s markups (annotations) and hyperlinks.<br>
+            Scope - data:read<br>
+            exportOptions - exportPDFOptions()<br>
+            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or 
+            to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
+            splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. 
+            You can identify exportable PDF files, by searching for files with the following combmination of properties:<br><br>
 
-            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)
-            attributes.extension.data.sourceFileName: <filename>.pdf (identifies all PDF files)
-            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the BIM 360 endpoints, see the File Upload tutorial.
+            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)<br>
+            attributes.extension.data.sourceFileName: <filename>.pdf (identifies all PDF files)<br>
+            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from 
+            PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the 
+            BIM 360 endpoints, see the File Upload tutorial.<br><br>
 
-            Note that this endpoint is asynchronous and initiates a job that runs in the background, rather than halting execution of your program.
-            The response returns an export ID that you can use to call getPDFExport() to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.
+            Note that this endpoint is asynchronous and initiates a job that 
+            runs in the background, rather than halting execution of your program.<br>
+            The response returns an export ID that you can use to call getPDFExport() 
+            to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.<br><br>
 
-            Note that the user must have permission to view files. For information about permissions, see the Help documentation.
+            Note that the user must have permission to view files. For information about permissions, see the Help documentation.<br><br>
 
-            For more details about exporting PDF files, see the PDF Export tutorial.
+            For more details about exporting PDF files, see the PDF Export tutorial.<br><br>
 
-            For more information about Document Management endpoints, see the Data Management API
+            For more information about Document Management endpoints, see the Data Management API<br><br>
             '''
-        Data={"includeMarkups": includeMarkups,
-              "includeHyperlinks": includeHyperlinks}
 
         checkScopes(token, "data:read")
-        r = requests.post("https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports".format(pId=self.id, vId=versionId),headers=token.patchHeader, data=str(Data)).json()
+        endpointUrl = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports".format(pId=self.id, vId=exportOptions[0])
+        r = requests.post(endpointUrl, headers=token.patchHeader, data=str(exportOptions[1])).json()
         checkResponse(r)
         print("Id: {id}\nStatus: {status}".format(id=r["id"], status=r["status"]))
         return r
 
     def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
-        '''Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
-            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
-            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
-            For more information about Document Management endpoints, see the Data Management API
-            '''
+        '''Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.<br>
+            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.<br>
+            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn.<br><br>
+            
+            For more information about Document Management endpoints, see the Data Management API'''
+            # TODO: Model derivative api function here
+
         checkScopes(token, "data:read")
-        r = requests.get("https://developer.api.autodesk.com/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}".format(pId=self.id, vId=versionId, eId=exportId),headers=token.contentXUser).json()
+        endpointUrl = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}".format(pId=self.id, vId=versionId, eId=exportId)
+        r = requests.get(endpointUrl, headers=token.contentXUser).json()
         checkResponse(r)
         print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
                  #TODO: Range header
@@ -876,11 +926,13 @@ class BusinessUnits(object):
     def getBusinessUnits(cls, client, token):
         '''Query all the business units in a specific BIM 360 account.
         Scope account:read'''
-        # TODO RETURNS EMPTY DICT IF EMPTY. RAISE ERROR OR SOMETHING
         checkScopes(token, "account:read")
         r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure".format(aId=client.bimAccId),headers=token.getHeader).json()
         checkResponse(r)
-        return [cls(u) for u in r["business_units"]]
+        if r == {}:
+            raise AFWExceptions.APIError("No business units in this account.")
+        else:
+            return [cls(u) for u in r["business_units"]]
 
     @classmethod
     def createBusinessUnits(cls, client: client.Client, token: client.Token, Data: list):
@@ -1046,8 +1098,7 @@ __pdoc__['Jobs.name'] = False
 __pdoc__['Jobs.status'] = False
 __pdoc__['Jobs.details'] = False
 
-# TODO Try string dictionaries with import companies. critical
-# TODO use line breaks <br> for docstrings so documentation looks nice
+# TODO Try string dictionaries with import companies. critical - OPTIONS CLASS
 # TODO change dictionary templates with "options" class. Maybe "AfwOptions" or "ForgeOptions" or "CreationOptions"
 
 # Account Admin

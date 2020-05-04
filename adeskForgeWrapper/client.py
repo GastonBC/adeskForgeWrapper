@@ -2,9 +2,8 @@ import requests
 from time import sleep
 import webbrowser
 from urllib.parse import urlparse, parse_qs
-from .urls import AUTH_API, INFO_AUTH
-
-from . import fpwExceptions
+from .utils import AUTH_API, INFO_AUTH, checkResponse, checkScopes
+from . import AFWExceptions
 
 class Client(object):
     '''A class containing information from the user's end
@@ -22,7 +21,7 @@ class Client(object):
         endpointUrl = INFO_AUTH+"/users/@me"
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
-        print(r)
+        print(r) # TODO Maybe can return a DM.User object
 
 # TODO new defs: getExpirationTime, renew
 class Token(object):
@@ -141,26 +140,9 @@ class Token(object):
             webbrowser.open(r.url, new = 0, autoraise=True)
             
         else:
-            raise fpwExceptions.forgeException("Token type must be 'code' or 'token'")
+            raise AFWExceptions.AFWError("Token type must be 'code' or 'token'")
 
-def checkScopes(token: Token, endpointScope: str):
-    '''Checks scopes before making the request.'''
-    tokenScope = token.scope.split()
-    endpointScope = endpointScope.split()
-    result =  all(elem in tokenScope  for elem in endpointScope)
-    if result:
-        return True
-    else:
-        raise fpwExceptions.scopeException("Missing required scopes:", endpointScope)
 
-def checkResponse(r):
-    '''If the response raised an error, this will detect it'''
-    if "code" and "message" in r:
-        raise fpwExceptions.forgeException(r)
-    elif "developerMessage" and "errorCode" in r:
-        raise fpwExceptions.forgeException(r)
-    elif "code" and "msg" in r:
-        raise fpwExceptions.forgeException(r)
 
 # pdocs stuff
 __pdoc__ = {}
