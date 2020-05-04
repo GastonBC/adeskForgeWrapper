@@ -72,22 +72,18 @@ for company in comps:
 ```Python
 # Get your project, we need multiple scopes for this
 # notice the scopes separated by a space
-token = afw.client.Token("account:read account:write", cli)
+cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
+token = afw.client.Token.get2LeggedToken("account:read account:write", cli)
 
-proj = afw.B360.Project.getProjectById(cli, token, "PROJECT_ID")
+proj = afw.B360.Project.getProjectById(cli, token, "YOUR_PROJECT_ID")
 
-# Update it, Data is a dictionary with the properties 
-# you want to update the template is in the docstring
+# The Options class in each module makes it easy to send the needed data/parameters
+# Ensures its format and fields
+ops = afw.B360.Options.updateProjectOptions(name="AFWProject", status="active", end_date="2021-04-30")
 
-Data = {
-	"name" : "afwExample",
-	"status" : "active",
-       }
-
-updatedProject = proj.updateProject(token, Data)
-
-# Updated properties
+updatedProject = proj.updateProject(token, ops)
 print(updatedProject.name)
 print(updatedProject.status)
+print(updatedProject.end_date)
 ```
 ##### ***This is a work in progress***
