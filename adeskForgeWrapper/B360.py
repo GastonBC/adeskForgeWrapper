@@ -3,15 +3,19 @@
 # https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
 # ----------
 
-from . import AFWExceptions
 import requests
+
+from . import AFWExceptions
+from . import client
 from .utils import checkScopes
 from .utils import checkResponse
 from .utils import AUTODESK_BASE_URL as BASE_URL
-from . import client
+import json
+
 
 class Options(object):
-
+    '''Some methods require data and parameters in diferent formats, 
+    this class makes it easy to add those and ensures the information is sent the right way.'''
     @staticmethod
     def createProjectOptions(name, start_date, end_date, project_type, value, currency, service_types=None,
                             job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, 
@@ -50,7 +54,7 @@ class Options(object):
             "include_locations":include_locations,
         }
         data = {k : v for k,v in data.items() if v is not None}
-        return data
+        return json.dumps(data, ensure_ascii=True)
 
     @staticmethod
     def updateProjectOptions(name = None, service_types = None, status = None, start_date = None,
@@ -83,16 +87,77 @@ class Options(object):
             "contract_type":contract_type
         }
         data = {k : v for k,v in data.items() if v is not None} 
-        return data
+        return json.dumps(data, ensure_ascii=True)
 
     @staticmethod
     def exportPDFOptions(versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
-        '''Export PDF options'''
+        '''Options to export PDFs'''
         if type(includeMarkups) != bool or type(includeMarkups) != bool:
             raise TypeError("includeMarkups/includeHyperlinks expected bool")
         data={"includeMarkups": includeMarkups,
               "includeHyperlinks": includeHyperlinks}
         return (versionId, data)
+
+    @staticmethod
+    def updateProjectUserOptions(status, company_id):
+        '''Options to update a user'''
+        data = {
+                "status": status,
+                "company_id": company_id
+                }
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def updateCompanyOptions(name = None, trade = None, address_line_1 = None, address_line_2 = None, city = None, state_or_province = None, country = None,
+                             phone = None, website_url = None, description = None, erp_id = None, tax_id = None):
+        '''Options for updateCompany'''
+        
+        data = {"name":name,
+                "trade":trade,
+                "address_line_1":address_line_1,
+                "address_line_2":address_line_2,
+                "city":city,
+                "state_or_province":state_or_province,
+                "country":country,
+                "phone":phone,
+                "website_url":website_url,
+                "description":description,
+                "erp_id":erp_id,
+                "tax_id":tax_id
+                }
+        data = {k : v for k,v in data.items() if v is not None} 
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def searchCompaniesOptions(name = None, trade = None, operator = None, partial = None, limit = None, offset = None, sort = None, field = None):
+        '''Options for searchCompany'''
+        params = (
+                ('name', name),
+                ('trade', trade),
+                ('operator', operator),
+                ('partial', partial),
+                ('limit', limit),
+                ('offset', offset),
+                ('sort', sort),
+                ('field', field)
+        )
+        return params
+
+    @staticmethod
+    def addUserToProjectOptions(email = None, user_id = None, services = None, docManagementAccessLevel = None,
+                                projectAdminAccessLevel = None, company_id = None, industry_roles = None):
+        '''Use this method for each user you want to update'''
+        data={
+            "email": email,
+            "user_id": user_id,
+            "services": {
+                        "document_management": {"access_level": docManagementAccessLevel},
+                        "project_administration": {"access_level": projectAdminAccessLevel},
+                        },
+            "company_id":company_id,
+            "industry_roles":industry_roles
+          }
+        return data
 
 class Project(object):
     '''Class for B360 API projects. Properties below
@@ -261,11 +326,11 @@ class Project(object):
 #endRegion
 
     @classmethod
-    def getProjects(cls, client: client.Client, token: client.Token):
+    def getProjects(cls, token: client.Token):
         '''Query all the projects in a specific BIM 360 account.<br>
         Scope - account:read<br>
         Returns a list of project objects.'''
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=client.bimAccId)
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bimAccId)
         checkScopes(token, "account:read")
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
@@ -273,10 +338,10 @@ class Project(object):
 
 
     @classmethod
-    def getProjectById(cls, client: client.Client, token: client.Token, p_id):
+    def getProjectById(cls, token: client.Token, p_id):
         '''Query the details of a specific BIM 360 project.<br>
         Scope: account:read'''
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=client.bimAccId, pId=p_id)
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=token.bimAccId, pId=p_id)
         checkScopes(token, "account:read")
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
@@ -284,12 +349,12 @@ class Project(object):
 
 
     @classmethod
-    def createProject(cls, client: client.Client, token: client.Token, creationOps):
+    def createProject(cls, token: client.Token, creationOps):
         '''Create a new BIM 360 project in a specific BIM 360 account.<br>
         Scope - account:write<br>
-        creationOps: From Options Class, createProjectOptions()'''
+        creationOps - From Options Class, createProjectOptions()'''
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=client.bimAccId)
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bimAccId)
         r = requests.post(endpointUrl, headers=token.patchHeader, data=creationOps).json()
         print(r)
         checkResponse(r)
@@ -300,7 +365,7 @@ class Project(object):
            Scope - account:write account:read'''
         checkScopes(token, "account:read account:write")
         endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=self.accId, pId=self.id)
-        r = requests.patch(endpointUrl, headers=token.patchHeader, data=str(updateProjectOptions)).json()
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=updateProjectOptions).json()
         checkResponse(r)
         return Project(r)
     
@@ -323,11 +388,13 @@ class Project(object):
         checkResponse(r)
         return User(r)
 
-    def addUsersToProject(self, client: client.Client, token: client.Token, Data: list):
+    def addUsersToProject(self, token: client.Token, addUserToProjectOps: list):
         # TODO TO REVIEW. ITEMS FAIL
         # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+        # TODO ADD OPTIONS class
         '''Adds users (project admin and project user) to a project. You can add up to 50 users per call.<br>
-            Scope - account:write<br><br>
+            Scope - account:write<br>
+            addUserToProjectOps - MUST BE A LIST of Options.addUserToProjectOptions<br>
 
             To add users to an account (account user), see POST users.<br>
             You can specify the following details about the user:<br>
@@ -335,59 +402,31 @@ class Project(object):
             The company the user is assigned to for the project.<br>
             The industry roles assigned to the user for the project.<br>
             The user’s email address.<br><br>
-            
-            d=[
-            {
-            "email": "john.doe@autodesk.com",
-            "services": {
-                "document_management": {
-                "access_level": "user"
-                }
-            },
-            "company_id": "dc9e8af9-2978-4f6a-90b6-b294ae11c701",
-            "industry_roles": [
-                "dc9e8af9-2978-4f6a-90b6-b294ae11c701"
-            ]
-            },
-            {
-            "user_id": "3a2bs9ba-ba44-12ed-132d-fab8822bac22",
-            "services": {
-                "project_administration": {
-                "access_level": "admin"
-                },
-                "document_management": {
-                "access_level": "admin"
-                }
-            },
-            "company_id": "dc9e8af9-2978-4f6a-90b6-b294ae11c701",
-            "industry_roles": [
-                "dc9e8af9-2978-4f6a-90b6-b294ae11c701"
-            ]}]'''
+            '''
+        if type(addUserToProjectOps) != list:
+            raise AFWExceptions.AFWError("addUserToProjectOps must be a list of Options.addUserToProjectOptions")
         checkScopes(token, "account:write")
+        addUserToProjectOps = json.dumps(addUserToProjectOps)
         endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(aId=self.accId ,pId=self.id)
-        r = requests.post(endpointUrl, headers=token.contentXUser, data=str(Data)).json()
+        r = requests.post(endpointUrl, headers=token.contentXUser, data=addUserToProjectOps).json()
         checkResponse(r)
         print("Success:", r["success"])
         print("Failed:", r["failure"])
-        return [User.getUserById(client, token, u["user_id"]) for u in r["success_items"]]
+        return [User.getUserById(token, u["user_id"]) for u in r["success_items"]]
 
-    def updateUser(self, token: client.Token, userId: str, Data: dict):
-        '''Updates a user’s profile for a project, including:
+    def updateProjectUserById(self, token: client.Token, userId, updateProjectUserOptions):
+        '''Updates a user’s profile for a project, including:<br><br>
 
-        The company the user is assigned to for the project.
-        The industry roles assigned to the user for the project.
-        Scope account:write
-        data = {
-        "company_id": "dc9e8af9-2978-4f6a-90b6-b294ae11c701",
-        "industry_roles": ["dc9e8af9-2978-4f6a-90b6-b294ae11c701"]
-        }
-
+        The company the user is assigned to for the project.<br>
+        The industry roles assigned to the user for the project.<br><br>
+        Scope - account:write
+        
         Returns a User object'''
         # TODO: Thinking about changing user id with user object, updating the user object with the response
 
         checkScopes(token, "account:write")
         endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(aId=self.accId ,pId=self.id, uId=userId)
-        r = requests.patch(endpointUrl, headers=token.contentXUser, data=str(Data)).json()
+        r = requests.patch(endpointUrl, headers=token.contentXUser, data=updateProjectUserOptions).json()
         checkResponse(r)
         return User(r)
     def getIndustryRoles(self, token: client.Token):
@@ -407,7 +446,7 @@ class Project(object):
             exportOptions - exportPDFOptions()<br>
             Note that you can only export a page from a PDF file that was uploaded to the Plans folder or 
             to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
-            splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page. 
+            splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page.<br>
             You can identify exportable PDF files, by searching for files with the following combmination of properties:<br><br>
 
             attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)<br>
@@ -549,46 +588,42 @@ class Company(object):
 #endRegion
 
     @classmethod
-    def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
+    def getCompanyById(cls, token: client.Token, c_id):
         '''Query the details of a specific partner company.<br>
         Scope: account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}".format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(aId=token.bimAccId, cId=c_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
 
     @classmethod
-    def getCompanies(cls, client: client.Client, token: client.Token):
+    def getCompanies(cls, token: client.Token):
         '''Query all the partner companies in a specific BIM 360 account.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies".format(aId=client.bimAccId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies".format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(c) for c in r]
 
     @classmethod
-    def getCompanyByName(cls, client: client.Client, token: client.Token, params):
-        '''Search partner companies in a specific BIM 360 account by name.
-        Scope account:read
-        
-        params = (
-                    ('name', 'Autodesk'),
-                    ('trade', 'Example'),
-                    ('operator', 'OR/AND'),
-                    ('partial', true),
-                    ('limit', '10'),
-                    ('offset', '0'),
-                    ('sort', 'Autodesk'),
-                    ('field', 'id')
-                 )
+    def searchCompaniesByName(cls, token: client.Token, searchOps):
+        '''Search partner companies in a specific BIM 360 account by name.<br>
+        Scope - account:read<br>
+        searchOps - Options.searchCompaniesOptions()
         '''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/search".format(aId=client.bimAccId),headers=token.getHeader, params=params).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/search".format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader, params=searchOps).json()
         checkResponse(r)
-        return [cls(c) for c in r]
+        if r == []:
+            return None
+        else:
+            return [cls(c) for c in r]
 
     @classmethod
-    def importCompanies(cls, client: client.Client, token: client.Token, Data: list):
+    def importCompanies(cls, token: client.Token, Data: list):
         '''TODO: ---NOT WORKING??  TRY---
         Bulk import partner companies to the company directory in a specific BIM 360 account.
         (50 companies maximum can be included in each call.)
@@ -610,33 +645,20 @@ class Company(object):
                 "description": ""
                 }]'''
         checkScopes(token, "account:write")
-        r = requests.post("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/import".format(aId=client.bimAccId),headers=token.patchHeader,data=str(Data)).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/import".format(aId=token.bimAccId)
+        r = requests.post(endpointUrl, headers=token.patchHeader,data=Data).json()
         checkResponse(r)
         print("Success:", r["success"])
         print("Failure:", r["failure"])
         return [cls(c) for c in r["success_items"]]
 
 
-    def updateCompany(self, token: client.Token, data):
-        '''Update the properties of only the specified attributes of a specific partner company.
-        Scope account:write
-        
-        data = {
-                "name":"",
-                "trade": "",
-                "address_line_1": "",
-                "address_line_2": "",
-                "city": "",
-                "state_or_province": "",
-                "country": "",
-                "phone": "",
-                "website_url":"",
-                "description":"",
-                "erp_id": "",
-                "tax_id": ""
-                }'''
+    def updateCompany(self, token: client.Token, updateCompanyOptions):
+        '''Update the properties of only the specified attributes of a specific partner company.<br>
+        Scope - account:write'''
         checkScopes(token, "account:write")
-        r = requests.patch("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}".format(aId=self.accId, cId=self.id),headers=token.patchHeader,data=data).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(aId=self.accId, cId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader,data=updateCompanyOptions).json()
         checkResponse(r)
         return Company(r)
 
@@ -787,45 +809,43 @@ class User(object):
 #endregion
 
     @classmethod
-    def getUsersFromAccount(cls, client: client.Client, token: client.Token):
-        '''Query all the users in a specific BIM 360 account.
+    def getUsersFromAccount(cls, token: client.Token):
+        '''Query all the users in a specific BIM 360 account.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users".format(aId=client.bimAccId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/users".format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(u) for u in r]
 
     @classmethod
-    def getUserById(cls, client: client.Client, token: client.Token, userId):
-        '''Query the details of a specific user.
+    def getUserById(cls, token: client.Token, userId):
+        '''Query the details of a specific user.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}".format(aId=client.bimAccId, uId=userId),headers=token.getHeader).json()
+        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=userId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
 
     @classmethod
-    def updateUserById(cls, client: client.Client, token: client.Token, userId, Data):
-        '''Update a specific user’s status or default company. Data template below
-        Scope account:write
-        data = {
-                "status": "",
-                "company_id": ""
-                }'''
+    def updateUserById(cls, token: client.Token, userId, updateUserOptions):
+        '''Update a specific user’s status or default company. Data template below<br>
+        Scope - account:write<br>
+        updateUserOptions - From Options class'''
         checkScopes(token, "account:write")
-        r = requests.patch("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}".format(aId=client.bimAccId, uId=userId),headers=token.patchHeader, data=Data).json()
+        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=userId)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=updateUserOptions).json()
         checkResponse(r)
         return cls(r)
 
-    def updateUser(self, client: client.Client, token: client.Token, Data: dict):
-        '''Update a specific user’s status or default company. Data template below
-        Scope account:write
-        data = {
-                "status": "",
-                "company_id": ""
-                }'''
+    def updateUser(self, token: client.Token, updateUserOptions):
+        '''Update a specific user’s status or default company. Data template below<br>
+        Scope - account:write<br>
+        updateUserOptions - From Options class'''
         checkScopes(token, "account:write")
-        r = requests.patch("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/users/{uId}".format(aId=client.bimAccId, uId=self.id),headers=token.patchHeader, data=str(Data)).json()
+        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=str(updateUserOptions)).json()
         checkResponse(r)
         return User(r)
 
@@ -923,11 +943,12 @@ class BusinessUnits(object):
         return self.__updated_at
 
     @classmethod
-    def getBusinessUnits(cls, client, token):
+    def getBusinessUnits(cls, token):
         '''Query all the business units in a specific BIM 360 account.
         Scope account:read'''
         checkScopes(token, "account:read")
-        r = requests.get("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure".format(aId=client.bimAccId),headers=token.getHeader).json()
+        endpointUrl = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         if r == {}:
             raise AFWExceptions.APIError("No business units in this account.")
@@ -935,7 +956,7 @@ class BusinessUnits(object):
             return [cls(u) for u in r["business_units"]]
 
     @classmethod
-    def createBusinessUnits(cls, client: client.Client, token: client.Token, Data: list):
+    def createBusinessUnits(cls, token: client.Token, Data: list):
         '''Creates or redefines the business units of a specific BIM 360 account.
         Scope account:write
         Data: A list of dictionaries with the following structure. Name is mandatory
@@ -952,10 +973,11 @@ class BusinessUnits(object):
                         "name": "USA Western Region",
                         "description": "California, Nevada, Washington"
                     }
-                ]'''
+                ]''' # TODO Maybe to cope with list of dicts, solution could be createBusinessUnit and silently call the batch __createBusinessUnits (this func)
         checkScopes(token, "account:read")
+        endpointUrl = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bimAccId)
         bness = {"business_units": Data}
-        r = requests.put("https://developer.api.autodesk.com/hq/v1/accounts/{aId}/business_units_structure".format(aId=client.bimAccId),headers=token.patchHeader, data=str(bness)).json()
+        r = requests.put(endpointUrl, headers=token.patchHeader, data=str(bness)).json()
         checkResponse(r)
         return [cls(u) for u in r["business_units"]]
 
@@ -1100,6 +1122,8 @@ __pdoc__['Jobs.details'] = False
 
 # TODO Try string dictionaries with import companies. critical - OPTIONS CLASS
 # TODO change dictionary templates with "options" class. Maybe "AfwOptions" or "ForgeOptions" or "CreationOptions"
+# TODO json.dumps(data) to all options for requests data
+# TODO Remove all client parameters. client information is included in the Token now
 
 # Account Admin
 # Projects

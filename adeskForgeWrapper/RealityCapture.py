@@ -4,37 +4,45 @@ from .utils import RECAP_API
 from .utils import batch
 from . import client
 from . import AFWExceptions
-import os
+import json
 
 from requests_toolbelt import MultipartEncoder
 import requests
 
-class PhotosceneCreationOptions(object):
+class Options(object):
     '''Class used to organize request options for this module'''
-    def __init__(self, scenename: str, callback = None, Format = "rcm", scenetype = "aerial", gpstype = None, hubprojectid = None,
+    @staticmethod
+    def PhotosceneCreationOptions(scenename, Format = "rcm", scenetype = "aerial", callback = None, gpstype = None, hubprojectid = None,
                 hubfolderid = None, version = "2.0", metadata = None):
+        '''Options for Photoscene.create'''
+
         if scenetype != "aerial":
-            if Format == "rcs" or Format== "ortho" or Format == "report":
-                raise AFWExceptions.APIException("That format parameter is only available if scenetype is set to aerial")
+            if Format == "rcs" or Format == "ortho" or Format == "report":
+                raise AFWExceptions.AFWError("That format parameter is only available if scenetype is set to aerial")
 
             elif gpstype != None:
                 pass #TODO Check 
 
             elif metadata != None:
-                raise AFWExceptions.APIException("Metadata fine tuning parameters are available only if scenetype is set to aerial")
-
-        if "http://" in callback or "https://" in callback:
-            self.callback = callback
-        else:
-            self.callback = "email://{}".format(callback)
-        self.scenename = scenename
-        self.Format = Format
-        self.scenetype = scenetype
-        self.gpstype = gpstype
-        self.hubprojectid = hubprojectid
-        self.hubfolderid = hubfolderid
-        self.version = version
-        self.metadata = metadata
+                raise AFWExceptions.AFWError("Metadata fine tuning parameters are available only if scenetype is set to aerial")
+        data = {
+                "scenename" : scenename,
+                "callback" : callback,
+                "format": Format,
+                "scenetype" : scenetype,
+                "gpstype" : gpstype,
+                "hubprojectid" : hubprojectid,
+                "hubfolderid" : hubfolderid,
+                "version" : version,
+                "metadata" : metadata
+                }
+        if callback is not None:
+            if "http://" in callback or "https://" in callback:
+                data["callback"] = callback
+            else:
+                data["callback"] = "email://{}".format(callback)
+        data = {k : v for k,v in data.items() if v is not None} 
+        return data # Works as dict type. Returns an error using json.dumps, why...
 
 
 class Photoscene(object):
@@ -106,27 +114,16 @@ class Photoscene(object):
         return cls(rawDict, PhotosceneId)
     
     @classmethod
-    def create(cls, token: client.Token, psOptions: PhotosceneCreationOptions):
+    def create(cls, token: client.Token, psOptions):
         '''Creates and initializes a photoscene for reconstruction.<br>
-        Scope - data:write'''
+        Scope - data:write
+        psOptions - Options.PhotosceneCreationOptions'''
         checkScopes(token, "data:write")
-        data = {
-        "scenename" : psOptions.scenename,
-        "callback" : psOptions.callback,
-        "format": psOptions.Format,
-        "scenetype" : psOptions.scenetype,
-        "gpstype" : psOptions.gpstype,
-        "hubprojectid" : psOptions.hubprojectid,
-        "hubfolderid" : psOptions.hubfolderid,
-        "version" : psOptions.version,
-        "metadata" : psOptions.metadata
-        }
-        data = {k : v for k,v in data.items() if v is not None}
         endpointUrl = RECAP_API+"/photoscene"
-        r = requests.post(endpointUrl, headers=token.urlEncoded, data=data).json()
+        r = requests.post(endpointUrl, headers=token.urlEncoded, data=psOptions).json()
         checkResponse(r)
         print("Photoscene ID:", '{}'.format(r['Photoscene'].get("photosceneid")))
-        return cls(r, data)
+        return cls(r, psOptions)
     
     def uploadFiles(self, token: client.Token, files: list, batchSize=3):
         '''Adds one or more files to a photoscene.<br>

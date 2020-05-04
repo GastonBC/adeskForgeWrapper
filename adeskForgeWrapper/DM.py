@@ -3,6 +3,8 @@
 # https://forge.autodesk.com/en/docs/data/v2/reference/http/
 # ----------
 
+# Properties in this API come in different formats, so we can't make use of __init__(self, rawDict) to
+# get all the properties, instead, props are defined by __init__ parameters (self, raw, name, hubId)
 import requests
 
 from . import AFWExceptions
@@ -35,8 +37,8 @@ class Hub(object):
 
     @classmethod
     def hubById(cls, token, hub_id):
-        '''Returns info on the hub given
-        scope: data:read'''
+        '''Returns info on the hub give<br>
+        Scope - data:read'''
         checkScopes(token, "data:read")
         endpointUrl = BASE_URL+"/project/v1/hubs/{hId}".format(hId=hub_id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -45,14 +47,12 @@ class Hub(object):
 
     @classmethod
     def getHubs(cls, token):
-        '''Returns a collection of accessible hubs for this member.
-        Scope data:read
+        '''Returns a collection of accessible hubs for this member.<br>
+        Scope - data:read<br><br>
         
-
         Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
-        A360 Personal hubs, or BIM 360 Docs accounts. Team hubs include BIM 360 Team hubs
-        and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.'''
-        # try:
+        A360 Personal hubs, or BIM 360 Docs accounts.<br>
+        Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.'''
         checkScopes(token, "data:read")
         endpointUrl = BASE_URL+"/project/v1/hubs"
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -60,8 +60,8 @@ class Hub(object):
         return [cls(h, h["attributes"]["name"], h["id"]) for h in r["data"]]
 
     def getProjectsByHub(self, token):
-        '''Returns a list of all projects in the hub
-        Scope data:read'''
+        '''Returns a list of all projects in the hub<br>
+        Scope - data:read'''
         checkScopes(token, "data:read")
         endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects".format(hId=self.hubId)
         projects = requests.get(endpointUrl,headers=token.getHeader).json()
@@ -164,11 +164,6 @@ class Folder(object):
         r = requests.get(endpointUrl ,headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r["data"]["id"], r["data"]["attributes"]["name"], r["data"]["attributes"]["hidden"])
-
-
-# TODO SPLIT REQUEST LINE. MOVE URL TO A NEW VARIABLE URL. BETTER READABILITY. EXAMPLE
-        # endpointUrl = "https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}".format(p_id=project.Id, f_id=folderId)
-        # r = requests.get(url, headers=token.getHeader).json()
 
 
 # TODO FAR IN THE FUTURE: OBJECT CLASS INHERITANCE: HUB > PROJECT > FOLDER > ITEM. THAT WAY WE CAN USE ATTRIBUTE INHERITED

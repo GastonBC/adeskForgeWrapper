@@ -1,8 +1,12 @@
 import requests
+
 from time import sleep
-import webbrowser
-from urllib.parse import urlparse, parse_qs
-from .utils import AUTH_API, INFO_AUTH, checkResponse, checkScopes
+
+from .utils import AUTH_API
+from .utils import INFO_AUTH
+from .utils import checkResponse
+from .utils import checkScopes
+
 from . import AFWExceptions
 
 class Client(object):
@@ -35,6 +39,11 @@ class Token(object):
     patchHeader<br>
     contentXUser<br>'''
     def __init__(self, client, r, scope):
+        self.__cliId = client.cliId
+        self.__cliSecret = client.cliSecret
+        self.__bimAccId = client.bimAccId
+        self.__bimAccName = client.bimAccName
+        self.__hubId = client.hubId
         if type(r) == dict:
             self.__raw = r
             self.__scope = scope
@@ -63,7 +72,22 @@ class Token(object):
 
             self.__patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r)}
             self.__contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
-
+            
+    @property
+    def cliId(self):
+        return self.__cliId
+    @property
+    def cliSecret(self):
+        return self.__cliSecret
+    @property
+    def bimAccId(self):
+        return self.__bimAccId
+    @property
+    def bimAccName(self):
+        return self.__bimAccName
+    @property
+    def hubId(self):
+        return self.__hubId
     @property
     def raw(self):
         return self.__raw
@@ -117,13 +141,15 @@ class Token(object):
         callback_URL: The callback url the user will be taken to after authorization. This<br>
         url must be the same callback url you used to register your Forge App.<br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''
-        from urllib.parse import quote
+        from urllib.parse import quote, urlparse, parse_qs
+        import webbrowser
 
         urlClean = quote(callback_URL, safe='')
         endpointUrl = AUTH_API+"/authorize?response_type={tokType}&client_id={cliId}&redirect_uri={redirect}&scope={scope}".format(
                                                             tokType = tokenType, cliId=client.cliId, redirect=urlClean, scope=scope)
 
         r = requests.post(endpointUrl)
+        checkResponse(r)
         if tokenType == "token":
             print("You will be prompted to login. Do so and copy the url you were redirected to")
             webbrowser.open(r.url, new = 0, autoraise=True)
