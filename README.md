@@ -79,9 +79,10 @@ proj = afw.B360.Project.getProjectById(cli, token, "YOUR_PROJECT_ID")
 
 # The Options class in each module makes it easy to send the needed data/parameters
 # Ensures its format and fields
-ops = afw.B360.Options.updateProjectOptions(name="AFWProject", status="active", end_date="2021-04-30")
 
+ops = afw.B360.Options.updateProjectOptions(name="AFWProject", status="active", end_date="2021-04-30")
 updatedProject = proj.updateProject(token, ops)
+
 print(updatedProject.name)
 print(updatedProject.status)
 print(updatedProject.end_date)
