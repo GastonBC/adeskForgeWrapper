@@ -2,7 +2,7 @@
 # Wrapper for Token Flex API
 # https://forge.autodesk.com/en/docs/tokenflex/v1/
 # ----------
-
+'''Module for the Token Flex API'''
 import requests
 
 from .utils import TOKENFLEX_API

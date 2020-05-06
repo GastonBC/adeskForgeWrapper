@@ -1,3 +1,4 @@
+'''Module for the Reality Capture API'''
 from .utils import checkScopes
 from .utils import checkResponse
 from .utils import RECAP_API

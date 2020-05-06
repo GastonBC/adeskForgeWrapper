@@ -2,7 +2,7 @@
 # Wrapper for BIM360 API
 # https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
 # ----------
-
+'''Module for the BIM360 API'''
 import requests
 
 from . import AFWExceptions
@@ -188,34 +188,34 @@ class Project(object):
     Project.updated_at'''
 #hiddenRegion
     def __init__(self, rawDict):
-        self.__raw = rawDict or None
-        self.__id = rawDict.get("id") or None
-        self.__accId = rawDict.get("account_id") or None
-        self.__status = rawDict.get("status") or None
-        self.__name = rawDict.get("name") or None
-        self.__service_types = rawDict.get("service_types") or None
-        self.__start_date = rawDict.get("start_date") or None
-        self.__end_date = rawDict.get("end_date") or None
-        self.__project_type = rawDict.get("project_type") or None
-        self.__value = rawDict.get("value") or None
-        self.__currency = rawDict.get("currency") or None
-        self.__job_number = rawDict.get("job_number") or None
-        self.__address_line_1 = rawDict.get("address_line_1") or None
-        self.__address_line_2 = rawDict.get("address_line_2") or None
-        self.__city = rawDict.get("city") or None
-        self.__state_or_province = rawDict.get("state_or_province") or None
-        self.__postal_code = rawDict.get("postal_code") or None
-        self.__country = rawDict.get("country") or None
-        self.__business_unit_id = rawDict.get("business_unit_id") or None
-        self.__timezone = rawDict.get("timezone") or None
-        self.__language = rawDict.get("language") or None
-        self.__construction_type = rawDict.get("construction_type") or None
-        self.__contract_type = rawDict.get("contract_type") or None
-        self.__template_project_id = rawDict.get("template_project_id") or None
-        self.__include_companies = rawDict.get("include_companies") or None
-        self.__include_locations = rawDict.get("include_locations") or None
-        self.__created_at = rawDict.get("created_at") or None
-        self.__updated_at = rawDict.get("updated_at") or None
+        self.__raw = rawDict
+        self.__id = rawDict.get("id", None)
+        self.__accId = rawDict.get("account_id", None)
+        self.__status = rawDict.get("status", None)
+        self.__name = rawDict.get("name", None)
+        self.__service_types = rawDict.get("service_types", None)
+        self.__start_date = rawDict.get("start_date", None)
+        self.__end_date = rawDict.get("end_date", None)
+        self.__project_type = rawDict.get("project_type", None)
+        self.__value = rawDict.get("value", None)
+        self.__currency = rawDict.get("currency", None)
+        self.__job_number = rawDict.get("job_number", None)
+        self.__address_line_1 = rawDict.get("address_line_1", None)
+        self.__address_line_2 = rawDict.get("address_line_2", None)
+        self.__city = rawDict.get("city", None)
+        self.__state_or_province = rawDict.get("state_or_province", None)
+        self.__postal_code = rawDict.get("postal_code", None)
+        self.__country = rawDict.get("country", None)
+        self.__business_unit_id = rawDict.get("business_unit_id", None)
+        self.__timezone = rawDict.get("timezone", None)
+        self.__language = rawDict.get("language", None)
+        self.__construction_type = rawDict.get("construction_type", None)
+        self.__contract_type = rawDict.get("contract_type", None)
+        self.__template_project_id = rawDict.get("template_project_id", None)
+        self.__include_companies = rawDict.get("include_companies", None)
+        self.__include_locations = rawDict.get("include_locations", None)
+        self.__created_at = rawDict.get("created_at", None)
+        self.__updated_at = rawDict.get("updated_at", None)
     @property
     def raw(self):
         '''The raw dictionary response'''
@@ -512,24 +512,24 @@ class Company(object):
     Company.tax_id'''
 #hiddenRegion
     def __init__(self, rawDict):
-        self.__raw = rawDict or None
-        self.__id = rawDict.get("id") or None
-        self.__accId = rawDict.get("account_id") or None
-        self.__name = rawDict.get("name") or None
-        self.__trade = rawDict.get("trade") or None
-        self.__address_line_1 = rawDict.get("address_line_1") or None
-        self.__address_line_2 = rawDict.get("address_line_2") or None
-        self.__city = rawDict.get("city") or None
-        self.__postal_code = rawDict.get("postal_code") or None
-        self.__state_or_province = rawDict.get("state_or_province") or None
-        self.__country = rawDict.get("country") or None
-        self.__phone = rawDict.get("phone") or None
-        self.__website_url = rawDict.get("website_url") or None
-        self.__description = rawDict.get("description") or None
-        self.__created_at = rawDict.get("created_at") or None
-        self.__updated_at = rawDict.get("updated_at") or None
-        self.__erp_id = rawDict.get("erp_id") or None
-        self.__tax_id = rawDict.get("tax_id") or None
+        self.__raw = rawDict
+        self.__id = rawDict.get("id", None)
+        self.__accId = rawDict.get("account_id", None)
+        self.__name = rawDict.get("name", None)
+        self.__trade = rawDict.get("trade", None)
+        self.__address_line_1 = rawDict.get("address_line_1", None)
+        self.__address_line_2 = rawDict.get("address_line_2", None)
+        self.__city = rawDict.get("city", None)
+        self.__postal_code = rawDict.get("postal_code", None)
+        self.__state_or_province = rawDict.get("state_or_province", None)
+        self.__country = rawDict.get("country", None)
+        self.__phone = rawDict.get("phone", None)
+        self.__website_url = rawDict.get("website_url", None)
+        self.__description = rawDict.get("description", None)
+        self.__created_at = rawDict.get("created_at", None)
+        self.__updated_at = rawDict.get("updated_at", None)
+        self.__erp_id = rawDict.get("erp_id", None)
+        self.__tax_id = rawDict.get("tax_id", None)
 
     @property
     def raw(self):
@@ -694,33 +694,33 @@ class User(object):
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict
-        self.__id = rawDict.get("id") or None
-        self.__account_id = rawDict.get("account_id") or None
-        self.__status = rawDict.get("status") or None
-        self.__role = rawDict.get("role") or None
-        self.__company_id = rawDict.get("company_id") or None
-        self.__company_name = rawDict.get("company_name") or None
-        self.__last_sign_in = rawDict.get("last_sign_in") or None
-        self.__email = rawDict.get("email") or None
-        self.__name = rawDict.get("name") or None
-        self.__nickname = rawDict.get("nickname") or None
-        self.__first_name = rawDict.get("first_name") or None
-        self.__last_name = rawDict.get("last_name") or None
-        self.__uid = rawDict.get("uid") or None
-        self.__image_url = rawDict.get("image_url") or None
-        self.__address_line_1 = rawDict.get("address_line_1") or None
-        self.__address_line_2 = rawDict.get("address_line_2") or None
-        self.__city = rawDict.get("city") or None
-        self.__postal_code = rawDict.get("postal_code") or None
-        self.__state_or_province = rawDict.get("state_or_province") or None
-        self.__country = rawDict.get("country") or None
-        self.__phone = rawDict.get("phone") or None
-        self.__company = rawDict.get("company") or None
-        self.__job_title = rawDict.get("job_title") or rawDict.get("jobTitle") or None
-        self.__industry = rawDict.get("industry") or None
-        self.__about_me = rawDict.get("about_me") or None
-        self.__created_at = rawDict.get("created_at") or None
-        self.__updated_at = rawDict.get("updated_at") or None
+        self.__id = rawDict.get("id", None)
+        self.__account_id = rawDict.get("account_id", None)
+        self.__status = rawDict.get("status", None)
+        self.__role = rawDict.get("role", None)
+        self.__company_id = rawDict.get("company_id", None)
+        self.__company_name = rawDict.get("company_name", None)
+        self.__last_sign_in = rawDict.get("last_sign_in", None)
+        self.__email = rawDict.get("email", None)
+        self.__name = rawDict.get("name", None)
+        self.__nickname = rawDict.get("nickname", None)
+        self.__first_name = rawDict.get("first_name", None)
+        self.__last_name = rawDict.get("last_name", None)
+        self.__uid = rawDict.get("uid", None)
+        self.__image_url = rawDict.get("image_url", None)
+        self.__address_line_1 = rawDict.get("address_line_1", None)
+        self.__address_line_2 = rawDict.get("address_line_2", None)
+        self.__city = rawDict.get("city", None)
+        self.__postal_code = rawDict.get("postal_code", None)
+        self.__state_or_province = rawDict.get("state_or_province", None)
+        self.__country = rawDict.get("country", None)
+        self.__phone = rawDict.get("phone", None)
+        self.__company = rawDict.get("company", None)
+        self.__job_title = rawDict.get("job_title") or rawDict.get("jobTitle", None)
+        self.__industry = rawDict.get("industry", None)
+        self.__about_me = rawDict.get("about_me", None)
+        self.__created_at = rawDict.get("created_at", None)
+        self.__updated_at = rawDict.get("updated_at", None)
 
     @property
     def raw(self):
@@ -859,14 +859,14 @@ class IndustryRoles(object):
     IndustryRoles.docManagementAccess<br>
     IndustryRoles.member_group_id'''
     def __init__(self, rawDict):
-        self.__raw = rawDict or None
-        self.__id = rawDict.get("id") or None
-        self.__name = rawDict.get("name") or None
-        self.__project_id = rawDict.get("project_id") or None
-        self.__projectAdminAccess = rawDict.get("services").get("project_administration").get("access_level") or None
-        self.__insightAccess = rawDict.get("services").get("insight").get("access_level") or None
-        self.__docManagementAccess = rawDict.get("services").get("document_management").get("access_level") or None
-        self.__member_group_id = rawDict.get("member_group_id") or None
+        self.__raw = rawDict
+        self.__id = rawDict.get("id", None)
+        self.__name = rawDict.get("name", None)
+        self.__project_id = rawDict.get("project_id", None)
+        self.__projectAdminAccess = rawDict["services"]["project_administration"].get("access_level", None)
+        self.__insightAccess = rawDict.get("services").get("insight").get("access_level", None)
+        self.__docManagementAccess = rawDict.get("services").get("document_management").get("access_level", None)
+        self.__member_group_id = rawDict.get("member_group_id", None)
 
     @property
     def raw(self):
@@ -904,15 +904,15 @@ class BusinessUnits(object):
     BusinessUnits.created_at<br>
     BusinessUnits.updated_at'''
     def __init__(self, rawDict):
-        self.__raw = rawDict or None
-        self.__id = rawDict.get("id") or None
-        self.__account_id = rawDict.get("account_id") or None
-        self.__parent_id = rawDict.get("parent_id") or None
-        self.__name = rawDict.get("name") or None
-        self.__description = rawDict.get("description") or None
-        self.__path = rawDict.get("path") or None
-        self.__created_at = rawDict.get("created_at") or None
-        self.__updated_at = rawDict.get("updated_at") or None
+        self.__raw = rawDict
+        self.__id = rawDict.get("id", None)
+        self.__account_id = rawDict.get("account_id", None)
+        self.__parent_id = rawDict.get("parent_id", None)
+        self.__name = rawDict.get("name", None)
+        self.__description = rawDict.get("description", None)
+        self.__path = rawDict.get("path", None)
+        self.__created_at = rawDict.get("created_at", None)
+        self.__updated_at = rawDict.get("updated_at", None)
 
     @property
     def raw(self):
@@ -990,11 +990,11 @@ class Jobs(object):
     Jobs.details'''
     def __init__(self, rawDict):
         self.__raw = rawDict or None
-        self.__id = rawDict.get("id") or None
-        self.__account_id = rawDict.get("account_id") or None
-        self.__name = rawDict.get("name") or None
-        self.__status = rawDict.get("status") or None
-        self.__details = rawDict.get("details") or None
+        self.__id = rawDict.get("id", None)
+        self.__account_id = rawDict.get("account_id", None)
+        self.__name = rawDict.get("name", None)
+        self.__status = rawDict.get("status", None)
+        self.__details = rawDict.get("details", None)
 
     @property
     def raw(self):

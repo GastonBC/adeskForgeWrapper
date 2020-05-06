@@ -1,7 +1,4 @@
-# ----------
-# Forge API exceptions
-# https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
-# ----------
+'''Forge and AFW exceptions'''
 
 class AFWError(Exception):
     '''Base class for AFW exceptions'''

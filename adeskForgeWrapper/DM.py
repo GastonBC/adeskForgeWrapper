@@ -1,3 +1,4 @@
+'''Module for the Data Management API'''
 # ----------
 # Wrapper for DATA MANAGEMENT API
 # https://forge.autodesk.com/en/docs/data/v2/reference/http/
@@ -17,10 +18,12 @@ from .utils import AUTODESK_BASE_URL as BASE_URL
 
 class Hub(object):
     __apiType = "hubs"
-    def __init__(self, raw, name, hubId: str):
-        self.__raw = raw
-        self.__name = name
-        self.__hubId = hubId
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+        self.__type = rawDict.get("type", None)
+        self.__hubId = rawDict.get("id", None)
+        self.__name = rawDict["attributes"].get("name", None)
+        self.__region = rawDict["attributes"].get("region", None)
 
     @property
     def apiType(self):
@@ -29,11 +32,17 @@ class Hub(object):
     def raw(self):
         return self.__raw
     @property
-    def name(self):
-        return self.__name
+    def type(self):
+        return self.__type
     @property
     def hubId(self):
         return self.__hubId
+    @property
+    def name(self):
+        return self.__name
+    @property
+    def region(self):
+        return self.__region
 
     @classmethod
     def hubById(cls, token, hub_id):
@@ -43,7 +52,7 @@ class Hub(object):
         endpointUrl = BASE_URL+"/project/v1/hubs/{hId}".format(hId=hub_id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
-        return cls(r, r["data"]["attributes"]["name"], r["data"]["id"])
+        return cls(r)
 
     @classmethod
     def getHubs(cls, token):
@@ -57,7 +66,7 @@ class Hub(object):
         endpointUrl = BASE_URL+"/project/v1/hubs"
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
-        return [cls(h, h["attributes"]["name"], h["id"]) for h in r["data"]]
+        return [cls(h) for h in r["data"]]
 
     def getProjectsByHub(self, token):
         '''Returns a list of all projects in the hub<br>
@@ -66,26 +75,35 @@ class Hub(object):
         endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects".format(hId=self.hubId)
         projects = requests.get(endpointUrl,headers=token.getHeader).json()
         checkResponse(projects)
-        return [Project(p, p["id"], p["attributes"]["name"], self.hubId) for p in projects["data"]]
+        return [Project(p) for p in projects["data"]]
+
+    def projectById(self, token, projectId):
+        '''Returns a specific project by id
+        Scope data:read'''
+        checkScopes(token, "data:read")
+        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(hId=self.hubId, pId=projectId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return Project(r["data"])
 
 class Project(object):
     __apiType = "projects"
-    def __init__(self, raw, Id, name, hubId):
+    def __init__(self, rawDict):
         '''TODO'''
-        self.__raw = raw
-        self.__Id = Id
-        self.__name = name
-        self.__hubId = hubId
+        self.__raw = rawDict
+        self.__name = rawDict["attributes"].get("name", None)
+        self.__id = rawDict.get("id", None)
+        self.__hubId = rawDict["relationships"]["hub"]["data"].get("id", None)
 
     @property
-    def apiType(self):
-        return self.__apiType
+    def id(self):
+        return self.__id
     @property
     def raw(self):
         return self.__raw
     @property
-    def Id(self):
-        return self.__Id
+    def apiType(self):
+        return self.__apiType
     @property
     def name(self):
         return self.__name
@@ -94,14 +112,14 @@ class Project(object):
         return self.__hubId
 
     @classmethod
-    def getProjectById(cls, token, hub: Hub, p_id):
+    def projectById(cls, token, hubId , pId):
         '''Returns a specific project by id
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(hId=hub.hubId, pId=p_id)
+        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(hId=hubId, pId=pId)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
-        return cls(r, r["data"]["id"], r["data"]["attributes"]["name"], r["data"]["relationships"]["hub"]["data"]["id"])
+        return cls(r["data"])
 
     def getHubFromProject(self, token):
         '''Returns a specific hub from current project
@@ -114,47 +132,78 @@ class Project(object):
         The user must have at least read access to the folders.
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}/topFolders".format(hId=self.hubId, pId=self.Id)
+        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}/topFolders".format(hId=self.hubId, pId=self.id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
-        return [Folder.folderById(token, self, tF["id"]) for tF in r["data"]]
+        return [Folder(tF) for tF in r["data"]]
 
 class Folder(object):
     __apiType = "folders"
-    def __init__(self, raw, Id, name, hidden):
+    def __init__(self, rawDict):
         '''Base folder class'''
-        self.__raw = raw
-        self.__Id = Id
-        self.__name = name
-        self.__hidden = hidden
-
+        self.__raw = rawDict
+        self.__id = rawDict.get("id", None)
+        self.__name = rawDict["attributes"].get("name", None)
+        self.__displayName = rawDict["attributes"].get("displayName", None)
+        self.__createTime = rawDict["attributes"].get("createTime", None)
+        self.__createUserId = rawDict["attributes"].get("createUserId", None)
+        self.__createUserName = rawDict["attributes"].get("createUserName", None)
+        self.__lastModifiedTime = rawDict["attributes"].get("lastModifiedTime", None)        
+        self.__lastModifiedUserId = rawDict["attributes"].get("lastModifiedUserId", None)    
+        self.__lastModifiedUserName = rawDict["attributes"].get("lastModifiedUserName", None)
+        self.__objectCount = rawDict["attributes"].get("objectCount", None)
+        self.__hidden = rawDict["attributes"].get("hidden", None)
     @property
-    def apiType(self):
-        return self.__apiType
+    def raw(self):
+        return self.__raw
     @property
-    def Id(self):
-        return self.__Id
+    def id(self):
+        return self.__id
     @property
     def name(self):
         return self.__name
+    @property
+    def displayName(self):
+        return self.__displayName
+    @property
+    def createTime(self):
+        return self.__createTime
+    @property
+    def createUserId(self):
+        return self.__createUserId
+    @property
+    def createUserName(self):
+        return self.__createUserName
+    @property
+    def lastModifiedTime(self):
+        return self.__lastModifiedTime
+    @property
+    def lastModifiedUserId(self):
+        return self.__lastModifiedUserId
+    @property
+    def lastModifiedUserName(self):
+        return self.__lastModifiedUserName
+    @property
+    def objectCount(self):
+        return self.__objectCount
     @property
     def hidden(self):
         return self.__hidden
 
     @classmethod
-    def folderById(cls, token: Token, project: Project, folderId):
+    def folderById(cls, token: Token, projectId, folderId):
         '''Returns a specific folder by id
         Scope data:read
-        p_id: the project id in which the folder is contained
-        f_id: the folder id'''
+        projectId: the project id in which the folder is contained
+        folderId: the folder id'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(p_id=project.Id, f_id=folderId)
+        endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(p_id=projectId, f_id=folderId)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
-        return cls(r, r["data"]["id"], r["data"]["attributes"]["name"], r["data"]["attributes"]["hidden"])
+        return cls(r["data"])
 
     @classmethod
-    def CreateFolder(cls, token: Token, project: Project, folderId):
+    def createFolder(cls, token: Token, project: Project, folderId):
         '''Returns a specific folder by id
         Scope data:read
         p_id: the project id in which the folder is contained
@@ -163,12 +212,82 @@ class Folder(object):
         endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(p_id=project.Id, f_id=folderId)
         r = requests.get(endpointUrl ,headers=token.getHeader).json()
         checkResponse(r)
-        return cls(r, r["data"]["id"], r["data"]["attributes"]["name"], r["data"]["attributes"]["hidden"])
+        return cls(r["data"])
 
+    def getContents(self, token, projectId):
+        '''Returns a collection of items and folders within a folder. Items represent word documents, 
+        fusion design files, drawings, spreadsheets, etc.<br>
 
-# TODO FAR IN THE FUTURE: OBJECT CLASS INHERITANCE: HUB > PROJECT > FOLDER > ITEM. THAT WAY WE CAN USE ATTRIBUTE INHERITED
-#      INVESTIGATE PROS N CONS OF THIS
-#      https://stackoverflow.com/questions/8853966/the-inheritance-of-attributes-using-init
+        Notes:<br><br>
+
+        The tip version for each item resource is included by default in the included array of the payload'''
+        checkScopes(token, "data:read")
+        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/folders/{fId}/contents".format(pId=projectId, fId=self.id)
+        if token.isThreeLegged:
+            r = requests.get(endpointUrl ,headers=token.getHeader).json()
+        elif token.isThreeLegged is False:
+            r = requests.get(endpointUrl ,headers=token.XUser).json()
+        checkResponse(r)
+        results = []
+        for res in r["data"]:
+            if res["type"] == "folders":
+                results.append(Folder(res))
+            elif res["type"] == "items":
+                results.append(Item(res))
+            elif res["type"] == "versions":
+                pass
+        return results
+
+class Item(object):
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+        self.__id = rawDict.get("id", None)
+        self.__displayName = rawDict["attributes"].get("displayName", None)
+        self.__createTime = rawDict["attributes"].get("createTime", None)
+        self.__createUserId = rawDict["attributes"].get("createUserId", None)
+        self.__createUserName = rawDict["attributes"].get("createUserName", None)
+        self.__lastModifiedTime = rawDict["attributes"].get("lastModifiedTime", None)
+        self.__lastModifiedUserId = rawDict["attributes"].get("lastModifiedUserId", None)
+        self.__lastModifiedUserName = rawDict["attributes"].get("lastModifiedUserName", None)
+        self.__hidden = rawDict["attributes"].get("hidden", None)
+        self.__reserved = rawDict["attributes"].get("reserved", None)
+        self.__extension = rawDict["attributes"].get("extension", None)
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def displayName(self):
+        return self.__displayName
+    @property
+    def createTime(self):
+        return self.__createTime
+    @property
+    def createUserId(self):
+        return self.__createUserId
+    @property
+    def createUserName(self):
+        return self.__createUserName
+    @property
+    def lastModifiedTime(self):
+        return self.__lastModifiedTime
+    @property
+    def lastModifiedUserId(self):
+        return self.__lastModifiedUserId
+    @property
+    def lastModifiedUserName(self):
+        return self.__lastModifiedUserName
+    @property
+    def hidden(self):
+        return self.__hidden
+    @property
+    def reserved(self):
+        return self.__reserved
+    @property
+    def extension(self):
+        return self.__extension
 
 # TODO LEFT
 # Projects

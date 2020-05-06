@@ -1,4 +1,4 @@
-'''AUTODESK'S FORGE URLS'''
+'''Forge URLs and utility functions'''
 
 from . import AFWExceptions
 
