@@ -3,6 +3,8 @@
 afw is a simple Python wrapper for Autodesk's Forge API
 
 **Installation** `pip install adeskForgeWrapper`
+
+[Start here!](https://github.com/GastonBC/adeskForgeWrapper/wiki#setting-up-credentials-and-getting-a-2-legged-token), after setting up your credentials and getting your first token you will be good to go and explore all the APIs!
 ##
 **Wiki** [https://github.com/GastonBC/adeskForgeWrapper/wiki](https://github.com/GastonBC/adeskForgeWrapper/wiki)
 
