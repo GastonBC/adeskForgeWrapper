@@ -29,7 +29,7 @@ def checkResponse(r):
         raise AFWExceptions.APIError("CODE {e1} - {e2}".format(e1=r["errorCode"], e2=r["developerMessage"]))
     elif "code" in r and "msg" in r:
         raise AFWExceptions.APIError("CODE {e1} - {e2}".format(e1=r["code"], e2=r["msg"]))
-    elif "jsonapi" in r and "errors" in r: # Check for DM errors, response returns a list of errors so raise that list
+    elif "jsonapi" in r and "errors" in r: # Check for dm errors, response returns a list of errors so raise that list
         raise AFWExceptions.APIError(r["errors"])
     elif "Error" in r: # This is ReCap format... too many error formats
         raise AFWExceptions.APIError("CODE {e1} - {e2}".format(e1=r["Error"]["code"], e2=r["Error"]["msg"]))

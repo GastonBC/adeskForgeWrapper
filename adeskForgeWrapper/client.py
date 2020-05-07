@@ -46,9 +46,10 @@ class Token(object):
         self.__bimAccName = client.bimAccName
         self.__hubId = client.hubId
         self.__isThreeLegged = flow
+        self.__scope = scope
         if type(r) == dict:
             self.__raw = r
-            self.__scope = scope
+            
             self.__token_type = r["token_type"] or None
             self.__expires_in = r["expires_in"] or None
             self.__access_token = r["access_token"]
@@ -63,7 +64,6 @@ class Token(object):
             self.__XUser = {'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
         elif type(r) == str:
             self.__raw = r
-            self.__scope = scope
             self.__token_type = None
             self.__expires_in = None
             self.__access_token = r
@@ -130,7 +130,7 @@ class Token(object):
         return self.__XUser
 
     @classmethod
-    def get2LeggedToken(cls, scope: type(str), client: Client):
+    def get_2_legged_token(cls, scope: type(str), client: Client):
         '''Gets a 2 legged token according to the scope.<br>
         Scope - The scope you aim for. <br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''
@@ -145,7 +145,7 @@ class Token(object):
         return cls(client, r, scope, False)
 
     @classmethod
-    def get3LeggedToken(cls, scope, client, callback_URL, tokenType="token"):
+    def get_3_legged_token(cls, scope, client, callback_URL, tokenType="token"):
         '''Get a 3 legged token according to the scope.<br>
         Scope - The scope you aim for. <br>
         callback_URL: The callback url the user will be taken to after authorization. This<br>
