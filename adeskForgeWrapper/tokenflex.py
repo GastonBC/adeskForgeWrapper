@@ -45,9 +45,9 @@ class Contract(object):
 #endRegion
 
     @classmethod
-    def getContracts(cls, token: client.Token):
+    def get_contracts(cls, token):
         '''List all the accessible contracts and high level information for each contract.<br>
-        The token must be obtained via 3-legged workflow. client.get3LeggedToken()<br>
+        Token - Must be obtained via 3-legged workflow. client.get3LeggedToken()<br>
         Scope data:read'''
         checkScopes(token, "data:read")
         endpointUrl = TOKENFLEX_API+"/contract"
@@ -56,18 +56,18 @@ class Contract(object):
         return [cls(c) for c in r]
     
     @classmethod
-    def getContractById(cls, token: client.Token, contractId):
+    def contract_by_id(cls, token, contractId):
         '''Query details of a contract.<br>
         The token must be obtained via 3-legged workflow. client.get3LeggedToken()<br>
         This gives more details such as multiyear tokens, and contract details by year.<br>
-        Scope data:read<br>'''
+        Scope data:read'''
         checkScopes(token, "data:read")
         endpointUrl = TOKENFLEX_API+"/contract/{conId}".format(contractId)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
 
-    def getEnrichmentCategories(self, token: client.Token):
+    def get_enrichment_categories(self, token):
         '''List all customer uploaded enrichment categories.<br>
         Returns a list with all enrichment categories of a contract.'''
         checkScopes(token, "data:read")
@@ -76,7 +76,7 @@ class Contract(object):
         checkResponse(r)
         return r
 
-    def getEnrichmentValues(self, token: client.Token, category: str):
+    def get_enrichment_values(self, token, category):
         '''Get all the unique values for an enrichment category.<br>
         Returns a list with all possible values for an enrichment category.'''
         checkScopes(token, "data:read")
@@ -85,7 +85,7 @@ class Contract(object):
         checkResponse(r)
         return r
 
-    def contractSummary(self, token: client.Token, filters = None):
+    def contract_summary(self, token, filters = None):
         '''Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over 
         an ad-hoc query because this API returns data faster.<br>
         Returns a list of attributes'''

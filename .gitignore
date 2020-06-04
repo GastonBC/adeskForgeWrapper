@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/docs
+docs.md
+recreateDocs.bat
+ReleaseWorkflow.txt
+simpleSv.py
+startEnv.bat
+startLocalSv.bat
+tests.py
+vars.env

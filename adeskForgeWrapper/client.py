@@ -130,7 +130,7 @@ class Token(object):
         return self.__XUser
 
     @classmethod
-    def get_2_legged_token(cls, scope: type(str), client: Client):
+    def get_2_legged_token(cls, scope, client):
         '''Gets a 2 legged token according to the scope.<br>
         Scope - The scope you aim for. <br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''

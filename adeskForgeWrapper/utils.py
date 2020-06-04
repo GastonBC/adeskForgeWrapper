@@ -39,3 +39,9 @@ def batch(iterable, n=1):
     for ndx in range(0, l, n):
         yield iterable[ndx:min(ndx + n, l)]
 
+def allowed_kwargs_check(allowedKwgs, kwgs):
+    '''Check kwargs'''
+    for kwg in kwgs:
+        if kwg not in allowedKwgs:
+            raise AFWExceptions.AFWError("Invalid kwarg. See allowed kwargs in the docstring")
+

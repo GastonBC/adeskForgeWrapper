@@ -9,6 +9,7 @@ from . import AFWExceptions
 from . import client
 from .utils import checkScopes
 from .utils import checkResponse
+from . import utils
 from .utils import AUTODESK_BASE_URL as BASE_URL
 import json
 
@@ -16,81 +17,120 @@ import json
 class Options(object):
     '''Some methods require data and parameters in diferent formats, 
     this class makes it easy to add those and ensures the information is sent the right way.'''
-    @staticmethod
-    def create_project_options(name, start_date, end_date, project_type, value, currency, service_types=None,
-                            job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, 
-                            postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, 
-                            contract_type=None, template_project_id=None, include_companies=None, include_locations=None):
-        '''Data used to create a project.<br>
-        Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.
-        start_date - YYYY-MM-DD
-        end_date - YYYY-MM-DD, later than start date
-        project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)
-        currency - Refer to parameters
-        language - Refer to parameters'''
 
+    @staticmethod
+    def create_project_options(name, start_date, end_date, project_type, value, currency, **kwargs):
+        '''Options for  `Project.create_roject`<br>
+        Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.<br>
+        name<br>
+        start_date - YYYY-MM-DD<br>
+        end_date - YYYY-MM-DD, later than start date<br>
+        project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)<br>
+        currency - Refer to parameters<br>
+        language - Refer to parameters<br><br>
+        
+        kwargs:<br>
+        service_types<br>
+        job_number<br>
+        address_line_1<br>
+        address_line_2<br>
+        city<br>
+        state_or_province<br>
+        postal_code<br>
+        country<br>
+        business_unit_id<br>
+        timezone<br>
+        language - Refer to parameters<br>
+        construction_type<br>
+        contract_type<br>
+        template_project_id<br>
+        include_companies<br>
+        include_locations<br>'''
+        
+        allowedKwgs = ["service_types", "job_number", "address_line_1", "address_line_2", 
+                       "city", "state_or_province", "postal_code", "country", "business_unit_id",
+                       "timezone", "language", "construction_type", "contract_type", 
+                       "template_project_id", "include_companies", "include_locations"]
+        utils.allowed_kwargs_check(allowedKwgs, kwargs)
+        
         data = {
             "name":name,
-            "service_types":service_types,
             "start_date":start_date,
             "end_date":end_date,
             "project_type":project_type, 
             "value":value,
             "currency":currency,
-            "job_number":job_number,
-            "address_line_1":address_line_1,
-            "address_line_2":address_line_2,
-            "city":city,
-            "state_or_province":state_or_province,
-            "postal_code":postal_code,
-            "country":country,
-            "business_unit_id":business_unit_id,
-            "timezone":timezone,
-            "language":language,
-            "construction_type":construction_type,
-            "contract_type":contract_type,
-            "template_project_id":template_project_id,
-            "include_companies":include_companies,
-            "include_locations":include_locations,
+            "service_types":kwargs.get("service_types", None),
+            "job_number":kwargs.get("job_number", None),
+            "address_line_1":kwargs.get("address_line_1", None),
+            "address_line_2":kwargs.get("address_line_2", None),
+            "city":kwargs.get("city", None),
+            "state_or_province":kwargs.get("state_or_province", None),
+            "postal_code":kwargs.get("postal_code", None),
+            "country":kwargs.get("country", None),
+            "business_unit_id":kwargs.get("business_unit_id", None),
+            "timezone":kwargs.get("timezone", None),
+            "language":kwargs.get("language", None),
+            "construction_type":kwargs.get("construction_type", None),
+            "contract_type":kwargs.get("contract_type", None)
         }
         data = {k : v for k,v in data.items() if v is not None}
         return json.dumps(data, ensure_ascii=True)
 
     @staticmethod
-    def update_project_options(name = None, service_types = None, status = None, start_date = None,
-                             end_date = None, project_type = None, value = None, currency = None, job_number = None,
-                             address_line_1 = None, address_line_2 = None, city = None, state_or_province = None,
-                             postal_code = None, country = None, business_unit_id = None, timezone = None, language = None,
-                             construction_type = None, contract_type = None):
-        '''Options to update a project.'''
-        
+    def update_project_options(**kwargs):
+        '''Options for `Project_update_project`<br><br>
+
+        kwargs:<br>
+        name<br>
+        start_date - YYYY-MM-DD<br>
+        end_date - YYYY-MM-DD, later than start date<br>
+        project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)<br>
+        currency - Refer to parameters<br>
+        language - Refer to parameters<br><br>
+        service_types<br>
+        job_number<br>
+        address_line_1<br>
+        city<br>
+        state_or_province<br>
+        postal_code<br>
+        country<br>
+        business_unit_id<br>
+        timezone<br>
+        language - Refer to parameters<br>
+        construction_type<br>
+        contract_type<br>
+        template_project_id<br>
+        include_companies<br>
+        include_locations<br>
+        '''
         data = {
-            "name":name,
-            "service_types":service_types,
-            "status":status,
-            "start_date":start_date,
-            "end_date":end_date,
-            "project_type":project_type,
-            "value":value,
-            "currency":currency,
-            "job_number":job_number,
-            "address_line_1":address_line_1,
-            "address_line_2":address_line_2,
-            "city":city,
-            "state_or_province":state_or_province,
-            "postal_code":postal_code,
-            "country":country,
-            "business_unit_id":business_unit_id,
-            "timezone":timezone,
-            "language":language,
-            "construction_type":construction_type,
-            "contract_type":contract_type
+            "name":kwargs.get("name", None),
+            "status":kwargs.get("status", None),
+            "start_date":kwargs.get("start_date", None),
+            "end_date":kwargs.get("end_date", None),
+            "project_type":kwargs.get("project_type", None),
+            "value":kwargs.get("value", None),
+            "currency":kwargs.get("currency", None),
+            "service_types":kwargs.get("service_types", None),
+            "job_number":kwargs.get("job_number", None),
+            "address_line_1":kwargs.get("address_line_1", None),
+            "address_line_2":kwargs.get("address_line_2", None),
+            "city":kwargs.get("city", None),
+            "state_or_province":kwargs.get("state_or_province", None),
+            "postal_code":kwargs.get("postal_code", None),
+            "country":kwargs.get("country", None),
+            "business_unit_id":kwargs.get("business_unit_id", None),
+            "timezone":kwargs.get("timezone", None),
+            "language":kwargs.get("language", None),
+            "construction_type":kwargs.get("construction_type", None),
+            "contract_type":kwargs.get("contract_type", None)
         }
         data = {k : v for k,v in data.items() if v is not None} 
         return json.dumps(data, ensure_ascii=True)
 
     @staticmethod
-    def export_PDF_options(versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+    def export_PDF_options(versionId, includeMarkups = False, includeHyperlinks = False):
         '''Options to export PDFs'''
         if type(includeMarkups) != bool or type(includeMarkups) != bool:
             raise TypeError("includeMarkups/includeHyperlinks expected bool")
@@ -108,56 +148,125 @@ class Options(object):
         return json.dumps(data, ensure_ascii=True)
 
     @staticmethod
-    def update_company_options(name = None, trade = None, address_line_1 = None, address_line_2 = None, city = None, state_or_province = None, country = None,
-                             phone = None, website_url = None, description = None, erp_id = None, tax_id = None):
-        '''Options for updateCompany'''
+    def update_company_options(**kwargs):
+        '''Options for updateCompany<br><br>
         
-        data = {"name":name,
-                "trade":trade,
-                "address_line_1":address_line_1,
-                "address_line_2":address_line_2,
-                "city":city,
-                "state_or_province":state_or_province,
-                "country":country,
-                "phone":phone,
-                "website_url":website_url,
-                "description":description,
-                "erp_id":erp_id,
-                "tax_id":tax_id
+        kwargs:<br>
+        name<br>
+        trade<br>
+        address_line_1<br>
+        address_line_2<br>
+        city<br>
+        state_or_province<br>
+        country<br>
+        phone<br>
+        website_url<br>
+        description<br>
+        erp_id<br>
+        tax_id'''
+        
+        data = {"name":kwargs.get("name", None),
+                "trade":kwargs.get("trade", None),
+                "address_line_1":kwargs.get("address_line_1", None),
+                "address_line_2":kwargs.get("address_line_2", None),
+                "city":kwargs.get("city", None),
+                "state_or_province":kwargs.get("state_or_province", None),
+                "country":kwargs.get("country", None),
+                "phone":kwargs.get("phone", None),
+                "website_url":kwargs.get("website_url", None),
+                "description":kwargs.get("description", None),
+                "erp_id":kwargs.get("erp_id", None),
+                "tax_id":kwargs.get("tax_id", None)
                 }
         data = {k : v for k,v in data.items() if v is not None} 
         return json.dumps(data, ensure_ascii=True)
 
     @staticmethod
-    def search_companies_options(name = None, trade = None, operator = None, partial = None, limit = None, offset = None, sort = None, field = None):
-        '''Options for searchCompany'''
+    def search_companies_options(**kwargs):
+        '''Options for searchCompany<br><br>
+        
+        kwargs:<br>
+        name<br>
+        trade<br>
+        operator<br>
+        partial<br>
+        limit<br>
+        offset<br>
+        sort<br>
+        field'''
         params = (
-                ('name', name),
-                ('trade', trade),
-                ('operator', operator),
-                ('partial', partial),
-                ('limit', limit),
-                ('offset', offset),
-                ('sort', sort),
-                ('field', field)
-        )
+                ('name', kwargs.get("name", None)),
+                ('trade', kwargs.get("trade", None)),
+                ('operator', kwargs.get("operator", None)),
+                ('partial', kwargs.get("partial", None)),
+                ('limit', kwargs.get("limit", None)),
+                ('offset', kwargs.get("offset", None)),
+                ('sort', kwargs.get("sort", None)),
+                ('field', kwargs.get("field", None))
+                )
         return params
 
     @staticmethod
-    def add_user_options(email = None, user_id = None, services = None, docManagementAccessLevel = None,
-                                projectAdminAccessLevel = None, company_id = None, industry_roles = None):
-        '''Use this method for each user you want to update'''
+    def add_user_options(**kwargs):
+        '''Use this method for each user you want to update<br><br>
+
+        kwargs:<br>
+        email<br>
+        user_id<br>
+        docManagementAccessLevel<br>
+        projectAdminAccessLevel<br>
+        projectAdminAccessLevel<br>
+        industry_roles<br>
+        '''
         data={
-            "email": email,
-            "user_id": user_id,
+            "email": kwargs.get("email", None),
+            "user_id": kwargs.get("user_id", None),
             "services": {
-                        "document_management": {"access_level": docManagementAccessLevel},
-                        "project_administration": {"access_level": projectAdminAccessLevel},
+                        "document_management": {"access_level": kwargs.get("docManagementAccessLevel", None)},
+                        "project_administration": {"access_level": kwargs.get("projectAdminAccessLevel", None)},
                         },
-            "company_id":company_id,
-            "industry_roles":industry_roles
-          }
+            "company_id":kwargs.get("company_id", None),
+            "industry_roles":kwargs.get("industry_roles", None)
+            }
         return data
+
+    @staticmethod
+    def import_company_options(name, trade, **kwargs):
+        '''Use this method for each company you want to update and pass a list to import_companies<br><br>
+        
+        kwargs:<br>
+        website_url<br>
+        city<br>
+        country<br>
+        address_line_1<br>
+        address_line_2<br>
+        postal_code<br>
+        erp_id<br>
+        tax_id<br>
+        phone<br>
+        description
+        '''
+        allowedKwgs = ['website_url', 'city', 'country', 'address_line_1', 'address_line_2',
+                       'postal_code', 'erp_id', 'tax_id', 'phone', 'description']
+        utils.allowed_kwargs_check(allowedKwgs, kwargs)
+
+        data = {
+                "name": name,
+                "trade": trade,
+                "website_url": kwargs.get('website_url', None),
+                "city": kwargs.get('city', None),
+                "country": kwargs.get('country', None),
+                "address_line_1": kwargs.get('address_line_1', None),
+                "address_line_2": kwargs.get('address_line_2', None),
+                "postal_code": kwargs.get('postal_code', None),
+                "erp_id": kwargs.get('erp_id', None),
+                "tax_id": kwargs.get('tax_id', None),
+                "phone": kwargs.get('phone', None),
+                "description": kwargs.get('description', None)
+                }
+
+        return json.dumps(data, ensure_ascii=True)
+
 
 class Project(object):
 #hiddenRegion
@@ -282,7 +391,6 @@ class Project(object):
         checkResponse(r)
         return [cls(p) for p in r]
 
-
     @classmethod
     def project_by_id(cls, token: client.Token, p_id):
         '''Query the details of a specific BIM 360 project.<br>
@@ -293,11 +401,10 @@ class Project(object):
         checkResponse(r)
         return cls(r)
 
-
     @classmethod
     def create_project(cls, token: client.Token, create_project_options):
         '''Create a new BIM 360 project in a specific BIM 360 account.<br>
-        Scope - account:write<br>
+        Scope - `account:write`<br>
         creationOps - From Options Class, createProjectOptions()'''
         checkScopes(token, "account:write")
         endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bimAccId)
@@ -308,7 +415,7 @@ class Project(object):
 
     def update_project(self, token: client.Token, update_project_options):
         '''Update the properties of only the specified attributes of a specific BIM 360 project.<br>
-           Scope - account:write account:read'''
+           Scope - `account:write account:read`'''
         checkScopes(token, "account:read account:write")
         endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=self.account_id, pId=self.id)
         r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_project_options).json()
@@ -375,6 +482,7 @@ class Project(object):
         r = requests.patch(endpointUrl, headers=token.contentXUser, data=update_user_options).json()
         checkResponse(r)
         return User(r)
+
     def industry_roles(self, token: client.Token):
         '''Retrieves the industry roles for the project. For example, contractor and architect.<br>
         Scope - account:read'''
@@ -435,6 +543,7 @@ class Project(object):
         print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
                  #TODO: Range header
         return r
+
 
 class Company(object):
 #hiddenRegion
@@ -553,35 +662,19 @@ class Company(object):
             return [cls(c) for c in r]
 
     @classmethod
-    def importCompanies(cls, token: client.Token, Data: list):
-        '''TODO: ---NOT WORKING??  TRY---
-        Bulk import partner companies to the company directory in a specific BIM 360 account.
-        (50 companies maximum can be included in each call.)
-        Scope account:write
-        
-        Data template, must be a string.
-        data = [{
-                "name":"",
-                "trade": "",
-                "website_url": "",
-                "city": "",
-                "country": "",
-                "address_line_1": "",
-                "address_line_2": "",
-                "postal_code": "",
-                "erp_id":"",
-                "tax_id":"",
-                "phone": "",
-                "description": ""
-                }]'''
+    def import_companies(cls, token: client.Token, data):
+        '''Bulk import partner companies to the company directory in a specific BIM 360 account.<br>
+        (50 companies maximum can be included in each call.)<br>
+        Scope - account:write<br>
+        data - Options.import_company_options() list
+        '''
         checkScopes(token, "account:write")
         endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/import".format(aId=token.bimAccId)
-        r = requests.post(endpointUrl, headers=token.patchHeader,data=Data).json()
+        r = requests.post(endpointUrl, headers=token.patchHeader,data=data).json()
         checkResponse(r)
         print("Success:", r["success"])
         print("Failure:", r["failure"])
         return [cls(c) for c in r["success_items"]]
-
 
     def updateCompany(self, token: client.Token, updateCompanyOptions):
         '''Update the properties of only the specified attributes of a specific partner company.<br>
@@ -591,6 +684,7 @@ class Company(object):
         r = requests.patch(endpointUrl, headers=token.patchHeader,data=updateCompanyOptions).json()
         checkResponse(r)
         return Company(r)
+
 
 class User(object):
 #hiddenRegion
@@ -711,7 +805,7 @@ class User(object):
     @property
     def updated_at(self):
         return self.__raw.get("updated_at", None)
-#endregion
+#endRegion
 
     @classmethod
     def users_from_account(cls, token: client.Token):
@@ -726,7 +820,7 @@ class User(object):
     @classmethod
     def user_by_id(cls, token: client.Token, userId):
         '''Query the details of a specific user.<br>
-        Scope account:read'''
+        Scope `account:read'''
         checkScopes(token, "account:read")
         endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=userId)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -753,6 +847,7 @@ class User(object):
         r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
         checkResponse(r)
         return User(r)
+
 
 class IndustryRoles(object):
     '''IndustryRoles.raw<br>
@@ -790,6 +885,7 @@ class IndustryRoles(object):
     @property
     def member_group_id(self):
         return self.__raw.get("member_group_id", None)
+
 
 class BusinessUnits(object):
     '''BusinessUnits.raw<br>
@@ -871,6 +967,7 @@ class BusinessUnits(object):
         checkResponse(r)
         return [cls(u) for u in r["business_units"]]
 
+
 class Jobs(object):
     '''Jobs.raw<br>
     Jobs.id<br>
@@ -900,7 +997,7 @@ class Jobs(object):
     def details(self):
         return self.__raw.get("details", None)
 
-# pDocs ignore
+# pdocs ignore
 __pdoc__ = {}
 __pdoc__['Project.raw'] = False
 __pdoc__['Project.id'] = False
@@ -1006,9 +1103,8 @@ __pdoc__['Jobs.status'] = False
 __pdoc__['Jobs.details'] = False
 
 # TODO Try string dictionaries with import companies. critical - OPTIONS CLASS
-# TODO change dictionary templates with "options" class. Maybe "AfwOptions" or "ForgeOptions" or "CreationOptions"
-# TODO json.dumps(data) to all options for requests data
-# TODO Remove all client parameters. client information is included in the Token now
+# TODO is it worth to check kwargs?
+# TODO add backticks ` to funcs 
 
 # Account Admin
 # Projects

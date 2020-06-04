@@ -8,14 +8,34 @@ from . import AFWExceptions
 import json
 
 from requests_toolbelt import MultipartEncoder
+from webbrowser import open as web_open
 import requests
 
 class Options(object):
     '''Class used to organize request options for this module'''
     @staticmethod
-    def create_scene_options(scenename, Format = "rcm", scenetype = "aerial", callback = None, gpstype = None, hubprojectid = None,
-                hubfolderid = None, version = "2.0", metadata = None):
-        '''Options for Photoscene.create'''
+    def create_scene_options(scenename, Format, scenetype, **kwargs):
+        '''Options for Photoscene.create_scene<br>
+        scenename - Your scene name<br>
+        format - Supported values are rcm, rcs, obj, fbx, ortho, report. Output file format; multiple file formats can be listed in a comma-delimited list.<br>
+        scenetype - Supoprted values are aerial, object. Specifies the subject type of the photoscene.<br><br>
+
+        kwargs:<br>
+        callback<br>
+        gpstype<br>
+        hubprojectid<br>
+        hubfolderid<br>
+        version<br>
+        metadata<br>
+        '''
+
+        callback = kwargs.get("callback", None)
+        gpstype = kwargs.get("gpstype", None)
+        metadata = kwargs.get("metadata", None)
+        
+        if callback is not None:
+            if "http://" not in callback or "https://" not in callback:
+                callback = "email://{}".format(callback)
 
         if scenetype != "aerial":
             if Format == "rcs" or Format == "ortho" or Format == "report":
@@ -32,16 +52,12 @@ class Options(object):
                 "format": Format,
                 "scenetype" : scenetype,
                 "gpstype" : gpstype,
-                "hubprojectid" : hubprojectid,
-                "hubfolderid" : hubfolderid,
-                "version" : version,
-                "metadata" : metadata
+                "hubprojectid" : kwargs.get("hubprojectid", None),
+                "hubfolderid" : kwargs.get("hubfolderid", None),
+                "version" : kwargs.get("version", None),
+                "metadata" : kwargs.get("metadata", None)
                 }
-        if callback is not None:
-            if "http://" in callback or "https://" in callback:
-                data["callback"] = callback
-            else:
-                data["callback"] = "email://{}".format(callback)
+
         data = {k : v for k,v in data.items() if v is not None} 
         return data # Works as dict type. Returns an error using json.dumps, why...
 
@@ -57,7 +73,7 @@ class Photoscene(object):
         return self.__raw
     @property
     def id(self):
-        return self.__raw.get("photosceneid", None)
+        return self.__raw["Photoscene"].get("photosceneid", None)
     @property
     def progressmsg(self):
         return self.__raw.get("progressmsg", None)
@@ -191,7 +207,7 @@ class Photoscene(object):
             print("Photoscene successfully deleted")
             return True
 
-    def get_download_url(self, token: client.Token, Format):
+    def get_download_url(self, token: client.Token, Format, autoraise=False):
         '''Returns a time-limited HTTPS link to an output file of the specified format.<br>
         Scope - data:read<br><br>
         Note: The link will expire 30 days after the date of processing completion.'''
@@ -199,7 +215,9 @@ class Photoscene(object):
         params = {"format":Format}
         endpointUrl = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
         r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
-        print(r) # TODO Review attributes usability
+        if autoraise:
+            web_open(r["Photoscene"]["scenelink"], new = 0, autoraise=autoraise)
+        print(r["Photoscene"]["scenelink"])
 
     def cancel_progress(self, token: client.Token):
         '''Aborts the processing of a photoscene and marks it as cancelled.<br>
