@@ -298,86 +298,86 @@ class Project(object):
     Project.updated_at'''
 
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def account_id(self):
-        return self.__raw.get("account_id", None)
+        return self._raw.get("account_id", None)
     @property
     def name(self):
-        return self.__raw.get("name", None)
+        return self._raw.get("name", None)
     @property
     def start_date(self):
-        return self.__raw.get("start_date", None)
+        return self._raw.get("start_date", None)
     @property
     def end_date(self):
-        return self.__raw.get("end_date", None)
+        return self._raw.get("end_date", None)
     @property
     def project_type(self):
-        return self.__raw.get("project_type", None)
+        return self._raw.get("project_type", None)
     @property
     def value(self):
-        return self.__raw.get("value", None)
+        return self._raw.get("value", None)
     @property
     def currency(self):
-        return self.__raw.get("currency", None)
+        return self._raw.get("currency", None)
     @property
     def status(self):
-        return self.__raw.get("status", None)
+        return self._raw.get("status", None)
     @property
     def job_number(self):
-        return self.__raw.get("job_number", None)
+        return self._raw.get("job_number", None)
     @property
     def address_line_1(self):
-        return self.__raw.get("address_line_1", None)
+        return self._raw.get("address_line_1", None)
     @property
     def address_line_2(self):
-        return self.__raw.get("address_line_2", None)
+        return self._raw.get("address_line_2", None)
     @property
     def city(self):
-        return self.__raw.get("city", None)
+        return self._raw.get("city", None)
     @property
     def state_or_province(self):
-        return self.__raw.get("state_or_province", None)
+        return self._raw.get("state_or_province", None)
     @property
     def postal_code(self):
-        return self.__raw.get("postal_code", None)
+        return self._raw.get("postal_code", None)
     @property
     def country(self):
-        return self.__raw.get("country", None)
+        return self._raw.get("country", None)
     @property
     def business_unit_id(self):
-        return self.__raw.get("business_unit_id", None)
+        return self._raw.get("business_unit_id", None)
     @property
     def timezone(self):
-        return self.__raw.get("timezone", None)
+        return self._raw.get("timezone", None)
     @property
     def language(self):
-        return self.__raw.get("language", None)
+        return self._raw.get("language", None)
     @property
     def construction_type(self):
-        return self.__raw.get("construction_type", None)
+        return self._raw.get("construction_type", None)
     @property
     def contract_type(self):
-        return self.__raw.get("contract_type", None)
+        return self._raw.get("contract_type", None)
     @property
     def last_sign_in(self):
-        return self.__raw.get("last_sign_in", None)
+        return self._raw.get("last_sign_in", None)
     @property
     def service_types(self):
-        return self.__raw.get("service_types", None)
+        return self._raw.get("service_types", None)
     @property
     def created_at(self):
-        return self.__raw.get("created_at", None)
+        return self._raw.get("created_at", None)
     @property
     def updated_at(self):
-        return self.__raw.get("updated_at", None)
+        return self._raw.get("updated_at", None)
 #endRegion
 
     @classmethod
@@ -568,62 +568,62 @@ class Company(object):
     Company.tax_id'''
 
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def account_id(self):
-        return self.__raw.get("account_id", None)
+        return self._raw.get("account_id", None)
     @property
     def name(self):
-        return self.__raw.get("name", None)
+        return self._raw.get("name", None)
     @property
     def trade(self):
-        return self.__raw.get("trade", None)
+        return self._raw.get("trade", None)
     @property
     def address_line_1(self):
-        return self.__raw.get("address_line_1", None)
+        return self._raw.get("address_line_1", None)
     @property
     def address_line_2(self):
-        return self.__raw.get("address_line_2", None)
+        return self._raw.get("address_line_2", None)
     @property
     def city(self):
-        return self.__raw.get("city", None)
+        return self._raw.get("city", None)
     @property
     def postal_code(self):
-        return self.__raw.get("postal_code", None)
+        return self._raw.get("postal_code", None)
     @property
     def state_or_province(self):
-        return self.__raw.get("state_or_province", None)
+        return self._raw.get("state_or_province", None)
     @property
     def country(self):
-        return self.__raw.get("country", None)
+        return self._raw.get("country", None)
     @property
     def phone(self):
-        return self.__raw.get("phone", None)
+        return self._raw.get("phone", None)
     @property
     def website_url(self):
-        return self.__raw.get("website_url", None)
+        return self._raw.get("website_url", None)
     @property
     def description(self):
-        return self.__raw.get("description", None)
+        return self._raw.get("description", None)
     @property
     def created_at(self):
-        return self.__raw.get("created_at", None)
+        return self._raw.get("created_at", None)
     @property
     def updated_at(self):
-        return self.__raw.get("updated_at", None)
+        return self._raw.get("updated_at", None)
     @property
     def erp_id(self):
-        return self.__raw.get("erp_id", None)
+        return self._raw.get("erp_id", None)
     @property
     def tax_id(self):
-        return self.__raw.get("tax_id", None)
+        return self._raw.get("tax_id", None)
 #endRegion
 
     @classmethod
@@ -718,93 +718,93 @@ class User(object):
     User.updated_at<br>'''
 
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
         
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def account_id(self):
-        return self.__raw.get("account_id", None)
+        return self._raw.get("account_id", None)
     @property
     def status(self):
-        return self.__raw.get("status", None)
+        return self._raw.get("status", None)
     @property
     def role(self):
-        return self.__raw.get("role", None)
+        return self._raw.get("role", None)
     @property
     def company_id(self):
-        return self.__raw.get("company_id", None)
+        return self._raw.get("company_id", None)
     @property
     def company_name(self):
-        return self.__raw.get("company_name", None)
+        return self._raw.get("company_name", None)
     @property
     def last_sign_in(self):
-        return self.__raw.get("last_sign_in", None)
+        return self._raw.get("last_sign_in", None)
     @property
     def email(self):
-        return self.__raw.get("email", None)
+        return self._raw.get("email", None)
     @property
     def name(self):
-        return self.__raw.get("name", None)
+        return self._raw.get("name", None)
     @property
     def nickname(self):
-        return self.__raw.get("nickname", None)
+        return self._raw.get("nickname", None)
     @property
     def first_name(self):
-        return self.__raw.get("first_name", None)
+        return self._raw.get("first_name", None)
     @property
     def last_name(self):
-        return self.__raw.get("last_name", None)
+        return self._raw.get("last_name", None)
     @property
     def uid(self):
-        return self.__raw.get("uid", None)
+        return self._raw.get("uid", None)
     @property
     def image_url(self):
-        return self.__raw.get("image_url", None)
+        return self._raw.get("image_url", None)
     @property
     def address_line_1(self):
-        return self.__raw.get("address_line_1", None)
+        return self._raw.get("address_line_1", None)
     @property
     def address_line_2(self):
-        return self.__raw.get("address_line_2", None)
+        return self._raw.get("address_line_2", None)
     @property
     def city(self):
-        return self.__raw.get("city", None)
+        return self._raw.get("city", None)
     @property
     def postal_code(self):
-        return self.__raw.get("postal_code", None)
+        return self._raw.get("postal_code", None)
     @property
     def state_or_province(self):
-        return self.__raw.get("state_or_province", None)
+        return self._raw.get("state_or_province", None)
     @property
     def country(self):
-        return self.__raw.get("country", None)
+        return self._raw.get("country", None)
     @property
     def phone(self):
-        return self.__raw.get("phone", None)
+        return self._raw.get("phone", None)
     @property
     def company(self):
-        return self.__raw.get("company", None)
+        return self._raw.get("company", None)
     @property
     def job_title(self):
-        prop = self.__raw.get("job_title", None) or self.__raw.get("jobTitle", None)
+        prop = self._raw.get("job_title", None) or self._raw.get("jobTitle", None)
         return prop
     @property
     def industry(self):
-        return self.__raw.get("industry", None)
+        return self._raw.get("industry", None)
     @property
     def about_me(self):
-        return self.__raw.get("about_me", None)
+        return self._raw.get("about_me", None)
     @property
     def created_at(self):
-        return self.__raw.get("created_at", None)
+        return self._raw.get("created_at", None)
     @property
     def updated_at(self):
-        return self.__raw.get("updated_at", None)
+        return self._raw.get("updated_at", None)
 #endRegion
 
     @classmethod
@@ -859,32 +859,32 @@ class IndustryRoles(object):
     IndustryRoles.docManagementAccess<br>
     IndustryRoles.member_group_id'''
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def name(self):
-        return self.__raw.get("name", None)
+        return self._raw.get("name", None)
     @property
     def project_id(self):
-        return self.__raw.get("project_id", None)
+        return self._raw.get("project_id", None)
     @property
     def projectAdminAccess(self):
-        return self.__raw["services"]["project_administration"].get("access_level", None)
+        return self._raw["services"]["project_administration"].get("access_level", None)
     @property
     def insightAccess(self):
-        return self.__raw.get["services"]["insight"].get("access_level", None)
+        return self._raw.get["services"]["insight"].get("access_level", None)
     @property
     def docManagementAccess(self):
-        return self.__raw["services"]["document_management"].get("access_level", None)
+        return self._raw["services"]["document_management"].get("access_level", None)
     @property
     def member_group_id(self):
-        return self.__raw.get("member_group_id", None)
+        return self._raw.get("member_group_id", None)
 
 
 class BusinessUnits(object):
@@ -898,35 +898,35 @@ class BusinessUnits(object):
     BusinessUnits.created_at<br>
     BusinessUnits.updated_at'''
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def account_id(self):
-        return self.__raw.get("account_id", None)
+        return self._raw.get("account_id", None)
     @property
     def parent_id(self):
-        return self.__raw.get("parent_id", None)
+        return self._raw.get("parent_id", None)
     @property
     def name(self):
-        return self.__raw.get("name", None)
+        return self._raw.get("name", None)
     @property
     def description(self):
-        return self.__raw.get("description", None)
+        return self._raw.get("description", None)
     @property
     def path(self):
-        return self.__raw.get("path", None)
+        return self._raw.get("path", None)
     @property
     def created_at(self):
-        return self.__raw.get("created_at", None)
+        return self._raw.get("created_at", None)
     @property
     def updated_at(self):
-        return self.__raw.get("updated_at", None)
+        return self._raw.get("updated_at", None)
 
     @classmethod
     def get_business_units(cls, token):
@@ -976,26 +976,26 @@ class Jobs(object):
     Jobs.status<br>
     Jobs.details'''
     def __init__(self, rawDict):
-        self.__raw = rawDict or None
+        self._raw = rawDict or None
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def account_id(self):
-        return self.__raw.get("account_id", None)
+        return self._raw.get("account_id", None)
     @property
     def name(self):
-        return self.__raw.get("name", None)
+        return self._raw.get("name", None)
     @property
     def status(self):
-        return self.__raw.get("status", None)
+        return self._raw.get("status", None)
     @property
     def details(self):
-        return self.__raw.get("details", None)
+        return self._raw.get("details", None)
 
 # pdocs ignore
 __pdoc__ = {}

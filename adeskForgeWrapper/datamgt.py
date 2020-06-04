@@ -17,28 +17,28 @@ from .client import checkScopes
 from .utils import AUTODESK_BASE_URL as BASE_URL
 
 class Hub(object):
-    __apiType = "hubs"
+    _apiType = "hubs"
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def apiType(self):
-        return self.__apiType
+        return self._apiType
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def type(self):
-        return self.__raw.get("type", None)
+        return self._raw.get("type", None)
     @property
     def hubId(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def name(self):
-        return self.__raw["attributes"].get("name", None)
+        return self._raw["attributes"].get("name", None)
     @property
     def region(self):
-        return self.__raw["attributes"].get("region", None)
+        return self._raw["attributes"].get("region", None)
 
     @classmethod
     def hubById(cls, token, hub_id):
@@ -83,26 +83,26 @@ class Hub(object):
         return Project(r["data"])
 
 class Project(object):
-    __apiType = "projects"
+    _apiType = "projects"
     def __init__(self, rawDict):
         '''TODO'''
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def apiType(self):
-        return self.__apiType
+        return self._apiType
     @property
     def name(self):
-        return self.__raw["attributes"].get("name", None)
+        return self._raw["attributes"].get("name", None)
     @property
     def hubId(self):
-        return self.__raw["relationships"]["hub"]["data"].get("id", None)
+        return self._raw["relationships"]["hub"]["data"].get("id", None)
 
     @classmethod
     def project_by_id(cls, token, hubId , pId):
@@ -131,50 +131,50 @@ class Project(object):
         return [Folder(tF, self.id) for tF in r["data"]]
 
 class Folder(object):
-    __apiType = "folders"
+    _apiType = "folders"
     def __init__(self, rawDict, projectId):
         '''Base folder class'''
-        self.__raw = rawDict
-        self.__parentProjectId = projectId
+        self._raw = rawDict
+        self._parentProjectId = projectId
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def name(self):
-        return self.__raw["attributes"].get("name", None)
+        return self._raw["attributes"].get("name", None)
     @property
     def displayName(self):
-        return self.__raw["attributes"].get("displayName", None)
+        return self._raw["attributes"].get("displayName", None)
     @property
     def createTime(self):
-        return self.__raw["attributes"].get("createTime", None)
+        return self._raw["attributes"].get("createTime", None)
     @property
     def createUserId(self):
-        return self.__raw["attributes"].get("createUserId", None)
+        return self._raw["attributes"].get("createUserId", None)
     @property
     def createUserName(self):
-        return self.__raw["attributes"].get("createUserName", None)
+        return self._raw["attributes"].get("createUserName", None)
     @property
     def lastModifiedTime(self):
-        return self.__raw["attributes"].get("lastModifiedTime", None)
+        return self._raw["attributes"].get("lastModifiedTime", None)
     @property
     def lastModifiedUserId(self):
-        return self.__raw["attributes"].get("lastModifiedUserId", None)
+        return self._raw["attributes"].get("lastModifiedUserId", None)
     @property
     def lastModifiedUserName(self):
-        return self.__raw["attributes"].get("lastModifiedUserName", None)
+        return self._raw["attributes"].get("lastModifiedUserName", None)
     @property
     def objectCount(self):
-        return self.__raw["attributes"].get("objectCount", None)
+        return self._raw["attributes"].get("objectCount", None)
     @property
     def hidden(self):
-        return self.__raw["attributes"].get("hidden", None)
+        return self._raw["attributes"].get("hidden", None)
     @property
     def parentProjectId(self):
-        return self.__parentProjectId
+        return self._parentProjectId
 
     @classmethod
     def folder_by_id(cls, token: Token, projectId, folderId):
@@ -226,44 +226,44 @@ class Folder(object):
 
 class Item(object):
     def __init__(self, rawDict, parentProjectId):
-        self.__raw = rawDict
-        self.__parentProjectId = parentProjectId
+        self._raw = rawDict
+        self._parentProjectId = parentProjectId
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def displayName(self):
-        return self.__raw["attributes"].get("displayName", None)
+        return self._raw["attributes"].get("displayName", None)
     @property
     def createUserId(self):
-        return self.__raw["attributes"].get("createUserId", None)
+        return self._raw["attributes"].get("createUserId", None)
     @property
     def createUserName(self):
-        return self.__raw["attributes"].get("createUserName", None)
+        return self._raw["attributes"].get("createUserName", None)
     @property
     def lastModifiedUserId(self):
-        return self.__raw["attributes"].get("lastModifiedUserId", None)
+        return self._raw["attributes"].get("lastModifiedUserId", None)
     @property
     def lastModifiedUserName(self):
-        return self.__raw["attributes"].get("lastModifiedUserName", None)
+        return self._raw["attributes"].get("lastModifiedUserName", None)
     @property
     def lastModifiedTime(self):
-        return self.__raw["attributes"].get("lastModifiedTime", None)
+        return self._raw["attributes"].get("lastModifiedTime", None)
     @property
     def createTime(self):
-        return self.__raw["attributes"].get("createTime", None)
+        return self._raw["attributes"].get("createTime", None)
     @property
     def hidden(self):
-        return self.__raw["attributes"].get("hidden", None)
+        return self._raw["attributes"].get("hidden", None)
     @property
     def parentFolderId(self):
-        return self.__raw["relationships"]["parent"]["data"].get("id", None)
+        return self._raw["relationships"]["parent"]["data"].get("id", None)
     @property
     def parentProjectId(self):
-        return self.__parentProjectId
+        return self._parentProjectId
 
     @classmethod
     def item_by_id(cls, token, projectId, itemId):
@@ -300,48 +300,48 @@ class Item(object):
 
 class Version(object):
     def __init__(self, rawDict, parentProjectId):
-        self.__raw = rawDict
-        self.__parentProjectId = parentProjectId
+        self._raw = rawDict
+        self._parentProjectId = parentProjectId
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get("id", None)
+        return self._raw.get("id", None)
     @property
     def name(self):
-        return self.__raw["attributes"].get("name", None)
+        return self._raw["attributes"].get("name", None)
     @property
     def displayName(self):
-        return self.__raw["attributes"].get("displayName", None)     
+        return self._raw["attributes"].get("displayName", None)     
     @property
     def createTime(self):
-        return self.__raw["attributes"].get("createTime", None)      
+        return self._raw["attributes"].get("createTime", None)      
     @property
     def createUserId(self):
-        return self.__raw["attributes"].get("createUserId", None)
+        return self._raw["attributes"].get("createUserId", None)
     @property
     def createUserName(self):
-        return self.__raw["attributes"].get("createUserName", None)
+        return self._raw["attributes"].get("createUserName", None)
     @property
     def lastModifiedTime(self):
-        return self.__raw["attributes"].get("lastModifiedTime", None)
+        return self._raw["attributes"].get("lastModifiedTime", None)
     @property
     def lastModifiedUserId(self):
-        return self.__raw["attributes"].get("lastModifiedUserId", None)
+        return self._raw["attributes"].get("lastModifiedUserId", None)
     @property
     def lastModifiedUserName(self):
-        return self.__raw["attributes"].get("lastModifiedUserName", None)
+        return self._raw["attributes"].get("lastModifiedUserName", None)
     @property
     def versionNumber(self):
-        return self.__raw["attributes"].get("versionNumber", None)
+        return self._raw["attributes"].get("versionNumber", None)
     @property
     def mimeType(self):
-        return self.__raw["attributes"].get("mimeType", None)
+        return self._raw["attributes"].get("mimeType", None)
     @property
     def parentProjectId(self):
-        return self.__parentProjectId
+        return self._parentProjectId
 
     @classmethod
     def version_by_id(cls, token, projectId, versionId):

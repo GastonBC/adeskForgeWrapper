@@ -40,94 +40,94 @@ class Token(object):
     patchHeader<br>
     contentXUser<br>'''
     def __init__(self, client, r, scope, flow):
-        self.__cliId = client.cliId
-        self.__cliSecret = client.cliSecret
-        self.__bimAccId = client.bimAccId
-        self.__bimAccName = client.bimAccName
-        self.__hubId = client.hubId
-        self.__isThreeLegged = flow
-        self.__scope = scope
+        self._cliId = client.cliId
+        self._cliSecret = client.cliSecret
+        self._bimAccId = client.bimAccId
+        self._bimAccName = client.bimAccName
+        self._hubId = client.hubId
+        self._isThreeLegged = flow
+        self._scope = scope
         if type(r) == dict:
-            self.__raw = r
+            self._raw = r
             
-            self.__token_type = r["token_type"] or None
-            self.__expires_in = r["expires_in"] or None
-            self.__access_token = r["access_token"]
+            self._token_type = r["token_type"] or None
+            self._expires_in = r["expires_in"] or None
+            self._access_token = r["access_token"]
 
-            self.__getHeader = {"Authorization":"Bearer {}".format(r["access_token"])}
-            self.__urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r["access_token"])}
+            self._getHeader = {"Authorization":"Bearer {}".format(r["access_token"])}
+            self._urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r["access_token"])}
 
-            self.__formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r["access_token"])}
+            self._formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r["access_token"])}
 
-            self.__patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"])}
-            self.__contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
-            self.__XUser = {'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
+            self._patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"])}
+            self._contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
+            self._XUser = {'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
         elif type(r) == str:
-            self.__raw = r
-            self.__token_type = None
-            self.__expires_in = None
-            self.__access_token = r
+            self._raw = r
+            self._token_type = None
+            self._expires_in = None
+            self._access_token = r
 
-            self.__getHeader = {"Authorization":"Bearer {}".format(r)}
-            self.__urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r)}
+            self._getHeader = {"Authorization":"Bearer {}".format(r)}
+            self._urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r)}
 
-            self.__formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r)}
+            self._formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r)}
 
-            self.__patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r)}
-            self.__contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
-            self.__XUser = {'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
+            self._patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r)}
+            self._contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
+            self._XUser = {'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
            
     @property
     def cliId(self):
-        return self.__cliId
+        return self._cliId
     @property
     def cliSecret(self):
-        return self.__cliSecret
+        return self._cliSecret
     @property
     def bimAccId(self):
-        return self.__bimAccId
+        return self._bimAccId
     @property
     def bimAccName(self):
-        return self.__bimAccName
+        return self._bimAccName
     @property
     def hubId(self):
-        return self.__hubId
+        return self._hubId
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def scope(self):
-        return self.__scope
+        return self._scope
     @property
     def token_type(self):
-        return self.__token_type
+        return self._token_type
     @property
     def expires_in(self):
-        return self.__expires_in
+        return self._expires_in
     @property
     def access_token(self):
-        return self.__access_token
+        return self._access_token
     @property
     def getHeader(self):
-        return self.__getHeader
+        return self._getHeader
     @property
     def patchHeader(self):
-        return self.__patchHeader
+        return self._patchHeader
     @property
     def contentXUser(self):
-        return self.__contentXUser
+        return self._contentXUser
     @property
     def urlEncoded(self):
-        return self.__urlEncoded
+        return self._urlEncoded
     @property
     def formData(self):
-        return self.__formData
+        return self._formData
     @property
     def isThreeLegged(self):
-        return self.__isThreeLegged
+        return self._isThreeLegged
     @property
     def XUser(self):
-        return self.__XUser
+        return self._XUser
 
     @classmethod
     def get_2_legged_token(cls, scope, client):

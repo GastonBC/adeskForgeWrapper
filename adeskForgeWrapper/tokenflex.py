@@ -23,25 +23,25 @@ class Contract(object):
     Contract.contractYears<br>
     Contract.isActive'''
     def __init__(self, rawDict):
-        self.__raw = rawDict or None
+        self._raw = rawDict or None
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def contractNumber(self):
-        return self.__raw.get("contractNumber", None)
+        return self._raw.get("contractNumber", None)
     @property
     def contractName(self):
-        return self.__raw.get("contractName", None)
+        return self._raw.get("contractName", None)
     @property
     def contractStartDate(self):
-        return self.__raw.get("contractStartDate", None)
+        return self._raw.get("contractStartDate", None)
     @property
     def contractEndDate(self):
-        return self.__raw.get("contractEndDate", None)
+        return self._raw.get("contractEndDate", None)
     @property
     def isActive(self):
-        return self.__raw.get("isActive", None)
+        return self._raw.get("isActive", None)
 #endRegion
 
     @classmethod

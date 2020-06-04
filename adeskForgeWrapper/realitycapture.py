@@ -66,29 +66,29 @@ class Photoscene(object):
     '''A “photoscene” entity provides a common representation of a photo-to-3D project. <br>
     Certain fields will only be available after processing is complete.'''
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw["Photoscene"].get("photosceneid", None)
+        return self._raw["Photoscene"].get("photosceneid", None)
     @property
     def progressmsg(self):
-        return self.__raw.get("progressmsg", None)
+        return self._raw.get("progressmsg", None)
     @property
     def progress(self):
-        return self.__raw.get("progress", None)
+        return self._raw.get("progress", None)
     @property
     def scenelink(self):
-        return self.__raw.get("scenelink", None)
+        return self._raw.get("scenelink", None)
     @property
     def filesize(self):
-        return self.__raw.get("filesize", None)
+        return self._raw.get("filesize", None)
     @property
     def resultmsg(self):
-        return self.__raw.get("resultmsg", None)
+        return self._raw.get("resultmsg", None)
 
     @classmethod
     def photoscene_by_id(cls, PhotosceneId):
