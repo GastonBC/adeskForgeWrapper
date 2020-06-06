@@ -129,11 +129,14 @@ dmypy.json
 .pyre/
 
 /docs
-docs.md
-recreateDocs.bat
-ReleaseWorkflow.txt
+
+tests.py
 simpleSv.py
+docs.md
 startEnv.bat
 startLocalSv.bat
-tests.py
+recreateDocs.bat
+ReleaseWorkflow
 vars.env
+
+

@@ -16,7 +16,18 @@ class ForgeApps(object):
         pass
 
     @classmethod
-    def create_nickname(cls, token: client.Token, nickname):
+    def get_nickname(cls, token, id):
+        '''Return the given Forge app’s nickname.<br><br>
+
+        If the app has no nickname, this route will return its id.'''
+        endpointUrl = DA_API+"forgeapps/{id}".format(id=id)
+        checkScopes(token, "code:all")
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls()]
+
+    @classmethod
+    def create_nickname(cls, token, nickname):
         '''Creates/updates the nickname for the current Forge app. The nickname is used 
         as a clearer alternative name when identifying AppBundles and Activities, as 
         compared to using the Forge app ID. Once you have defined a nickname, it MUST be 
@@ -35,10 +46,25 @@ class ForgeApps(object):
 
         data = { "nickname": nickname }
 
-        r = requests.get(endpointUrl, headers=token.getHeader, data=data).json()
+        r = requests.patch(endpointUrl, headers=token.getHeader, data=data).json()
         checkResponse(r)
-        return [cls(p) for p in r]
+        return [cls()]
 
+    def delete_data(self, token):
+        '''Delete all data associated with the given Forge app.<br><br>
+
+        ALL Design Automation appbundles and activities are DELETED.<br><br>
+
+        This may take up to 2 minutes. During this time the app will not be able 
+        to make successful requests.'''
+
+        #From docs: id must be “me” for the call to succeed.
+        endpointUrl = DA_API+"forgeapps/{id}".format(id="me")
+        checkScopes(token, "code:all")
+
+        r = requests.delete(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return True
 
 
 
