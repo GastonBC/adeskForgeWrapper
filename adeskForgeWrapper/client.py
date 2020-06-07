@@ -50,7 +50,6 @@ class Token(object):
         self._isThreeLegged = flow
         self._scope = scope
 
-        # TODO Make all of this prettier and easier to read
         if type(r) == dict:
             self._raw = r
             

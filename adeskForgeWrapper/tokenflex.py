@@ -1,8 +1,10 @@
 # ----------
-# Wrapper for Token Flex API
+# Wrapper for TOKEN FLEX API
 # https://forge.autodesk.com/en/docs/tokenflex/v1/
 # ----------
-'''Module for the Token Flex API'''
+'''Module for the Token Flex API<br>
+Tokens in this module must be 3 legged. Check client.get3LeggedToken()'''
+
 import requests
 
 from .utils import TOKENFLEX_API
@@ -11,7 +13,7 @@ from .utils import checkResponse
 from . import client
 
 
-'''Tokens in this module must be 3 legged. Check client.get3LeggedToken()'''
+
 class Contract(object):
 #HiddenRegion
     '''Contract.raw<br>

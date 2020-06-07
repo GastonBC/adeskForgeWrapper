@@ -2,6 +2,7 @@
 # Wrapper for DESIGN AUTOMATION API
 # https://forge.autodesk.com/en/docs/design-automation/v3/reference/http/
 # ----------
+'''Module for the Design Automation API'''
 import requests
 
 from . import AFWExceptions

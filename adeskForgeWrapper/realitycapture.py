@@ -1,3 +1,7 @@
+# ----------
+# Wrapper for REALITY CAPTURE API
+# https://forge.autodesk.com/en/docs/reality-capture/v1/reference/http/
+# ----------
 '''Module for the Reality Capture API'''
 from .utils import checkScopes
 from .utils import checkResponse

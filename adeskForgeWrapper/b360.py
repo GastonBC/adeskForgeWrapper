@@ -2,7 +2,8 @@
 # Wrapper for BIM360 API
 # https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
 # ----------
-'''Module for the BIM360 API'''
+'''Module for the BIM 360 API'''
+
 import requests
 
 from . import AFWExceptions
@@ -1012,7 +1013,10 @@ class BusinessUnits(object):
                         "name": "USA Western Region",
                         "description": "California, Nevada, Washington"
                     }
-                ]''' # TODO Maybe to cope with list of dicts, solution could be createBusinessUnit and silently call the batch __createBusinessUnits (this func)
+                ]''' # TODO Maybe to cope with list of dicts, solution could be 
+                     # createBusinessUnit and silently call the 
+                     # batch _createBusinessUnits (this func)
+
         checkScopes(token, "account:read")
         endpointUrl = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bimAccId)
         bness = {"business_units": Data}

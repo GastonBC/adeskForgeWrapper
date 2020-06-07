@@ -1,13 +1,8 @@
-'''Module for the Data Management API'''
 # ----------
 # Wrapper for DATA MANAGEMENT API
 # https://forge.autodesk.com/en/docs/data/v2/reference/http/
 # ----------
-
-# Properties in this API come in different formats, so we can't make use 
-# of __init__(self, rawDict) to
-# get all the properties, instead, props are defined by __init__ 
-# parameters (self, raw, name, hubId)
+'''Module for the Data Management API'''
 
 import requests
 
