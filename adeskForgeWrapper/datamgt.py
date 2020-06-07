@@ -4,8 +4,11 @@
 # https://forge.autodesk.com/en/docs/data/v2/reference/http/
 # ----------
 
-# Properties in this API come in different formats, so we can't make use of __init__(self, rawDict) to
-# get all the properties, instead, props are defined by __init__ parameters (self, raw, name, hubId)
+# Properties in this API come in different formats, so we can't make use 
+# of __init__(self, rawDict) to
+# get all the properties, instead, props are defined by __init__ 
+# parameters (self, raw, name, hubId)
+
 import requests
 
 from . import AFWExceptions
@@ -55,9 +58,11 @@ class Hub(object):
         '''Returns a collection of accessible hubs for this member.<br>
         Scope - data:read<br><br>
         
-        Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
+        Hubs represent BIM 360 Team hubs, Fusion Team hubs 
+        (formerly known as A360 Team hubs),
         A360 Personal hubs, or BIM 360 Docs accounts.<br>
-        Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.'''
+        Team hubs include BIM 360 Team hubs and Fusion Team hubs 
+        (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.'''
         checkScopes(token, "data:read")
         endpointUrl = BASE_URL+"/project/v1/hubs"
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -77,7 +82,8 @@ class Hub(object):
         '''Returns a specific project by id
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(hId=self.hubId, pId=projectId)
+        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(
+            hId=self.hubId, pId=projectId)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return Project(r["data"])
@@ -109,7 +115,9 @@ class Project(object):
         '''Returns a specific project by id
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(hId=hubId, pId=pId)
+        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}".format(
+            hId=hubId, pId=pId)
+
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r["data"])
@@ -121,11 +129,14 @@ class Project(object):
         return Hub.hubById(token, self.hubId)
 
     def top_folders(self, token):
-        '''Returns the details of the highest level folders the user has access to for a given project. 
+        '''Returns the details of the highest level folders the user has access 
+        to for a given project. 
         The user must have at least read access to the folders.
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}/topFolders".format(hId=self.hubId, pId=self.id)
+        endpointUrl = BASE_URL+"/project/v1/hubs/{hId}/projects/{pId}/topFolders".format(
+            hId=self.hubId, pId=self.id)
+
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [Folder(tF, self.id) for tF in r["data"]]
@@ -183,7 +194,9 @@ class Folder(object):
         projectId: the project id in which the folder is contained
         folderId: the folder id'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(p_id=projectId, f_id=folderId)
+        endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(
+            p_id=projectId, f_id=folderId)
+
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r["data"], projectId)
@@ -195,18 +208,22 @@ class Folder(object):
         p_id: the project id in which the folder is contained
         f_id: the folder id'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(p_id=self.parentProjectId, f_id=self.id)
+        endpointUrl = BASE_URL+"/data/v1/projects/{p_id}/folders/{f_id}".format(
+            p_id=self.parentProjectId, f_id=self.id)
+
         r = requests.get(endpointUrl ,headers=token.getHeader).json()
         checkResponse(r)
         return Folder(r["data"], self.parentProjectId)
 
     def get_contents(self, token, projectId):
-        '''Returns a collection of items and folders within a folder. Items represent word documents, 
+        '''Returns a collection of items and folders within a folder. 
+        Items represent word documents, 
         fusion design files, drawings, spreadsheets, etc.<br>
 
         Notes:<br><br>
 
-        The tip version for each item resource is included by default in the included array of the payload'''
+        The tip version for each item resource is included by default in the included 
+        array of the payload'''
         checkScopes(token, "data:read")
         endpointUrl = BASE_URL+"/data/v1/projects/{pId}/folders/{fId}/contents".format(pId=projectId, fId=self.id)
         if token.isThreeLegged:
@@ -268,7 +285,8 @@ class Item(object):
     @classmethod
     def item_by_id(cls, token, projectId, itemId):
         '''Retrieves metadata for a specified item. 
-        Items represent word documents, fusion design files, drawings, spreadsheets, etc.<br>
+        Items represent word documents, fusion design files, drawings, 
+        spreadsheets, etc.<br>
         Scope - data:read'''
         checkScopes(token, "data:read")
         endpointUrl = BASE_URL+"/data/v1/projects/{pId}/items/{itemId}".format(pId=projectId, itemId=itemId)
@@ -281,7 +299,9 @@ class Item(object):
         Items represent word documents, fusion design files, drawings, spreadsheets, etc.<br>
         Scope - data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/items/{itemId}/versions".format(pId=self.parentProjectId, itemId=self.id)
+        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/items/{itemId}/versions".format(
+            pId=self.parentProjectId, itemId=self.id)
+
         r = requests.get(endpointUrl, headers=token.XUser).json()
         checkResponse(r)
         return [Version(v, self.parentProjectId) for v in r["data"]]
@@ -289,11 +309,14 @@ class Item(object):
 
     def get_tip_versions(self, token):
         '''Returns the “tip” version for the given item.<br>
-        Multiple versions of a resource item can be uploaded in a project. The tip version is the most recent one.<br>
+        Multiple versions of a resource item can be uploaded in a project. 
+        The tip version is the most recent one.<br>
         Scope - data:read'''
         # TODO Optional filter parameters
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/items/{itemId}/tip".format(pId=self.parentProjectId, itemId=self.id)
+        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/items/{itemId}/tip".format(
+            pId=self.parentProjectId, itemId=self.id)
+
         r = requests.get(endpointUrl, headers=token.XUser).json()
         checkResponse(r)
         return Version(r, self.parentProjectId)
@@ -348,7 +371,9 @@ class Version(object):
         '''Returns the version with the given version_id<br>
         Scope - data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/versions/{verId}".format(pId=projectId, verId=versionId)
+        endpointUrl = BASE_URL+"/data/v1/projects/{pId}/versions/{verId}".format(
+            pId=projectId, verId=versionId)
+
         r = requests.get(endpointUrl, headers=token.XUser).json()
         checkResponse(r)
         return cls(r, projectId)

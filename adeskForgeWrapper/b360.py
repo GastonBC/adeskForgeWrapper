@@ -126,6 +126,7 @@ class Options(object):
             "construction_type":kwargs.get("construction_type", None),
             "contract_type":kwargs.get("contract_type", None)
         }
+        
         data = {k : v for k,v in data.items() if v is not None} 
         return json.dumps(data, ensure_ascii=True)
 
@@ -459,8 +460,11 @@ class Project(object):
         if type(add_user_options) != list:
             raise AFWExceptions.AFWError("add_user_options must be a list of Options.add_user_options")
         checkScopes(token, "account:write")
+
         add_user_options = json.dumps(add_user_options)
-        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(aId=self.account_id ,pId=self.id)
+        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(
+            aId=self.account_id ,pId=self.id)
+
         r = requests.post(endpointUrl, headers=token.contentXUser, data=add_user_options).json()
         checkResponse(r)
         print("Success:", r["success"])
@@ -475,10 +479,14 @@ class Project(object):
         Scope - account:write
         
         Returns a User object'''
-        # TODO: Thinking about changing user id with user object, updating the user object with the response
+        # TODO: Thinking about changing user id with user object, updating 
+        # the user object with the response
 
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(aId=self.account_id ,pId=self.id, uId=userId)
+
+        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(
+            aId=self.account_id ,pId=self.id, uId=userId)
+
         r = requests.patch(endpointUrl, headers=token.contentXUser, data=update_user_options).json()
         checkResponse(r)
         return User(r)
@@ -488,7 +496,10 @@ class Project(object):
         Scope - account:read'''
 
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/industry_roles".format(aId=self.account_id ,pId=self.id)
+
+        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/industry_roles".format(
+            aId=self.account_id ,pId=self.id)
+
         r = requests.get(endpointUrl, headers=token.patchHeader).json()
         checkResponse(r)
         return [IndustryRoles(i) for i in r]
@@ -498,49 +509,70 @@ class Project(object):
             You can also export the page’s markups (annotations) and hyperlinks.<br>
             Scope - data:read<br>
             exportOptions - exportPDFOptions()<br>
-            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or 
-            to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
-            splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page.<br>
-            You can identify exportable PDF files, by searching for files with the following combmination of properties:<br><br>
+            Note that you can only export a page from a PDF file that was uploaded to the 
+            Plans folder or to a folder nested under the Plans folder 
+            (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
+            splits these files into separate pages (sheets) when they are uploaded, 
+            and assigns a separate ID to each page.<br>
+            You can identify exportable PDF files, by searching for files with the 
+            following combmination of properties:<br><br>
 
-            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)<br>
-            attributes.extension.data.sourceFileName: <filename>.pdf (identifies all PDF files)<br>
-            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from 
-            PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the 
+            attributes.extension.type: items:autodesk.bim360.Document 
+            (identifies all files that are split into separate pages)<br>
+            attributes.extension.data.sourceFileName: <filename>.pdf 
+            (identifies all PDF files)<br>
+            You can export PDF pages both from PDF files that were uploaded via the 
+            BIM 360 Document Management UI and from PDF files that were uploaded via 
+            BIM 360 endpoints. For more details about uploading documents to BIM 360 via the 
             BIM 360 endpoints, see the File Upload tutorial.<br><br>
 
             Note that this endpoint is asynchronous and initiates a job that 
             runs in the background, rather than halting execution of your program.<br>
             The response returns an export ID that you can use to call getPDFExport() 
-            to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.<br><br>
+            to verify the status of the job. When the job is complete, you can retrieve 
+            the data you need to download the exported page.<br><br>
 
-            Note that the user must have permission to view files. For information about permissions, see the Help documentation.<br><br>
+            Note that the user must have permission to view files. For information about 
+            permissions, see the Help documentation.<br><br>
 
             For more details about exporting PDF files, see the PDF Export tutorial.<br><br>
 
-            For more information about Document Management endpoints, see the Data Management API<br><br>
+            For more information about Document Management endpoints, see 
+            the Data Management API<br><br>
             '''
 
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports".format(pId=self.id, vId=export_PDF_options[0])
-        r = requests.post(endpointUrl, headers=token.patchHeader, data=str(export_PDF_options[1])).json()
+        endpointUrl = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports".format(
+            pId=self.id, vId=export_PDF_options[0])
+
+        r = requests.post(endpointUrl, 
+                          headers=token.patchHeader, 
+                          data=str(export_PDF_options[1])).json()
         checkResponse(r)
         print("Id: {id}\nStatus: {status}".format(id=r["id"], status=r["status"]))
         return r
 
     def get_PDF_export(self, token: client.Token, versionId: str, exportId: str):
-        '''Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.<br>
-            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.<br>
-            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn.<br><br>
+        '''Returns the status of a PDF export job, as well as data you need to download 
+        the exported file when the export is complete.<br>
+            The exportPDF() function initiates the job, and returns a job ID to be used 
+            in this endopint.<br>
+            To download the exported PDF file after the job is complete, 
+            use GET :urn/manifest/:derivativeurn.<br><br>
             
             For more information about Document Management endpoints, see the Data Management API'''
             # TODO: Model derivative api function here
 
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}".format(pId=self.id, vId=versionId, eId=exportId)
+
+        urlEnd = "/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}".format(
+            pId=self.id, vId=versionId, eId=exportId)
+
+        endpointUrl = BASE_URL + urlEnd
         r = requests.get(endpointUrl, headers=token.contentXUser).json()
         checkResponse(r)
-        print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+        print(r) #TODO: Try, .json() may not work here. will probably find a way once 
+                 # model derivative api is running.
                  #TODO: Range header
         return r
 
@@ -631,7 +663,9 @@ class Company(object):
         '''Query the details of a specific partner company.<br>
         Scope: account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(aId=token.bimAccId, cId=c_id)
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(
+            aId=token.bimAccId, cId=c_id)
+
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
@@ -653,7 +687,9 @@ class Company(object):
         searchOps - Options.searchCompaniesOptions()
         '''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/search".format(aId=token.bimAccId)
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/search".format(
+            aId=token.bimAccId)
+
         r = requests.get(endpointUrl, headers=token.getHeader, params=searchOps).json()
         checkResponse(r)
         if r == []:
@@ -663,13 +699,16 @@ class Company(object):
 
     @classmethod
     def import_companies(cls, token: client.Token, data):
-        '''Bulk import partner companies to the company directory in a specific BIM 360 account.<br>
+        '''Bulk import partner companies to the company directory in a 
+        specific BIM 360 account.<br>
         (50 companies maximum can be included in each call.)<br>
         Scope - account:write<br>
         data - Options.import_company_options() list
         '''
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/import".format(aId=token.bimAccId)
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/import".format(
+            aId=token.bimAccId)
+
         r = requests.post(endpointUrl, headers=token.patchHeader,data=data).json()
         checkResponse(r)
         print("Success:", r["success"])
@@ -680,8 +719,12 @@ class Company(object):
         '''Update the properties of only the specified attributes of a specific partner company.<br>
         Scope - account:write'''
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(aId=self.account_id, cId=self.id)
-        r = requests.patch(endpointUrl, headers=token.patchHeader,data=updateCompanyOptions).json()
+        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(
+            aId=self.account_id, cId=self.id)
+
+        r = requests.patch(endpointUrl, 
+                           headers=token.patchHeader,
+                           data=updateCompanyOptions).json()
         checkResponse(r)
         return Company(r)
 
@@ -822,7 +865,9 @@ class User(object):
         '''Query the details of a specific user.<br>
         Scope `account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=userId)
+        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(
+            aId=token.bimAccId, uId=userId)
+
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r)
@@ -834,7 +879,11 @@ class User(object):
         updateUserOptions - From Options class'''
         checkScopes(token, "account:write")
         endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=userId)
-        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+
+        r = requests.patch(endpointUrl,
+                           headers=token.patchHeader,
+                           data=update_user_options).json()
+
         checkResponse(r)
         return cls(r)
 
@@ -843,8 +892,12 @@ class User(object):
         Scope - account:write<br>
         updateUserOptions - From Options class'''
         checkScopes(token, "account:write")
-        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=self.id)
-        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(
+            aId=token.bimAccId, uId=self.id)
+
+        r = requests.patch(endpointUrl,
+                           headers=token.patchHeader,
+                           data=update_user_options).json()
         checkResponse(r)
         return User(r)
 

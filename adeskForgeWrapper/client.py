@@ -14,6 +14,7 @@ class Client(object):
     '''A class containing information from the user's end
     cliId and cliSecret from the Forge app
     bimAcc and bimAccName are your B360 credentials'''
+    
     def __init__(self, cliId, cliSecret, bimAccId, bimAccName):
         self.cliId = cliId
         self.cliSecret = cliSecret
@@ -22,7 +23,8 @@ class Client(object):
         self.hubId = "b.{}".format(bimAccId)
 
     def me(self, token):
-        '''Get the profile information of an authorizing end user in a three-legged context.'''
+        '''Get the profile information of an authorizing end user in a 
+        three-legged context.'''
         endpointUrl = INFO_AUTH+"/users/@me"
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
@@ -47,35 +49,38 @@ class Token(object):
         self._hubId = client.hubId
         self._isThreeLegged = flow
         self._scope = scope
+
+        # TODO Make all of this prettier and easier to read
         if type(r) == dict:
             self._raw = r
             
-            self._token_type = r["token_type"] or None
-            self._expires_in = r["expires_in"] or None
-            self._access_token = r["access_token"]
+            self._token_type = r.get("token_type", None)
+            self._expires_in = r.get("expires_in", None)
+            self._access_token = 'Bearer {}'.format(r.get("access_token"))
 
-            self._getHeader = {"Authorization":"Bearer {}".format(r["access_token"])}
-            self._urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r["access_token"])}
-
-            self._formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r["access_token"])}
-
-            self._patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"])}
-            self._contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
-            self._XUser = {'Authorization': 'Bearer {}'.format(r["access_token"]), "x-user-id":client.bimAccId}
         elif type(r) == str:
             self._raw = r
             self._token_type = None
             self._expires_in = None
-            self._access_token = r
+            self._access_token = 'Bearer {}'.format(r)
 
-            self._getHeader = {"Authorization":"Bearer {}".format(r)}
-            self._urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer {}'.format(r)}
+        self._getHeader = {"Authorization":self._access_token}
 
-            self._formData = {'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer {}'.format(r)}
+        self._urlEncoded = {'Content-Type': 'application/x-www-form-urlencoded', 
+                            'Authorization': self._access_token}
 
-            self._patchHeader = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r)}
-            self._contentXUser = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
-            self._XUser = {'Authorization': 'Bearer {}'.format(r), "x-user-id":client.bimAccId}
+        self._formData = {'Content-Type': 'multipart/form-data', 
+                            'Authorization': self._access_token}
+
+        self._patchHeader = {'Content-Type': 'application/json', 
+                                'Authorization': self._access_token}
+
+        self._contentXUser = {'Content-Type': 'application/json', 
+                                'Authorization': self._access_token, 
+                                "x-user-id":client.bimAccId}
+
+        self._XUser = {'Authorization':self._access_token, 
+                        "x-user-id":client.bimAccId}
            
     @property
     def cliId(self):
@@ -134,6 +139,7 @@ class Token(object):
         '''Gets a 2 legged token according to the scope.<br>
         Scope - The scope you aim for. <br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''
+
         header = {"Content-Type":"application/x-www-form-urlencoded"}
         data = {"client_id":client.cliId,
                 "client_secret":client.cliSecret,
@@ -148,9 +154,10 @@ class Token(object):
     def get_3_legged_token(cls, scope, client, callback_URL, tokenType="token"):
         '''Get a 3 legged token according to the scope.<br>
         Scope - The scope you aim for. <br>
-        callback_URL: The callback url the user will be taken to after authorization. This<br>
+        callback_URL: The callback url the user will be taken to after authorization.<br>
         url must be the same callback url you used to register your Forge App.<br>
         eg "account:read data:read". client_id and client_secret from the forge api web'''
+
         if  "http://" not in callback_URL and "https://" not in callback_URL:
             raise AFWExceptions.AFWError("Protocol missing in callback_URL (http:// or https://)")
         
@@ -158,7 +165,12 @@ class Token(object):
         import webbrowser
     
         endpointUrl = AUTH_API+"/authorize"
-        params = (("client_id", client.cliId), ("response_type", tokenType), ("redirect_uri", callback_URL), ("scope", scope))
+
+        params = (("client_id", client.cliId), 
+                  ("response_type", tokenType), 
+                  ("redirect_uri", callback_URL), 
+                  ("scope", scope))
+
         r = requests.post(endpointUrl, params=params)
 
         checkResponse(r)
@@ -175,8 +187,8 @@ class Token(object):
 
             return cls(client, r, scope, True)
         elif tokenType == "code":
-            pass
-            # TODO
+            pass # TODO
+            
             
         else:
             raise AFWExceptions.AFWError("Token type must be 'code' or 'token'")
