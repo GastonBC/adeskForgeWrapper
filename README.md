@@ -16,7 +16,7 @@ forge_client_secret = os.getenv('FORGE_CLIENT_SECRET')
 bim_account_id = os.getenv('BIM360_ACC_ID')
 bim_account_name = os.getenv('BIM360_ACC_NAME')
 
-# We are going to need both of these in most methods
+# We are going to need the token in most methods
 cli = afw.client.Client(
 	forge_client_id, forge_client_secret, bim_account_id, bim_account_name)
 
@@ -25,7 +25,7 @@ token = afw.client.Token("account:read", cli)
 
 #### Retrieve all projects in the your Hub
 ```Python
-projs = afw.b360.Project.get_projects(cli, token)
+projs = afw.b360.Project.get_projects(token)
 
 # Print some properties
 for p in projs:
@@ -34,7 +34,7 @@ for p in projs:
 ```
 ### Get project by ID
 ```Python
-proj = afw.b360.Project.project_by_id(cli, token, "PROJECT_ID")
+proj = afw.b360.Project.project_by_id(token, "PROJECT_ID")
 ```
 ### Get all users in the project
 ```Python
@@ -42,7 +42,7 @@ users = afw.b360.Project.get_users(token)
 ```
 ### Get companies in your hub
 ```Python
-comps = afw.b360.Companies.get_companies(cli, token)
+comps = afw.b360.Companies.get_companies(token)
 # Again, you can print their properties
 for company in comps:
 	print(company.name)
@@ -56,7 +56,7 @@ for company in comps:
 # notice the scopes separated by a space
 token = afw.client.Token("account:read account:write", cli)
 
-proj = afw.b360.Project.project_by_id(cli, token, "PROJECT_ID")
+proj = afw.b360.Project.project_by_id(token, "PROJECT_ID")
 
 # Update it, Data is a dictionary with the properties 
 # you want to update the template is in the docstring
