@@ -17,10 +17,8 @@ bim_account_id = os.getenv('BIM360_ACC_ID')
 bim_account_name = os.getenv('BIM360_ACC_NAME')
 
 # We are going to need both of these in most methods
-cli = afw.client.Client(forge_client_id, 
-                        forge_client_secret, 
-						bim_account_id, 
-						bim_account_name)
+cli = afw.client.Client(
+	forge_client_id, forge_client_secret, bim_account_id, bim_account_name)
 
 token = afw.client.Token("account:read", cli)
 ```
