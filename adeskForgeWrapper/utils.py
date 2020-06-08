@@ -13,15 +13,15 @@ DA_API = AUTODESK_BASE_URL+"/da/us-east/v3"
 # BIM360 and data management APIs are not consistent with their API urls
 
 
-def checkScopes(token, endpointScope: str):
+def checkScopes(token, endpoint_scope: str):
     '''Checks scopes before making the request.'''
-    tokenScope = token.scope.split()
-    endpointScope = endpointScope.split()
-    result =  all(elem in tokenScope  for elem in endpointScope)
+    token_scope = token.scope.split()
+    endpoint_scope = endpoint_scope.split()
+    result =  all(elem in token_scope  for elem in endpoint_scope)
     if result:
         return True
     else:
-        raise AFWExceptions.AFWError("Missing required scopes:", endpointScope)
+        raise AFWExceptions.AFWError("Missing required scopes:", endpoint_scope)
 
 def checkResponse(r):
     '''If the response raised an error, this will detect it'''

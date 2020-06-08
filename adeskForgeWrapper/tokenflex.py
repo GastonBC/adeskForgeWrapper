@@ -52,8 +52,8 @@ class Contract(object):
         Token - Must be obtained via 3-legged workflow. client.get3LeggedToken()<br>
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = TOKENFLEX_API+"/contract"
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = TOKENFLEX_API+"/contract"
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return [cls(c) for c in r]
     
@@ -64,8 +64,8 @@ class Contract(object):
         This gives more details such as multiyear tokens, and contract details by year.<br>
         Scope data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = TOKENFLEX_API+"/contract/{conId}".format(contractId)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = TOKENFLEX_API+"/contract/{conId}".format(contractId)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return cls(r)
 
@@ -73,8 +73,8 @@ class Contract(object):
         '''List all customer uploaded enrichment categories.<br>
         Returns a list with all enrichment categories of a contract.'''
         checkScopes(token, "data:read")
-        endpointUrl = TOKENFLEX_API+"/contract/{conId}/enrichment".format(self.contractNumber)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = TOKENFLEX_API+"/contract/{conId}/enrichment".format(self.contractNumber)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return r
 
@@ -82,8 +82,8 @@ class Contract(object):
         '''Get all the unique values for an enrichment category.<br>
         Returns a list with all possible values for an enrichment category.'''
         checkScopes(token, "data:read")
-        endpointUrl = TOKENFLEX_API+"/contract/{conId}/enrichment/{enrCat}".format(conId=self.contractNumber, enrCat=category)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = TOKENFLEX_API+"/contract/{conId}/enrichment/{enrCat}".format(conId=self.contractNumber, enrCat=category)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return r
 
@@ -92,8 +92,8 @@ class Contract(object):
         an ad-hoc query because this API returns data faster.<br>
         Returns a list of attributes'''
         checkScopes(token, "data:read")
-        endpointUrl = TOKENFLEX_API+"/usage/{conId}/summary".format(conId = self.contractNumber)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = TOKENFLEX_API+"/usage/{conId}/summary".format(conId = self.contractNumber)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return r
 

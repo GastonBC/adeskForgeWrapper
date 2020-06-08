@@ -109,8 +109,8 @@ class Photoscene(object):
         Scope - data:write
         psOptions - Options.PhotosceneCreationOptions'''
         checkScopes(token, "data:write")
-        endpointUrl = RECAP_API+"/photoscene"
-        r = requests.post(endpointUrl, headers=token.urlEncoded, data=create_scene_options).json()
+        endpoint_url = RECAP_API+"/photoscene"
+        r = requests.post(endpoint_url, headers=token.url_encoded, data=create_scene_options).json()
         checkResponse(r)
         print("Photoscene ID:", '{}'.format(r['Photoscene'].get("photosceneid")))
         return cls(r)
@@ -140,8 +140,8 @@ class Photoscene(object):
             payload = MultipartEncoder(fields)
             headers = {'Content-Type': payload.content_type, 'Authorization': 'Bearer {}'.format(token.access_token)}
 
-            endpointUrl = RECAP_API+"/file"
-            r = requests.post(endpointUrl, headers=headers, data=payload).json()
+            endpoint_url = RECAP_API+"/file"
+            r = requests.post(endpoint_url, headers=headers, data=payload).json()
             if "Error" in r:
                 checkResponse(r["Error"])
             else:
@@ -161,8 +161,8 @@ class Photoscene(object):
         Note: Progress of the processing can be monitored with the getProgress(token)<br>
         Returns True if request was successful'''
         checkScopes(token, "data:write")
-        endpointUrl = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
-        r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
+        r = requests.post(endpoint_url, headers=token.url_encoded).json()
         checkResponse(r)
         if "Error" in r:
             checkResponse(r["Error"])
@@ -174,8 +174,8 @@ class Photoscene(object):
         '''Returns the processing progress and status of a photoscene.<br>
         Scope - data:read'''
         checkScopes(token, "data:read")
-        endpointUrl = RECAP_API+"/photoscene/{phId}/progress".format(phId = self.id)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = RECAP_API+"/photoscene/{phId}/progress".format(phId = self.id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         if "Error" in r:
             checkResponse(r["Error"])
@@ -189,8 +189,8 @@ class Photoscene(object):
         
         Returns True if deletion was successful'''
         checkScopes(token, "data:write")
-        endpointUrl = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
-        r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
+        r = requests.delete(endpoint_url,headers=token.url_encoded).json()
         if "Error" in r:
             checkResponse(r["Error"])
         elif r["msg"] == "No error":
@@ -203,8 +203,8 @@ class Photoscene(object):
         
         Returns True if deletion was successful'''
         checkScopes(token, "data:write")
-        endpointUrl = RECAP_API+"/photoscene/{phId}".format(phId = Id)
-        r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+"/photoscene/{phId}".format(phId = Id)
+        r = requests.delete(endpoint_url,headers=token.url_encoded).json()
         if "Error" in r:
             checkResponse(r["Error"])
         elif r["msg"] == "No error":
@@ -217,8 +217,8 @@ class Photoscene(object):
         Note: The link will expire 30 days after the date of processing completion.'''
         checkScopes(token, "data:read")
         params = {"format":Format}
-        endpointUrl = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
-        r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
+        endpoint_url = RECAP_API+"/photoscene/{phId}".format(phId = self.id)
+        r = requests.get(endpoint_url,headers=token.get_header, params=params).json()
         if autoraise:
             web_open(r["Photoscene"]["scenelink"], new = 0, autoraise=autoraise)
         print(r["Photoscene"]["scenelink"])
@@ -229,8 +229,8 @@ class Photoscene(object):
         
         Returns True if cancel was successful'''
         checkScopes(token, "data:write")
-        endpointUrl = RECAP_API+"/photoscene/{phId}/cancel".format(phId = self.id)
-        r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+"/photoscene/{phId}/cancel".format(phId = self.id)
+        r = requests.post(endpoint_url, headers=token.url_encoded).json()
         if "Error" in r:
             checkResponse(r["Error"])
         elif r["msg"] == "No error":

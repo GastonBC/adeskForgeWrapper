@@ -21,9 +21,9 @@ class ForgeApps(object):
         '''Return the given Forge app’s nickname.<br><br>
 
         If the app has no nickname, this route will return its id.'''
-        endpointUrl = DA_API+"forgeapps/{id}".format(id=id)
+        endpoint_url = DA_API+"forgeapps/{id}".format(id=id)
         checkScopes(token, "code:all")
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return [cls()]
 
@@ -37,17 +37,17 @@ class ForgeApps(object):
         The new nickname cannot be in use by any other Forge app.<br><br>
 
         The Forge app cannot have any data when this endpoint is invoked. Use 
-        the ‘DELETE /forgeapps/me’ endpoint (cautiously!!!) to remove all data from 
-        this Forge app. ‘DELETE /forgeapps/me’ is also the only way to remove 
+        the ‘delete_data(token)’ function (cautiously!!!) to remove all data from 
+        this Forge app. ‘delete_data(token)’ is also the only way to remove 
         the nickname.'''
 
         #From docs: id must be “me” for the call to succeed.
-        endpointUrl = DA_API+"forgeapps/{id}".format(id="me")
+        endpoint_url = DA_API+"forgeapps/{id}".format(id="me")
         checkScopes(token, "code:all")
 
         data = { "nickname": nickname }
 
-        r = requests.patch(endpointUrl, headers=token.getHeader, data=data).json()
+        r = requests.patch(endpoint_url, headers=token.get_header, data=data).json()
         checkResponse(r)
         return [cls()]
 
@@ -60,14 +60,12 @@ class ForgeApps(object):
         to make successful requests.'''
 
         #From docs: id must be “me” for the call to succeed.
-        endpointUrl = DA_API+"forgeapps/{id}".format(id="me")
+        endpoint_url = DA_API+"forgeapps/{id}".format(id="me")
         checkScopes(token, "code:all")
 
-        r = requests.delete(endpointUrl, headers=token.getHeader).json()
+        r = requests.delete(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return True
-
-
 
 # HTTP Specification
 # Activities
@@ -84,6 +82,7 @@ class ForgeApps(object):
 # POST activities/:id/versions
 # GET activities/:id/versions/:version
 # DELETE activities/:id/versions/:version
+
 # AppBundles
 # GET appbundles
 # POST appbundles
@@ -98,18 +97,17 @@ class ForgeApps(object):
 # POST appbundles/:id/versions
 # GET appbundles/:id/versions/:version
 # DELETE appbundles/:id/versions/:version
+
 # Engines
 # GET engines
 # GET engines/:id
-# ForgeApps
-# GET forgeapps/:id
-# DELETE forgeapps/:id
-# PATCH forgeapps/:id
+
 # Health
 # GET health/:engine
 # ServiceLimits
 # GET servicelimits/:owner
 # PUT servicelimits/:owner
+
 # Shares
 # GET shares
 # WorkItems

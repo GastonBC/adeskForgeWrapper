@@ -269,7 +269,7 @@ class Options(object):
 
         return json.dumps(data, ensure_ascii=True)
 
-
+ 
 class Project(object):
 #hiddenRegion
     '''Class for B360 API projects. Properties below
@@ -387,9 +387,9 @@ class Project(object):
         '''Query all the projects in a specific BIM 360 account.<br>
         Scope - account:read<br>
         Returns a list of project objects.'''
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bimAccId)
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bim_account_id)
         checkScopes(token, "account:read")
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return [cls(p) for p in r]
 
@@ -397,9 +397,9 @@ class Project(object):
     def project_by_id(cls, token: client.Token, p_id):
         '''Query the details of a specific BIM 360 project.<br>
         Scope: account:read'''
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=token.bimAccId, pId=p_id)
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=token.bim_account_id, pId=p_id)
         checkScopes(token, "account:read")
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return cls(r)
 
@@ -409,8 +409,8 @@ class Project(object):
         Scope - `account:write`<br>
         creationOps - From Options Class, createProjectOptions()'''
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bimAccId)
-        r = requests.post(endpointUrl, headers=token.patchHeader, data=create_project_options).json()
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/projects".format(aId=token.bim_account_id)
+        r = requests.post(endpoint_url, headers=token.patch_header, data=create_project_options).json()
         print(r)
         checkResponse(r)
         return cls(r)
@@ -419,8 +419,8 @@ class Project(object):
         '''Update the properties of only the specified attributes of a specific BIM 360 project.<br>
            Scope - `account:write account:read`'''
         checkScopes(token, "account:read account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=self.account_id, pId=self.id)
-        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_project_options).json()
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=self.account_id, pId=self.id)
+        r = requests.patch(endpoint_url, headers=token.patch_header, data=update_project_options).json()
         checkResponse(r)
         return Project(r)
     
@@ -429,17 +429,17 @@ class Project(object):
         To get information about all the users in an account, see GET accounts/users.<br>
         Scope - account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/bim360/admin/v1/projects/{pId}/users".format(pId=self.id)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = BASE_URL+"/bim360/admin/v1/projects/{pId}/users".format(pId=self.id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return [User(u) for u in r["results"]]
 
-    def user_by_id(self, token: client.Token, userId):
+    def user_by_id(self, token: client.Token, user_id):
         '''Retrieves detailed information about a single user in a project.<br>
         Scope - account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/bim360/admin/v1/projects/{pId}/users/{uId}".format(pId=self.id, uId=userId)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = BASE_URL+"/bim360/admin/v1/projects/{pId}/users/{uId}".format(pId=self.id, uId=user_id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return User(r)
 
@@ -463,16 +463,16 @@ class Project(object):
         checkScopes(token, "account:write")
 
         add_user_options = json.dumps(add_user_options)
-        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(
+        endpoint_url = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/import".format(
             aId=self.account_id ,pId=self.id)
 
-        r = requests.post(endpointUrl, headers=token.contentXUser, data=add_user_options).json()
+        r = requests.post(endpoint_url, headers=token.content_x_user, data=add_user_options).json()
         checkResponse(r)
         print("Success:", r["success"])
         print("Failed:", r["failure"])
         return [User.user_by_id(token, u["user_id"]) for u in r["success_items"]]
 
-    def update_user_by_id(self, token: client.Token, userId, update_user_options):
+    def update_user_by_id(self, token: client.Token, user_id, update_user_options):
         '''Updates a user’s profile for a project, including:<br><br>
 
         The company the user is assigned to for the project.<br>
@@ -485,10 +485,10 @@ class Project(object):
 
         checkScopes(token, "account:write")
 
-        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(
-            aId=self.account_id ,pId=self.id, uId=userId)
+        endpoint_url = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}".format(
+            aId=self.account_id ,pId=self.id, uId=user_id)
 
-        r = requests.patch(endpointUrl, headers=token.contentXUser, data=update_user_options).json()
+        r = requests.patch(endpoint_url, headers=token.content_x_user, data=update_user_options).json()
         checkResponse(r)
         return User(r)
 
@@ -498,10 +498,10 @@ class Project(object):
 
         checkScopes(token, "account:read")
 
-        endpointUrl = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/industry_roles".format(
+        endpoint_url = BASE_URL+"/hq/v2/accounts/{aId}/projects/{pId}/industry_roles".format(
             aId=self.account_id ,pId=self.id)
 
-        r = requests.get(endpointUrl, headers=token.patchHeader).json()
+        r = requests.get(endpoint_url, headers=token.patch_header).json()
         checkResponse(r)
         return [IndustryRoles(i) for i in r]
 
@@ -543,11 +543,11 @@ class Project(object):
             '''
 
         checkScopes(token, "data:read")
-        endpointUrl = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports".format(
+        endpoint_url = BASE_URL+"/bim360/docs/v1/projects/{pId}/versions/{vId}/exports".format(
             pId=self.id, vId=export_PDF_options[0])
 
-        r = requests.post(endpointUrl, 
-                          headers=token.patchHeader, 
+        r = requests.post(endpoint_url, 
+                          headers=token.patch_header, 
                           data=str(export_PDF_options[1])).json()
         checkResponse(r)
         print("Id: {id}\nStatus: {status}".format(id=r["id"], status=r["status"]))
@@ -569,8 +569,8 @@ class Project(object):
         urlEnd = "/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}".format(
             pId=self.id, vId=versionId, eId=exportId)
 
-        endpointUrl = BASE_URL + urlEnd
-        r = requests.get(endpointUrl, headers=token.contentXUser).json()
+        endpoint_url = BASE_URL + urlEnd
+        r = requests.get(endpoint_url, headers=token.content_x_user).json()
         checkResponse(r)
         print(r) #TODO: Try, .json() may not work here. will probably find a way once 
                  # model derivative api is running.
@@ -664,10 +664,10 @@ class Company(object):
         '''Query the details of a specific partner company.<br>
         Scope: account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(
-            aId=token.bimAccId, cId=c_id)
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(
+            aId=token.bim_account_id, cId=c_id)
 
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return cls(r)
 
@@ -676,8 +676,8 @@ class Company(object):
         '''Query all the partner companies in a specific BIM 360 account.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies".format(aId=token.bimAccId)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/companies".format(aId=token.bim_account_id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return [cls(c) for c in r]
 
@@ -688,10 +688,10 @@ class Company(object):
         searchOps - Options.searchCompaniesOptions()
         '''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/search".format(
-            aId=token.bimAccId)
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/companies/search".format(
+            aId=token.bim_account_id)
 
-        r = requests.get(endpointUrl, headers=token.getHeader, params=searchOps).json()
+        r = requests.get(endpoint_url, headers=token.get_header, params=searchOps).json()
         checkResponse(r)
         if r == []:
             return None
@@ -707,10 +707,10 @@ class Company(object):
         data - Options.import_company_options() list
         '''
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/import".format(
-            aId=token.bimAccId)
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/companies/import".format(
+            aId=token.bim_account_id)
 
-        r = requests.post(endpointUrl, headers=token.patchHeader,data=data).json()
+        r = requests.post(endpoint_url, headers=token.patch_header,data=data).json()
         checkResponse(r)
         print("Success:", r["success"])
         print("Failure:", r["failure"])
@@ -720,11 +720,11 @@ class Company(object):
         '''Update the properties of only the specified attributes of a specific partner company.<br>
         Scope - account:write'''
         checkScopes(token, "account:write")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/companies/{cId}".format(
             aId=self.account_id, cId=self.id)
 
-        r = requests.patch(endpointUrl, 
-                           headers=token.patchHeader,
+        r = requests.patch(endpoint_url, 
+                           headers=token.patch_header,
                            data=updateCompanyOptions).json()
         checkResponse(r)
         return Company(r)
@@ -856,33 +856,33 @@ class User(object):
         '''Query all the users in a specific BIM 360 account.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = BASE_URL+"/hq/v1/accounts/{aId}/users".format(aId=token.bimAccId)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/users".format(aId=token.bim_account_id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return [cls(u) for u in r]
 
     @classmethod
-    def user_by_id(cls, token: client.Token, userId):
+    def user_by_id(cls, token: client.Token, user_id):
         '''Query the details of a specific user.<br>
         Scope `account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(
-            aId=token.bimAccId, uId=userId)
+        endpoint_url = "/hq/v1/accounts/{aId}/users/{uId}".format(
+            aId=token.bim_account_id, uId=user_id)
 
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return cls(r)
 
     @classmethod
-    def update_user_by_id(cls, token: client.Token, userId, update_user_options):
+    def update_user_by_id(cls, token: client.Token, user_id, update_user_options):
         '''Update a specific user’s status or default company. Data template below<br>
         Scope - account:write<br>
         updateUserOptions - From Options class'''
         checkScopes(token, "account:write")
-        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bimAccId, uId=userId)
+        endpoint_url = "/hq/v1/accounts/{aId}/users/{uId}".format(aId=token.bim_account_id, uId=user_id)
 
-        r = requests.patch(endpointUrl,
-                           headers=token.patchHeader,
+        r = requests.patch(endpoint_url,
+                           headers=token.patch_header,
                            data=update_user_options).json()
 
         checkResponse(r)
@@ -893,11 +893,11 @@ class User(object):
         Scope - account:write<br>
         updateUserOptions - From Options class'''
         checkScopes(token, "account:write")
-        endpointUrl = "/hq/v1/accounts/{aId}/users/{uId}".format(
-            aId=token.bimAccId, uId=self.id)
+        endpoint_url = "/hq/v1/accounts/{aId}/users/{uId}".format(
+            aId=token.bim_account_id, uId=self.id)
 
-        r = requests.patch(endpointUrl,
-                           headers=token.patchHeader,
+        r = requests.patch(endpoint_url,
+                           headers=token.patch_header,
                            data=update_user_options).json()
         checkResponse(r)
         return User(r)
@@ -987,8 +987,8 @@ class BusinessUnits(object):
         '''Query all the business units in a specific BIM 360 account.
         Scope account:read'''
         checkScopes(token, "account:read")
-        endpointUrl = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bimAccId)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bim_account_id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         if r == {}:
             raise AFWExceptions.APIError("No business units in this account.")
@@ -1018,9 +1018,9 @@ class BusinessUnits(object):
                      # batch _createBusinessUnits (this func)
 
         checkScopes(token, "account:read")
-        endpointUrl = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bimAccId)
+        endpoint_url = "/hq/v1/accounts/{aId}/business_units_structure".format(aId=token.bim_account_id)
         bness = {"business_units": Data}
-        r = requests.put(endpointUrl, headers=token.patchHeader, data=str(bness)).json()
+        r = requests.put(endpoint_url, headers=token.patch_header, data=str(bness)).json()
         checkResponse(r)
         return [cls(u) for u in r["business_units"]]
 
