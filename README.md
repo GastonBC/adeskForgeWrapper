@@ -9,21 +9,25 @@ import adeskForgeWrapper as afw
 import os
 
 #Your Forge app credentials
-forgeCliId = os.getenv('FORGE_CLIENT_ID')
-forgeCliSec = os.getenv('FORGE_CLIENT_SECRET')
+forge_client_id = os.getenv('FORGE_CLIENT_ID')
+forge_client_secret = os.getenv('FORGE_CLIENT_SECRET')
 
 # Your B360 hub ID and name
-B360AccId = os.getenv('BIM360_ACC_ID')
-B360AccName = os.getenv('BIM360_ACC_NAME')
+bim_account_id = os.getenv('BIM360_ACC_ID')
+bim_account_name = os.getenv('BIM360_ACC_NAME')
 
 # We are going to need both of these in most methods
-cli = afw.client.Client(forgeCliId, forgeCliSec, B360AccId, B360AccName)
+cli = afw.client.Client(forge_client_id, 
+                        forge_client_secret, 
+						bim_account_id, 
+						bim_account_name)
+
 token = afw.client.Token("account:read", cli)
 ```
 
 #### Retrieve all projects in the your Hub
 ```Python
-projs = afw.b360.Project.getProjects(cli, token)
+projs = afw.b360.Project.get_projects(cli, token)
 
 # Print some properties
 for p in projs:
@@ -32,15 +36,15 @@ for p in projs:
 ```
 ### Get project by ID
 ```Python
-proj = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
+proj = afw.b360.Project.project_by_id(cli, token, "PROJECT_ID")
 ```
 ### Get all users in the project
 ```Python
-users = afw.b360.Project.getUsersFromProject(token)
+users = afw.b360.Project.get_users(token)
 ```
 ### Get companies in your hub
 ```Python
-comps = afw.b360.Companies.getCompanies(cli, token)
+comps = afw.b360.Companies.get_companies(cli, token)
 # Again, you can print their properties
 for company in comps:
 	print(company.name)
@@ -54,7 +58,7 @@ for company in comps:
 # notice the scopes separated by a space
 token = afw.client.Token("account:read account:write", cli)
 
-proj = afw.b360.Project.getProjectById(cli, token, "PROJECT_ID")
+proj = afw.b360.Project.project_by_id(cli, token, "PROJECT_ID")
 
 # Update it, Data is a dictionary with the properties 
 # you want to update the template is in the docstring
@@ -64,8 +68,8 @@ Data = {
 		"status" = "active",
 	   }
 
-updatedProject = proj.updateProject(token, Data)
+updated_project = proj.update_project(token, Data)
 
 # Updated properties
-print(updatedProject.name)
-print(updatedProject.status)
+print(updated_project.name)
+print(updated_project.status)
