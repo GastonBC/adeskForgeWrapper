@@ -6,6 +6,7 @@ adeskForgeWrapper\__init__.py
 adeskForgeWrapper\b360.py
 adeskForgeWrapper\client.py
 adeskForgeWrapper\datamgt.py
+adeskForgeWrapper\designautomation.py
 adeskForgeWrapper\realitycapture.py
 adeskForgeWrapper\tokenflex.py
 adeskForgeWrapper\utils.py

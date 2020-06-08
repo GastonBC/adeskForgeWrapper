@@ -383,7 +383,7 @@ class Project(object):
 #endRegion
 
     @classmethod
-    def get_projects(cls, token: client.Token):
+    def get_projects(cls, token):
         '''Query all the projects in a specific BIM 360 account.<br>
         Scope - account:read<br>
         Returns a list of project objects.'''
@@ -394,7 +394,7 @@ class Project(object):
         return [cls(p) for p in r]
 
     @classmethod
-    def project_by_id(cls, token: client.Token, p_id):
+    def project_by_id(cls, token, p_id):
         '''Query the details of a specific BIM 360 project.<br>
         Scope: account:read'''
         endpoint_url = BASE_URL+"/hq/v1/accounts/{aId}/projects/{pId}".format(aId=token.bim_account_id, pId=p_id)
@@ -404,7 +404,7 @@ class Project(object):
         return cls(r)
 
     @classmethod
-    def create_project(cls, token: client.Token, create_project_options):
+    def create_project(cls, token, create_project_options):
         '''Create a new BIM 360 project in a specific BIM 360 account.<br>
         Scope - `account:write`<br>
         creationOps - From Options Class, createProjectOptions()'''
@@ -415,7 +415,7 @@ class Project(object):
         checkResponse(r)
         return cls(r)
 
-    def update_project(self, token: client.Token, update_project_options):
+    def update_project(self, token, update_project_options):
         '''Update the properties of only the specified attributes of a specific BIM 360 project.<br>
            Scope - `account:write account:read`'''
         checkScopes(token, "account:read account:write")
@@ -424,7 +424,7 @@ class Project(object):
         checkResponse(r)
         return Project(r)
     
-    def get_users(self, token: client.Token):
+    def get_users(self, token):
         '''Retrieves information about all the users in a project.<br>
         To get information about all the users in an account, see GET accounts/users.<br>
         Scope - account:read'''
@@ -434,7 +434,7 @@ class Project(object):
         checkResponse(r)
         return [User(u) for u in r["results"]]
 
-    def user_by_id(self, token: client.Token, user_id):
+    def user_by_id(self, token, user_id):
         '''Retrieves detailed information about a single user in a project.<br>
         Scope - account:read'''
         checkScopes(token, "account:read")
@@ -443,7 +443,7 @@ class Project(object):
         checkResponse(r)
         return User(r)
 
-    def add_users(self, token: client.Token, add_user_options: list):
+    def add_users(self, token, add_user_options: list):
         # TODO TO REVIEW. ITEMS FAIL
         # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
         # TODO ADD OPTIONS class
@@ -472,7 +472,7 @@ class Project(object):
         print("Failed:", r["failure"])
         return [User.user_by_id(token, u["user_id"]) for u in r["success_items"]]
 
-    def update_user_by_id(self, token: client.Token, user_id, update_user_options):
+    def update_user_by_id(self, token, user_id, update_user_options):
         '''Updates a user’s profile for a project, including:<br><br>
 
         The company the user is assigned to for the project.<br>
@@ -492,7 +492,7 @@ class Project(object):
         checkResponse(r)
         return User(r)
 
-    def industry_roles(self, token: client.Token):
+    def industry_roles(self, token):
         '''Retrieves the industry roles for the project. For example, contractor and architect.<br>
         Scope - account:read'''
 
@@ -505,7 +505,7 @@ class Project(object):
         checkResponse(r)
         return [IndustryRoles(i) for i in r]
 
-    def export_PDF(self, token: client.Token, export_PDF_options):
+    def export_PDF(self, token, export_PDF_options):
         '''Exports a single page from an uploaded PDF file into a new PDF file.<br>
             You can also export the page’s markups (annotations) and hyperlinks.<br>
             Scope - data:read<br>
@@ -553,7 +553,7 @@ class Project(object):
         print("Id: {id}\nStatus: {status}".format(id=r["id"], status=r["status"]))
         return r
 
-    def get_PDF_export(self, token: client.Token, versionId: str, exportId: str):
+    def get_PDF_export(self, token, versionId: str, exportId: str):
         '''Returns the status of a PDF export job, as well as data you need to download 
         the exported file when the export is complete.<br>
             The exportPDF() function initiates the job, and returns a job ID to be used 
@@ -660,7 +660,7 @@ class Company(object):
 #endRegion
 
     @classmethod
-    def company_by_id(cls, token: client.Token, c_id):
+    def company_by_id(cls, token, c_id):
         '''Query the details of a specific partner company.<br>
         Scope: account:read'''
         checkScopes(token, "account:read")
@@ -672,7 +672,7 @@ class Company(object):
         return cls(r)
 
     @classmethod
-    def get_companies(cls, token: client.Token):
+    def get_companies(cls, token):
         '''Query all the partner companies in a specific BIM 360 account.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
@@ -682,7 +682,7 @@ class Company(object):
         return [cls(c) for c in r]
 
     @classmethod
-    def searchCompaniesByName(cls, token: client.Token, searchOps):
+    def search_companies_by_name(cls, token, searchOps):
         '''Search partner companies in a specific BIM 360 account by name.<br>
         Scope - account:read<br>
         searchOps - Options.searchCompaniesOptions()
@@ -699,7 +699,7 @@ class Company(object):
             return [cls(c) for c in r]
 
     @classmethod
-    def import_companies(cls, token: client.Token, data):
+    def import_companies(cls, token, data):
         '''Bulk import partner companies to the company directory in a 
         specific BIM 360 account.<br>
         (50 companies maximum can be included in each call.)<br>
@@ -716,7 +716,7 @@ class Company(object):
         print("Failure:", r["failure"])
         return [cls(c) for c in r["success_items"]]
 
-    def updateCompany(self, token: client.Token, updateCompanyOptions):
+    def updateCompany(self, token, updateCompanyOptions):
         '''Update the properties of only the specified attributes of a specific partner company.<br>
         Scope - account:write'''
         checkScopes(token, "account:write")
@@ -852,7 +852,7 @@ class User(object):
 #endRegion
 
     @classmethod
-    def users_from_account(cls, token: client.Token):
+    def users_from_account(cls, token):
         '''Query all the users in a specific BIM 360 account.<br>
         Scope account:read'''
         checkScopes(token, "account:read")
@@ -862,7 +862,7 @@ class User(object):
         return [cls(u) for u in r]
 
     @classmethod
-    def user_by_id(cls, token: client.Token, user_id):
+    def user_by_id(cls, token, user_id):
         '''Query the details of a specific user.<br>
         Scope `account:read'''
         checkScopes(token, "account:read")
@@ -874,7 +874,7 @@ class User(object):
         return cls(r)
 
     @classmethod
-    def update_user_by_id(cls, token: client.Token, user_id, update_user_options):
+    def update_user_by_id(cls, token, user_id, update_user_options):
         '''Update a specific user’s status or default company. Data template below<br>
         Scope - account:write<br>
         updateUserOptions - From Options class'''
@@ -888,7 +888,7 @@ class User(object):
         checkResponse(r)
         return cls(r)
 
-    def update_user(self, token: client.Token, update_user_options):
+    def update_user(self, token, update_user_options):
         '''Update a specific user’s status or default company. Data template below<br>
         Scope - account:write<br>
         updateUserOptions - From Options class'''
@@ -996,7 +996,7 @@ class BusinessUnits(object):
             return [cls(u) for u in r["business_units"]]
 
     @classmethod
-    def create_business_units(cls, token: client.Token, Data: list):
+    def create_business_units(cls, token, Data: list):
         '''Creates or redefines the business units of a specific BIM 360 account.
         Scope account:write
         Data: A list of dictionaries with the following structure. Name is mandatory

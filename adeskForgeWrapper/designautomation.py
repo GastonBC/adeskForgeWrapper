@@ -11,6 +11,7 @@ from .utils import checkScopes
 from .utils import checkResponse
 from . import utils
 from .utils import DA_API
+import json
 
 class ForgeApps(object):
     def __init__(self):
@@ -21,7 +22,7 @@ class ForgeApps(object):
         '''Return the given Forge app’s nickname.<br><br>
 
         If the app has no nickname, this route will return its id.'''
-        endpoint_url = DA_API+"forgeapps/{id}".format(id=id)
+        endpoint_url = DA_API+"/forgeapps/{id}".format(id=id)
         checkScopes(token, "code:all")
         r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
@@ -32,7 +33,7 @@ class ForgeApps(object):
         '''Creates/updates the nickname for the current Forge app. The nickname is used 
         as a clearer alternative name when identifying AppBundles and Activities, as 
         compared to using the Forge app ID. Once you have defined a nickname, it MUST be 
-        used instead of the Forge app ID..<br><br>
+        used instead of the Forge app ID.<br><br>
         
         The new nickname cannot be in use by any other Forge app.<br><br>
 
@@ -42,14 +43,18 @@ class ForgeApps(object):
         the nickname.'''
 
         #From docs: id must be “me” for the call to succeed.
-        endpoint_url = DA_API+"forgeapps/{id}".format(id="me")
+        endpoint_url = DA_API+"/forgeapps/me"
         checkScopes(token, "code:all")
 
-        data = { "nickname": nickname }
+        data = { "nickname":nickname }
+        data = json.dumps(data, ensure_ascii=True)
 
-        r = requests.patch(endpoint_url, headers=token.get_header, data=data).json()
+        r = requests.patch(endpoint_url, headers=token.patch_header, data=data)
         checkResponse(r)
-        return [cls()]
+        if r.status_code == 200:
+            return True
+        else:
+            return False
 
     def delete_data(self, token):
         '''Delete all data associated with the given Forge app.<br><br>
@@ -60,12 +65,78 @@ class ForgeApps(object):
         to make successful requests.'''
 
         #From docs: id must be “me” for the call to succeed.
-        endpoint_url = DA_API+"forgeapps/{id}".format(id="me")
+        endpoint_url = DA_API+"/forgeapps/me"
         checkScopes(token, "code:all")
 
         r = requests.delete(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return True
+
+class AppBundles(object):
+    def __init__(self):
+        pass
+
+    def register_appbundle(self, token, bundle_name, engine, engine_version, description):
+        endpoint_url = DA_API+"/appbundles"
+        checkScopes(token, "code:all")
+
+        engine = "{}+{}".format(engine, engine_version)
+
+        data = {
+            "id": bundle_name,
+            "engine": engine,
+            "description": description
+        }
+        data = json.dumps(data, ensure_ascii=True)
+
+        r = requests.post(endpoint_url, headers=token.patch_header, data=data)
+        checkResponse(r)
+        print(r["uploadParameters"]["endpointURL"])
+
+        return True
+
+
+class Engines(object):
+    def __init__(self, rawDict):
+        self._raw = rawDict
+    
+    @property
+    def raw(self):
+        return self._raw
+    @property
+    def product_version(self):
+        return self._raw.get("productVersion", None)
+    @property
+    def description(self):
+        return self._raw.get("description", None)
+    @property
+    def version(self):
+        return self._raw.get("version", None)
+    @property
+    def id(self):
+        return self._raw.get("id", None)
+
+    @staticmethod
+    def get_engines(token):
+        '''Lists all available Engines.'''
+        endpoint_url = DA_API+"/engines"
+        checkScopes(token, "code:all")
+        r = requests.get(endpoint_url, headers=token.get_header).json()
+        checkResponse(r)
+        
+        return r["data"]
+
+    @classmethod
+    def engine_by_id(cls, token, id):
+        '''Gets the details of the specified Engine. Note that the {id} parameter must be 
+        a QualifiedId (owner.name+label).'''
+
+        endpoint_url = DA_API+"/engines/{id}".format(id = id)
+        checkScopes(token, "code:all")
+
+        r = requests.get(endpoint_url, headers=token.get_header).json()
+        checkResponse(r)
+        return cls(r)
 
 # HTTP Specification
 # Activities
@@ -98,10 +169,6 @@ class ForgeApps(object):
 # GET appbundles/:id/versions/:version
 # DELETE appbundles/:id/versions/:version
 
-# Engines
-# GET engines
-# GET engines/:id
-
 # Health
 # GET health/:engine
 # ServiceLimits
@@ -115,3 +182,10 @@ class ForgeApps(object):
 # DELETE workitems/:id
 # POST workitems
 # POST workitems/batch
+
+__pdoc__ = {}
+__pdoc__['Engines.raw'] = False
+__pdoc__['Engines.productVersion'] = False
+__pdoc__['Engines.description'] = False
+__pdoc__['Engines.version'] = False
+__pdoc__['Engines.id'] = False
