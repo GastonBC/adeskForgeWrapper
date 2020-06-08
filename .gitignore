@@ -138,5 +138,7 @@ startLocalSv.bat
 recreateDocs.bat
 ReleaseWorkflow
 vars.env
+setup.py
+setup.cfg
 
 
