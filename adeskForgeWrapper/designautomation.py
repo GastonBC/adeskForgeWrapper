@@ -13,6 +13,14 @@ from . import utils
 from .utils import DA_API
 import json
 
+class Options(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def register_appbundle_options(): # TODO
+        pass 
+
 class ForgeApps(object):
     def __init__(self):
         pass
