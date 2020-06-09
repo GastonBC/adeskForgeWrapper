@@ -100,9 +100,16 @@ class Engines(object):
     def __init__(self, rawDict):
         self._raw = rawDict
     
+
     @property
     def raw(self):
         return self._raw
+    @property
+    def name(self):
+        _id = self._raw.get("id", None)
+        _parts = _id.split("+")
+        _names = _parts[0].split(".")
+        return _names[1]
     @property
     def product_version(self):
         return self._raw.get("productVersion", None)
@@ -115,6 +122,15 @@ class Engines(object):
     @property
     def id(self):
         return self._raw.get("id", None)
+
+    @staticmethod
+    def get_engine_health(token, engine):
+        '''Gets the health status by Engine or for all Engines (Inventor, AutoCAD ...).'''
+        endpoint_url = DA_API + "/health/{eng}".format(eng=engine)
+        checkScopes(token, "code:all")
+        r = requests.get(endpoint_url, headers=token.get_header).json()
+        checkResponse(r)
+        return r["Status"]
 
     @staticmethod
     def get_engines(token):
@@ -137,6 +153,11 @@ class Engines(object):
         r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         return cls(r)
+
+    def health(self, token):
+        status = self.get_engine_health(token, self.name)
+        return status
+
 
 # HTTP Specification
 # Activities
@@ -169,8 +190,6 @@ class Engines(object):
 # GET appbundles/:id/versions/:version
 # DELETE appbundles/:id/versions/:version
 
-# Health
-# GET health/:engine
 # ServiceLimits
 # GET servicelimits/:owner
 # PUT servicelimits/:owner
