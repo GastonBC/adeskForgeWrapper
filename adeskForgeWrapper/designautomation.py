@@ -18,8 +18,19 @@ class Options(object):
         pass
 
     @staticmethod
-    def register_appbundle_options(): # TODO
-        pass 
+    def register_appbundle_options(bundle_name, 
+                                   engine_name, 
+                                   engine_version, 
+                                   description):
+
+        _qualified_eng = "Autodesk.{}+{}".format(engine_name, engine_version)
+
+        data = {
+            "id": bundle_name,
+            "engine": _qualified_eng,
+            "description": description
+        }
+        return json.dumps(data, ensure_ascii=True)
 
 class ForgeApps(object):
     def __init__(self):
@@ -84,20 +95,14 @@ class AppBundles(object):
     def __init__(self):
         pass
 
-    def register_appbundle(self, token, bundle_name, engine, engine_version, description):
+    def register_appbundle(self, token, register_appbundle_options):
         endpoint_url = DA_API+"/appbundles"
         checkScopes(token, "code:all")
 
-        engine = "{}+{}".format(engine, engine_version)
-
-        data = {
-            "id": bundle_name,
-            "engine": engine,
-            "description": description
-        }
-        data = json.dumps(data, ensure_ascii=True)
-
-        r = requests.post(endpoint_url, headers=token.patch_header, data=data)
+        r = requests.post(endpoint_url,
+                          headers=token.patch_header, 
+                          data=register_appbundle_options)
+                          
         checkResponse(r)
         print(r["uploadParameters"]["endpointURL"])
 
