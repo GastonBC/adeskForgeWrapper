@@ -96,7 +96,7 @@ class AppBundles(object):
         return True
 
 
-class Engines(object):
+class Engine(object):
     def __init__(self, rawDict):
         self._raw = rawDict
     
@@ -106,10 +106,10 @@ class Engines(object):
         return self._raw
     @property
     def name(self):
-        _id = self._raw.get("id", None)
+        _id = self._raw.get("id", None) # Eg Autodesk.Revit+2021
         _parts = _id.split("+")
         _names = _parts[0].split(".")
-        return _names[1]
+        return _names[1] # Revit
     @property
     def product_version(self):
         return self._raw.get("productVersion", None)
@@ -204,6 +204,7 @@ class Engines(object):
 
 __pdoc__ = {}
 __pdoc__['Engines.raw'] = False
+__pdoc__['Engines.name'] = False
 __pdoc__['Engines.productVersion'] = False
 __pdoc__['Engines.description'] = False
 __pdoc__['Engines.version'] = False
