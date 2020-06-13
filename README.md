@@ -2,6 +2,11 @@
 
 afw is a simple Python wrapper for Autodesk's Forge API
 
+| | |
+|-|-|
+|Docs| [https://github.com/GastonBC/adeskForgeWrapper/wiki](https://github.com/GastonBC/adeskForgeWrapper/wiki)
+| Full API Reference | [https://gastonbc.github.io/index.html](https://gastonbc.github.io/index.html)
+
 ### Setting up credentials and getting a 2 legged token
 Notice we will use *cli* and *token* in most methods
 ```Python
