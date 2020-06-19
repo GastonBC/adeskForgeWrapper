@@ -2,7 +2,7 @@
 
 afw is a simple Python wrapper for Autodesk's Forge API
 
-As it is right now, it wraps Forge endpoints to make them more friendly to Python. Future releases aim to make common tasks easier, simplifying the steps needed to accomplish things
+As it is right now, afw wraps Forge endpoints to make them more friendly to Python. Future releases aim to make common tasks easier, simplifying the steps needed to accomplish things
 
 | | |
 |-|-|
